@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pilih Jadwal — Lexa Course</title>
+  <meta name="description" content="Booking kelas Mandarin Lexa Course — pilih paket, jadwal, dan pengajar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+</head>
+<body>
+<nav class="navbar transparent" id="navbar">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/images/logo.png" alt="Lexa Course" onerror="this.style.display='none'" />
+      <div class="nav-brand">
+        <span class="nav-name">Lexa Course</span>
+        <span class="nav-sub">普通话 · Mandarin</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-a">Beranda</a></li>
+      <li><a href="tentang.html" class="nav-a">Tentang Kami</a></li>
+      <li><a href="program.html" class="nav-a">Program</a></li>
+      <li><a href="media.html" class="nav-a">Media</a></li>
+      <li><a href="pilih-jadwal.html" class="nav-cta active">Pilih Jadwal</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html" class="mob-a">Beranda</a>
+  <a href="tentang.html" class="mob-a">Tentang Kami</a>
+  <a href="program.html" class="mob-a">Program</a>
+  <a href="media.html" class="mob-a">Media</a>
+  <a href="pilih-jadwal.html" class="mob-a active">Pilih Jadwal</a>
+</div>
+
+<section class="page-hero" data-cn="约">
+  <div class="container">
+    <span class="ph-tag">Booking Kelas</span>
+    <h1 class="ph-h1">Pilih Jadwal Kelas Anda</h1>
+    <p class="ph-p">Ikuti langkah mudah berikut untuk memesan kelas Mandarin bersama pengajar pilihan Anda.</p>
+  </div>
+</section>
+<section class="sec">
+  <div class="container">
+    <div class="booking-wrap">
+      <div class="steps-bar">
+        <div class="step-item cur" id="si1"><div class="step-dot">1</div><span class="step-lbl">Paket</span></div>
+        <div class="step-conn" id="sc1"></div>
+        <div class="step-item" id="si2"><div class="step-dot">2</div><span class="step-lbl">Jadwal</span></div>
+        <div class="step-conn" id="sc2"></div>
+        <div class="step-item" id="si3"><div class="step-dot">3</div><span class="step-lbl">Pengajar</span></div>
+        <div class="step-conn" id="sc3"></div>
+        <div class="step-item" id="si4"><div class="step-dot">4</div><span class="step-lbl">Data Diri</span></div>
+        <div class="step-conn" id="sc4"></div>
+        <div class="step-item" id="si5"><div class="step-dot">5</div><span class="step-lbl">Konfirmasi</span></div>
+      </div>
+      <div id="bk-err" class="alert-box alert-err"></div>
+      <div class="booking-panel">
+
+        <div class="step-panel on" id="sp1">
+          <div class="panel-h">Pilih Paket Kelas</div>
+          <div class="panel-sub">Sesuaikan intensitas belajar dengan kebutuhan dan jadwal Anda.</div>
+          <div class="pkg-grid">
+            <div class="pkg-opt" data-pkg="silver" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
+              <div class="pkg-ico">⬡</div><div class="pkg-name">Silver</div><div class="pkg-detail">1× / minggu · 60 menit</div>
+            </div>
+            <div class="pkg-opt" data-pkg="gold" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
+              <div class="pkg-ico">★</div><div class="pkg-name">Gold</div><div class="pkg-detail">2× / minggu · 60 menit</div>
+            </div>
+            <div class="pkg-opt" data-pkg="platinum" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
+              <div class="pkg-ico">◆</div><div class="pkg-name">Platinum</div><div class="pkg-detail">3× / minggu · 60 menit</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-panel" id="sp2">
+          <div class="panel-h">Pilih Jadwal Kelas</div>
+          <div class="panel-sub">Tentukan hari dan jam untuk setiap sesi kelas Anda.</div>
+          <div id="sched-fields"><p class="body-sm">Pilih paket terlebih dahulu.</p></div>
+        </div>
+
+        <div class="step-panel" id="sp3">
+          <div class="panel-h">Pilih Pengajar</div>
+          <div class="panel-sub">Pilih pengajar yang paling sesuai dengan gaya belajar Anda.</div>
+          <div class="teacher-opts">
+            <div class="teacher-opt" data-teacher="Laoshi Mei"><div class="teacher-av">👩‍🏫</div><div class="teacher-nm">Laoshi Mei</div><div class="teacher-sp">Percakapan · HSK 1–4</div></div>
+            <div class="teacher-opt" data-teacher="Laoshi Zhang"><div class="teacher-av">👨‍🏫</div><div class="teacher-nm">Laoshi Zhang</div><div class="teacher-sp">Bisnis · HSK 4–6</div></div>
+            <div class="teacher-opt" data-teacher="Laoshi Li"><div class="teacher-av">👩‍🏫</div><div class="teacher-nm">Laoshi Li</div><div class="teacher-sp">Karakter · HSK 1–3</div></div>
+          </div>
+        </div>
+
+        <div class="step-panel" id="sp4">
+          <div class="panel-h">Data Diri Anda</div>
+          <div class="panel-sub">Lengkapi informasi untuk melengkapi proses booking.</div>
+          <div class="form-group"><label class="form-label">Nama Lengkap <span style="color:#EF4444">*</span></label><input type="text" id="inp-nama" class="form-control" placeholder="Masukkan nama lengkap" /></div>
+          <div class="form-group"><label class="form-label">Nomor WhatsApp <span style="color:#EF4444">*</span></label><input type="tel" id="inp-wa" class="form-control" placeholder="Contoh: 08123456789" /></div>
+          <div class="form-group"><label class="form-label">Email <span>(opsional)</span></label><input type="email" id="inp-email" class="form-control" placeholder="email@contoh.com" /></div>
+          <div class="form-group"><label class="form-label">Level Mandarin Saat Ini <span>(opsional)</span></label>
+            <select id="inp-level" class="form-control">
+              <option value="">— Pilih Level —</option>
+              <option>Pemula (Belum pernah belajar)</option>
+              <option>Dasar (HSK 1)</option>
+              <option>HSK 2</option><option>HSK 3</option>
+              <option>HSK 4</option><option>HSK 5+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-panel" id="sp5">
+          <div class="panel-h">Konfirmasi Booking</div>
+          <div class="panel-sub">Periksa kembali detail booking Anda sebelum dikonfirmasi.</div>
+          <div class="summary-box" id="booking-summary"></div>
+          <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:var(--r-sm);padding:14px 18px;font-size:14px;font-weight:400;color:#92400E">
+            📱 Setelah klik tombol di bawah, Anda akan diarahkan ke WhatsApp untuk konfirmasi final.
+          </div>
+        </div>
+
+        <div class="panel-nav">
+          <button class="btn btn-outline" id="btnPrev" onclick="prevStep()" style="display:none">← Kembali</button>
+          <div></div>
+          <button class="btn btn-blue" id="btnNext" onclick="nextStep()">Lanjut →</button>
+          <button class="btn btn-blue" id="btnSubmit" onclick="submitBooking()" style="display:none">📱 Booking via WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec sec-soft">
+  <div class="container">
+    <div class="tc-text fi" style="margin-bottom:48px"><div class="tag tag-center">Cara Booking</div><h2 class="heading-lg" style="margin-top:12px">Mudah dalam <span>Tiga Langkah</span></h2></div>
+    <div class="how-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="how-step fi" data-d="1"><div class="how-num">01</div><div class="how-line"></div><div class="how-icon">📋</div><div class="how-t">Isi Formulir</div><div class="how-d">Pilih paket, jadwal, pengajar, dan isi data diri Anda melalui formulir online.</div></div>
+      <div class="how-step fi" data-d="2"><div class="how-num">02</div><div class="how-line"></div><div class="how-icon">📱</div><div class="how-t">Konfirmasi WhatsApp</div><div class="how-d">Tim kami menghubungi via WhatsApp untuk konfirmasi jadwal dan detail pembayaran.</div></div>
+      <div class="how-step fi" data-d="3"><div class="how-num">03</div><div class="how-icon">🎯</div><div class="how-t">Mulai Belajar</div><div class="how-d">Ikuti kelas pertama dan rasakan perbedaan belajar Mandarin bersama Lexa Course.</div></div>
+    </div>
+  </div>
+</section>
+<script>
+window.bookingData = {};
+document.querySelectorAll('.teacher-opt').forEach(el=>el.addEventListener('click',()=>{
+  document.querySelectorAll('.teacher-opt').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  if(window.bookingData) window.bookingData.guru = el.dataset.teacher;
+}));
+const urlPkg = new URLSearchParams(location.search).get('paket');
+if(urlPkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`); if(el) el.click(); }
+</script>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <span class="f-logo-cn">学</span>
+          <span class="f-logo-name">Lexa Course</span>
+        </div>
+        <p class="f-desc">Kursus Mandarin profesional dengan jadwal fleksibel, pengajar bersertifikat HSK, dan metode belajar modern.</p>
+        <div class="f-socials">
+          <a href="#" class="f-soc" title="Instagram">📸</a>
+          <a href="#" class="f-soc" title="TikTok">🎵</a>
+          <a href="#" class="f-soc" title="YouTube">▶️</a>
+          <a href="#" class="f-soc" title="Facebook">👍</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-h">Navigasi</div>
+        <div class="f-links">
+          <a href="index.html" class="f-link">Beranda</a>
+          <a href="tentang.html" class="f-link">Tentang Kami</a>
+          <a href="program.html" class="f-link">Program</a>
+          <a href="media.html" class="f-link">Media</a>
+          <a href="pilih-jadwal.html" class="f-link">Pilih Jadwal</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-h">Program</div>
+        <div class="f-links">
+          <a href="program.html" class="f-link">Paket Silver</a>
+          <a href="program.html" class="f-link">Paket Gold</a>
+          <a href="program.html" class="f-link">Paket Platinum</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-h">Kontak</div>
+        <a href="https://wa.me/6281234567890" class="f-contact" target="_blank"><span>📱</span>+62 812-3456-7890</a>
+        <a href="mailto:info@lexacourse.com" class="f-contact"><span>✉️</span>info@lexacourse.com</a>
+        <div class="f-contact"><span>📍</span>Jakarta, Indonesia</div>
+      </div>
+    </div>
+  </div>
+  <div class="container"><div class="f-bottom"><span>© 2025 Lexa Course. Hak cipta dilindungi.</span><span class="f-cn">学习普通话</span></div></div>
+</footer>
+<!-- WhatsApp Float -->
+<div class="wa-float">
+  <a href="https://wa.me/6281234567890?text=Halo%20Lexa%20Course%2C%20saya%20ingin%20bertanya%20tentang%20kursus%20Mandarin." class="wa-btn" target="_blank" rel="noopener" aria-label="Hubungi via WhatsApp">
+    <svg class="wa-ico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <span class="wa-tip">Hubungi Kami</span>
+</div>
+<button class="back-top" id="backTop" aria-label="Kembali ke atas">↑</button>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

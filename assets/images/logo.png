@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="80" viewBox="0 0 200 80">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2775F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a5fd4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Circle background -->
+  <circle cx="36" cy="40" r="32" fill="url(#grad)"/>
+  <!-- Chinese character 学 -->
+  <text x="36" y="52" font-family="serif" font-size="32" fill="white" text-anchor="middle" font-weight="bold">学</text>
+  <!-- Lexa Course text -->
+  <text x="80" y="36" font-family="Georgia, serif" font-size="20" fill="#2775F0" font-weight="bold">Lexa</text>
+  <text x="80" y="56" font-family="Georgia, serif" font-size="20" fill="#0D1B2A" font-weight="bold">Course</text>
+  <!-- Accent dot -->
+  <circle cx="166" cy="28" r="4" fill="#F5C842"/>
+</svg>
