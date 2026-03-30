@@ -582,3 +582,9 @@ document.querySelectorAll('.gp-img').forEach(img => {
     this.parentElement.classList.add('gp-empty');
   });
 });
+
+const mobProgram = document.getElementById("mobProgram");
+
+mobProgram.addEventListener("click", function () {
+  this.parentElement.classList.toggle("active");
+});

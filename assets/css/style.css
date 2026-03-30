@@ -1900,3 +1900,46 @@ button{cursor:pointer;font-family:var(--font)}
   object-fit: cover;
   border-radius: 16px;
 }
+
+/* MOBILE DROPDOWN */
+.mob-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.mob-drop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mob-arrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+/* submenu */
+.mob-sub {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding-left: 12px;
+}
+
+.mob-sub-a {
+  display: block;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+/* aktif */
+.mob-item.active .mob-sub {
+  max-height: 200px;
+}
+
+.mob-item.active .mob-arrow {
+  transform: rotate(180deg);
+}
