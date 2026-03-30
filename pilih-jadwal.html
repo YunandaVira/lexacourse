@@ -15,7 +15,7 @@
 <nav class="navbar transparent" id="navbar">
   <div class="nav-wrap">
     <a href="index.html" class="nav-logo">
-      <img src="assets/images/logo.png" alt="Lexa Course" onerror="this.style.display='none'" />
+      <img src="assets/images/logo.png" alt="Lexa Course" />
       <div class="nav-brand">
         <span class="nav-name">Lexa Course</span>
         <span class="nav-sub">普通话 · Mandarin</span>
@@ -24,8 +24,26 @@
     <ul class="nav-links">
       <li><a href="index.html" class="nav-a">Beranda</a></li>
       <li><a href="tentang.html" class="nav-a">Tentang Kami</a></li>
-      <li><a href="program.html" class="nav-a">Program</a></li>
-      <li><a href="media.html" class="nav-a">Media</a></li>
+            <li class="nav-item">
+        <span class="nav-a-drop" id="navProgram">
+          Program
+          <svg class="drop-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+        </span>
+        <div class="dropdown">
+          <a href="program.html#private" class="drop-item">
+            <div class="drop-icon" style="background:#EBF2FF;color:#2775F0">👤</div>
+            <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
+          </a>
+          <a href="program.html#small-group" class="drop-item">
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">👥</div>
+            <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
+          </a>
+          <a href="program.html#group" class="drop-item">
+            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a">👨‍👩‍👧‍👦</div>
+            <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
+          </a>
+        </div>
+      </li>
       <li><a href="pilih-jadwal.html" class="nav-cta active">Pilih Jadwal</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -34,7 +52,9 @@
 <div class="mob-menu" id="mobMenu">
   <a href="index.html" class="mob-a">Beranda</a>
   <a href="tentang.html" class="mob-a">Tentang Kami</a>
-  <a href="program.html" class="mob-a">Program</a>
+  <a href="program.html#private" class="mob-a">Program — Kelas Private</a>
+  <a href="program.html#small-group" class="mob-a">Program — Small Group</a>
+  <a href="program.html#group" class="mob-a">Program — Group</a>
   <a href="media.html" class="mob-a">Media</a>
   <a href="pilih-jadwal.html" class="mob-a active">Pilih Jadwal</a>
 </div>
@@ -65,18 +85,182 @@
 
         <div class="step-panel on" id="sp1">
           <div class="panel-h">Pilih Paket Kelas</div>
-          <div class="panel-sub">Sesuaikan intensitas belajar dengan kebutuhan dan jadwal Anda.</div>
-          <div class="pkg-grid">
-            <div class="pkg-opt" data-pkg="silver" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
-              <div class="pkg-ico">⬡</div><div class="pkg-name">Silver</div><div class="pkg-detail">1× / minggu · 60 menit</div>
+          <div class="panel-sub">Pilih jenis kelas lalu tentukan paket intensitas belajar yang sesuai.</div>
+
+          <!-- Step 1a: Pilih Jenis Kelas -->
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:12px">① Jenis Kelas</div>
+          <div class="bk-type-row" id="bkTypeRow">
+            <div class="bk-type-btn" data-type="private" onclick="selectBkType(this)">
+              <div class="bk-type-icon">👤</div>
+              <div class="bk-type-name">Kelas Private</div>
+              <div class="bk-type-siswa">Hanya Anda · Fokus penuh</div>
             </div>
-            <div class="pkg-opt" data-pkg="gold" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
-              <div class="pkg-ico">★</div><div class="pkg-name">Gold</div><div class="pkg-detail">2× / minggu · 60 menit</div>
+            <div class="bk-type-btn" data-type="small-group" onclick="selectBkType(this)">
+              <div class="bk-type-icon">👥</div>
+              <div class="bk-type-name">Small Group</div>
+              <div class="bk-type-siswa">2–5 siswa · Interaktif</div>
             </div>
-            <div class="pkg-opt" data-pkg="platinum" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
-              <div class="pkg-ico">◆</div><div class="pkg-name">Platinum</div><div class="pkg-detail">3× / minggu · 60 menit</div>
+            <div class="bk-type-btn" data-type="group" onclick="selectBkType(this)">
+              <div class="bk-type-icon">👨‍👩‍👧‍👦</div>
+              <div class="bk-type-name">Kelas Group</div>
+              <div class="bk-type-siswa">6–10 siswa · Ekonomis</div>
             </div>
           </div>
+
+          <!-- Step 1b: Pilih Paket -->
+          <div class="bk-divider">② Pilih Paket</div>
+
+          <!-- Private Packages -->
+          <div id="pkgs-private" class="pkg-grid" style="display:none">
+            <div class="pkg-opt" data-pkg="silver" onclick="document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));this.classList.add('on');if(window.bookingData)window.bookingData.paket=this.dataset.pkg">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Silver</div>
+                <div class="pkg-opt-name">Silver</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">4x Pertemuan</div>
+                  <div class="pkg-opt-feat">1× sesi per minggu</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                  <div class="pkg-opt-feat">Mentoring 1-on-1 eksklusif</div>
+                </div>
+                <div class="pkg-opt-price">Rp 435.000</div>
+                <div class="pkg-opt-per">per bulan · 4 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="gold-private" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-name">Gold</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">8x Pertemuan</div>
+                  <div class="pkg-opt-feat">2× sesi per minggu</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                  <div class="pkg-opt-feat">Mentoring 1-on-1 eksklusif</div>
+                </div>
+                <div class="pkg-opt-price">Rp 805.000</div>
+                <div class="pkg-opt-per">per bulan · 8 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="platinum-private" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Platinum</div>
+                <div class="pkg-opt-name">Platinum</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">12x Pertemuan</div>
+                  <div class="pkg-opt-feat">3× sesi per minggu</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                  <div class="pkg-opt-feat">Mentoring 1-on-1 eksklusif</div>
+                </div>
+                <div class="pkg-opt-price">Rp 1.050.000</div>
+                <div class="pkg-opt-per">per bulan · 12 pertemuan</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Small Group Packages -->
+          <div id="pkgs-small-group" class="pkg-grid" style="display:none">
+            <div class="pkg-opt" data-pkg="silver-sg" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Silver</div>
+                <div class="pkg-opt-name">Silver</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">4x Pertemuan</div>
+                  <div class="pkg-opt-feat">1× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 2–5 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+                
+                <div class="pkg-opt-per">per bulan · 4 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="gold-sg" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-name">Gold</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">8x Pertemuan</div>
+                  <div class="pkg-opt-feat">2× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 2–5 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+               
+                <div class="pkg-opt-per">per bulan · 8 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="platinum-sg" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Platinum</div>
+                <div class="pkg-opt-name">Platinum</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">12x Pertemuan</div>
+                  <div class="pkg-opt-feat">3× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 2–5 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+               
+                <div class="pkg-opt-per">per bulan · 12 pertemuan</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group Packages -->
+          <div id="pkgs-group" class="pkg-grid" style="display:none">
+            <div class="pkg-opt" data-pkg="silver-group" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Silver</div>
+                <div class="pkg-opt-name">Silver</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">4x Pertemuan</div>
+                  <div class="pkg-opt-feat">1× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 6–10 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+               
+                <div class="pkg-opt-per">per bulan · 4 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="gold-group" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-name">Gold</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">8x Pertemuan</div>
+                  <div class="pkg-opt-feat">2× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 6–10 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+               
+                <div class="pkg-opt-per">per bulan · 8 pertemuan</div>
+              </div>
+            </div>
+            <div class="pkg-opt" data-pkg="platinum-group" onclick="selectPkg(this)">
+              <div class="pkg-opt-strip"></div>
+              <div class="pkg-opt-body">
+                <div class="pkg-opt-tier">Paket Platinum</div>
+                <div class="pkg-opt-name">Platinum</div>
+                <div class="pkg-opt-features">
+                  <div class="pkg-opt-feat">12x Pertemuan</div>
+                  <div class="pkg-opt-feat">3× sesi per minggu</div>
+                  <div class="pkg-opt-feat">60 menit · 6–10 siswa</div>
+                  <div class="pkg-opt-feat">Modul digital & rekaman</div>
+                </div>
+               
+                <div class="pkg-opt-per">per bulan · 12 pertemuan</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="pkg-hint" style="padding:20px;background:var(--surface);border-radius:var(--r);text-align:center;font-size:14px;font-weight:400;color:var(--ink-4)">
+            👆 Pilih jenis kelas di atas untuk melihat paket tersedia
+          </div>
+
         </div>
 
         <div class="step-panel" id="sp2">
@@ -87,11 +271,26 @@
 
         <div class="step-panel" id="sp3">
           <div class="panel-h">Pilih Pengajar</div>
-          <div class="panel-sub">Pilih pengajar yang paling sesuai dengan gaya belajar Anda.</div>
-          <div class="teacher-opts">
-            <div class="teacher-opt" data-teacher="Laoshi Mei"><div class="teacher-av">👩‍🏫</div><div class="teacher-nm">Laoshi Mei</div><div class="teacher-sp">Percakapan · HSK 1–4</div></div>
-            <div class="teacher-opt" data-teacher="Laoshi Zhang"><div class="teacher-av">👨‍🏫</div><div class="teacher-nm">Laoshi Zhang</div><div class="teacher-sp">Bisnis · HSK 4–6</div></div>
-            <div class="teacher-opt" data-teacher="Laoshi Li"><div class="teacher-av">👩‍🏫</div><div class="teacher-nm">Laoshi Li</div><div class="teacher-sp">Karakter · HSK 1–3</div></div>
+          <div class="panel-sub">Menampilkan pengajar yang tersedia sesuai jadwal yang Anda pilih.</div>
+          <div id="teacher-options-wrap">
+            <!-- Diisi otomatis oleh JavaScript berdasarkan jadwal yang dipilih -->
+            <div class="teacher-opts">
+              <div class="teacher-opt" data-teacher="Laoshi Mei" onclick="selectTeacher(this)">
+                <div class="teacher-av">👩‍🏫</div>
+                <div class="teacher-nm">Laoshi Mei</div>
+                <div class="teacher-sp">Percakapan · HSK 1–4</div>
+              </div>
+              <div class="teacher-opt" data-teacher="Laoshi Zhang" onclick="selectTeacher(this)">
+                <div class="teacher-av">👨‍🏫</div>
+                <div class="teacher-nm">Laoshi Zhang</div>
+                <div class="teacher-sp">Bisnis · HSK 4–6</div>
+              </div>
+              <div class="teacher-opt" data-teacher="Laoshi Li" onclick="selectTeacher(this)">
+                <div class="teacher-av">👩‍🏫</div>
+                <div class="teacher-nm">Laoshi Li</div>
+                <div class="teacher-sp">Karakter · HSK 1–3</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -137,21 +336,50 @@
     <div class="how-grid" style="grid-template-columns:repeat(3,1fr)">
       <div class="how-step fi" data-d="1"><div class="how-num">01</div><div class="how-line"></div><div class="how-icon">📋</div><div class="how-t">Isi Formulir</div><div class="how-d">Pilih paket, jadwal, pengajar, dan isi data diri Anda melalui formulir online.</div></div>
       <div class="how-step fi" data-d="2"><div class="how-num">02</div><div class="how-line"></div><div class="how-icon">📱</div><div class="how-t">Konfirmasi WhatsApp</div><div class="how-d">Tim kami menghubungi via WhatsApp untuk konfirmasi jadwal dan detail pembayaran.</div></div>
-      <div class="how-step fi" data-d="3"><div class="how-num">03</div><div class="how-icon">🎯</div><div class="how-t">Mulai Belajar</div><div class="how-d">Ikuti kelas pertama dan rasakan perbedaan belajar Mandarin bersama Lexa Course.</div></div>
+      <div class="how-step fi" data-d="3"><div clas
+        s="how-num">03</div><div class="how-icon">🎯</div><div class="how-t">Mulai Belajar</div><div class="how-d">Ikuti kelas pertama dan rasakan perbedaan belajar Mandarin bersama Lexa Course.</div></div>
     </div>
   </div>
 </section>
 <script>
-window.bookingData = {};
-document.querySelectorAll('.teacher-opt').forEach(el=>el.addEventListener('click',()=>{
-  document.querySelectorAll('.teacher-opt').forEach(e=>e.classList.remove('on'));
-  el.classList.add('on');
-  if(window.bookingData) window.bookingData.guru = el.dataset.teacher;
-}));
-const urlPkg = new URLSearchParams(location.search).get('paket');
-if(urlPkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`); if(el) el.click(); }
-</script>
+window.selectBkType = function(btn){
+  document.querySelectorAll('.bk-type-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
 
+  const type = btn.dataset.type;
+
+  // 🔥 langsung simpan ke data global JS
+  if(window.data) window.data.tipe = type;
+
+  // tampilkan paket sesuai tipe
+  ['private','small-group','group'].forEach(t=>{
+    const el = document.getElementById('pkgs-'+t);
+    if(el) el.style.display='none';
+  });
+
+  const pkgEl = document.getElementById('pkgs-'+type);
+  if(pkgEl) pkgEl.style.display='grid';
+
+  document.getElementById('pkg-hint').style.display='none';
+
+  // reset paket
+  document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));
+  if(window.data) window.data.paket = '';
+
+  // 🔥 generate jadwal otomatis
+  if(typeof genSchedule === 'function') genSchedule();
+};
+
+window.selectPkg = function(el){
+  document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+
+  if(window.data) window.data.paket = el.dataset.pkg;
+
+  // 🔥 generate ulang jadwal sesuai paket
+  if(typeof genSchedule === 'function') genSchedule();
+};
+</script>
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -161,12 +389,7 @@ if(urlPkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`); i
           <span class="f-logo-name">Lexa Course</span>
         </div>
         <p class="f-desc">Kursus Mandarin profesional dengan jadwal fleksibel, pengajar bersertifikat HSK, dan metode belajar modern.</p>
-        <div class="f-socials">
-          <a href="#" class="f-soc" title="Instagram">📸</a>
-          <a href="#" class="f-soc" title="TikTok">🎵</a>
-          <a href="#" class="f-soc" title="YouTube">▶️</a>
-          <a href="#" class="f-soc" title="Facebook">👍</a>
-        </div>
+      
       </div>
       <div>
         <div class="f-col-h">Navigasi</div>
@@ -174,7 +397,6 @@ if(urlPkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`); i
           <a href="index.html" class="f-link">Beranda</a>
           <a href="tentang.html" class="f-link">Tentang Kami</a>
           <a href="program.html" class="f-link">Program</a>
-          <a href="media.html" class="f-link">Media</a>
           <a href="pilih-jadwal.html" class="f-link">Pilih Jadwal</a>
         </div>
       </div>
@@ -187,12 +409,34 @@ if(urlPkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`); i
         </div>
       </div>
       <div>
-        <div class="f-col-h">Kontak</div>
-        <a href="https://wa.me/6281234567890" class="f-contact" target="_blank"><span>📱</span>+62 812-3456-7890</a>
-        <a href="mailto:info@lexacourse.com" class="f-contact"><span>✉️</span>info@lexacourse.com</a>
-        <div class="f-contact"><span>📍</span>Jakarta, Indonesia</div>
-      </div>
-    </div>
+        <div>
+  <div class="f-col-h">Kontak</div>
+
+  <a href="https://wa.me/6285280051105" class="f-contact" target="_blank">
+  <span>
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.94 11.94 0 0012.05 0C5.5 0 .17 5.33.17 11.88c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.9 11.9 0 005.72 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.15-3.42-8.43zM12.06 21.5h-.01a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.76.99 1-3.66-.24-.37a9.86 9.86 0 01-1.51-5.28C2.13 6.5 6.55 2.08 12.05 2.08c2.64 0 5.13 1.03 7 2.9a9.84 9.84 0 012.9 7c0 5.5-4.42 9.92-9.89 9.92zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.47-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35z"/>
+    </svg>
+  </span>
+  +62 812-3456-7890
+</a>
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/lexa_course/" class="f-contact" target="_blank">
+    <span>
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7.75 2C4.678 2 2 4.678 2 7.75v8.5C2 19.322 4.678 22 7.75 22h8.5C19.322 22 22 19.322 22 16.25v-8.5C22 4.678 19.322 2 16.25 2h-8.5zm0 2h8.5C18.216 4 20 5.784 20 7.75v8.5c0 1.966-1.784 3.75-3.75 3.75h-8.5C5.784 20 4 18.216 4 16.25v-8.5C4 5.784 5.784 4 7.75 4zm8.75 1.5a1 1 0 100 2 1 1 0 000-2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
+      </svg>
+    </span>
+    @LexaCourse
+  </a>
+
+  <div class="f-contact">
+    <span>📍</span>
+    Jl. Yos Sudarso 7/17a<br>
+    Kec. Tanjung Priok, Jakarta Utara, DKI Jakarta
+  </div>
+</div>
   </div>
   <div class="container"><div class="f-bottom"><span>© 2025 Lexa Course. Hak cipta dilindungi.</span><span class="f-cn">学习普通话</span></div></div>
 </footer>

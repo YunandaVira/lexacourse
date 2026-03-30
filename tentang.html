@@ -9,13 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="icon" type="image/png" href="assets/images/logop.png" />
 </head>
 <body>
 <nav class="navbar transparent" id="navbar">
   <div class="nav-wrap">
     <a href="index.html" class="nav-logo">
-      <img src="assets/images/logo.png" alt="Lexa Course" onerror="this.style.display='none'" />
+      <img src="assets/images/logo.png" alt="Lexa Course" />
       <div class="nav-brand">
         <span class="nav-name">Lexa Course</span>
         <span class="nav-sub">普通话 · Mandarin</span>
@@ -24,8 +24,26 @@
     <ul class="nav-links">
       <li><a href="index.html" class="nav-a">Beranda</a></li>
       <li><a href="tentang.html" class="nav-a active">Tentang Kami</a></li>
-      <li><a href="program.html" class="nav-a">Program</a></li>
-      <li><a href="media.html" class="nav-a">Media</a></li>
+      <li class="nav-item">
+        <span class="nav-a-drop" id="navProgram">
+          Program
+          <svg class="drop-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+        </span>
+        <div class="dropdown">
+          <a href="program.html#private" class="drop-item">
+            <div class="drop-icon" style="background:#EBF2FF;color:#2775F0">👤</div>
+            <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
+          </a>
+          <a href="program.html#small-group" class="drop-item">
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">👥</div>
+            <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
+          </a>
+          <a href="program.html#group" class="drop-item">
+            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a">👨‍👩‍👧‍👦</div>
+            <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
+          </a>
+        </div>
+      </li>
       <li><a href="pilih-jadwal.html" class="nav-cta">Pilih Jadwal</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -50,14 +68,14 @@
   <div class="container">
     <div class="vision-grid">
       <div class="fi-l">
-        <div class="tag">Siapa Kami</div>
+        <div class="tag">Siapa Kami ?</div>
         <h2 class="heading-lg" style="margin-top:12px">Kursus Mandarin yang Memahami <span>Kebutuhan Anda</span></h2>
-        <p class="body-text" style="margin-top:16px">Lexa Course didirikan tahun 2021 dengan satu misi: membuat belajar Mandarin menjadi pengalaman yang menyenangkan, terstruktur, dan efektif bagi setiap orang Indonesia.</p>
+        <p class="body-text" style="margin-top:16px">Kami berkomitmen untuk memberikan kenyamanan belajar dengan fleksibilitas waktu dan lokasi untuk mencapai potensi terbaik murid.</p>
         <p class="body-sm" style="margin-top:12px">Kami percaya kemampuan Mandarin adalah aset berharga. Dengan 1,4 miliar penutur dan pesatnya pertumbuhan ekonomi Tiongkok, kemampuan ini membuka pintu kesempatan tak terbatas.</p>
-        <p class="body-sm" style="margin-top:10px">Dengan pengajar berpengalaman, kurikulum terstruktur, dan pendekatan personal, kami telah membantu 500+ siswa menguasai Mandarin dari nol hingga mahir.</p>
+        <p class="body-sm" style="margin-top:10px">Dengan pengajar berpengalaman, kurikulum terstruktur, dan pendekatan personal, kami telah membantu ratusan siswa menguasai Mandarin dari nol hingga mahir.</p>
         <div class="stat-row">
-          <div><div class="stat-item-n">500+</div><div class="stat-item-l">Siswa</div></div>
-          <div><div class="stat-item-n">3</div><div class="stat-item-l">Pengajar</div></div>
+          <div><div class="stat-item-n">999+</div><div class="stat-item-l">Siswa</div></div>
+          <div><div class="stat-item-n">30+</div><div class="stat-item-l">Pengajar</div></div>
           <div><div class="stat-item-n">4+</div><div class="stat-item-l">Tahun</div></div>
         </div>
       </div>
@@ -78,16 +96,216 @@
     </div>
   </div>
 </section>
-<section class="sec">
+<section class="sec" id="profil-guru">
   <div class="container">
     <div class="fi" style="margin-bottom:0"><div class="tag">Tim Pengajar</div><h2 class="heading-lg" style="margin-top:12px">Pengajar <span>Berdedikasi</span> Kami</h2></div>
-    <div class="teacher-grid">
-      <div class="tcard fi" data-d="1"><div class="tcard-img">👩‍🏫</div><div class="tcard-body"><div class="tcard-name">Laoshi Mei (梅老师)</div><div class="tcard-role">HSK 6 · Senior · Native Speaker</div><p class="tcard-bio">Lahir di Beijing, pindah ke Indonesia 2018. Magister Pendidikan Bahasa Mandarin dari Universitas Beijing, 5+ tahun pengalaman mengajar.</p><div class="tcard-tags"><span class="tcard-tag">Percakapan</span><span class="tcard-tag">HSK 1–4</span><span class="tcard-tag">Pemula</span></div></div></div>
-      <div class="tcard fi" data-d="2"><div class="tcard-img">👨‍🏫</div><div class="tcard-body"><div class="tcard-name">Laoshi Zhang (张老师)</div><div class="tcard-role">HSK 6 · Mandarin Bisnis</div><p class="tcard-bio">Spesialis Mandarin Bisnis, 4 tahun di perusahaan multinasional Tiongkok. Ahli komunikasi profesional dan HSK lanjutan.</p><div class="tcard-tags"><span class="tcard-tag">Bisnis</span><span class="tcard-tag">HSK 4–6</span><span class="tcard-tag">Profesional</span></div></div></div>
-      <div class="tcard fi" data-d="3"><div class="tcard-img">👩‍🏫</div><div class="tcard-body"><div class="tcard-name">Laoshi Li (李老师)</div><div class="tcard-role">HSK 5 · Spesialis Karakter</div><p class="tcard-bio">Pengajar muda energik. Fokus pada penulisan karakter dan tata bahasa dengan cara inovatif yang mudah dipahami.</p><div class="tcard-tags"><span class="tcard-tag">Karakter</span><span class="tcard-tag">Tata Bahasa</span><span class="tcard-tag">HSK 1–3</span></div></div></div>
-    </div>
+    <!--
+      ═══════════════════════════════════════════════════════
+      CARA MENAMBAH FOTO GURU:
+      1. Simpan foto profil guru (format yang digunakan: foto portrait/vertikal)
+         ke folder: assets/images/guru/
+         Nama file contoh: huang-laoshi.jpg, mei-laoshi.jpg, dst.
+      2. Duplikat blok <div class="gp-card"> di bawah untuk setiap guru.
+      3. Ganti src="..." dengan path foto yang sesuai.
+      Ukuran foto ideal: 540 × 960px (rasio 9:16, portrait)
+      ═══════════════════════════════════════════════════════
+    -->
+    <div class="gp-grid fi">
+
+      <!-- Guru 01 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/adela-laoshi.jpg"
+             alt="Huang Laoshi"
+             class="gp-img"
+             loading="lazy"
+             onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder">
+          <span class="gp-ph-icon">👩‍🏫</span>
+          <span class="gp-ph-name">Huang Laoshi</span>
+        </div>
+      </div>
+
+      <!-- Guru 02 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/artha-laoshi.jpg" alt="Laoshi 02" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 02</span></div>
+      </div>
+
+      <!-- Guru 03 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/bella-laoshi.jpg" alt="Laoshi 03" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 03</span></div>
+      </div>
+
+      <!-- Guru 04 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/callysta-laoshi.jpg" alt="Laoshi 04" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 04</span></div>
+      </div>
+
+      <!-- Guru 05 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/cecilia-laoshi.jpg" alt="Laoshi 05" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 05</span></div>
+      </div>
+
+      <!-- Guru 06 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/celine-laoshi.jpg" alt="Laoshi 06" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 06</span></div>
+      </div>
+
+      <!-- Guru 07 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/cila-laoshi.jpg" alt="Laoshi 07" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 07</span></div>
+      </div>
+
+      <!-- Guru 08 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/dewi-laoshi.jpg" alt="Laoshi 08" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 08</span></div>
+      </div>
+
+      <!-- Guru 09 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/elli-laoshi.jpg" alt="Laoshi 09" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 09</span></div>
+      </div>
+
+      <!-- Guru 10 -->
+      <div class="gp-card">
+        <img src="assets/images/guru/feifei-laoshi.jpg" alt="Laoshi 10" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 10</span></div>
+      </div>
+
+      <!-- Guru 11–40: duplikat blok di atas sesuai kebutuhan -->
+      <!-- Contoh guru 11: -->
+      <div class="gp-card">
+        <img src="assets/images/guru/francisca-laoshi.jpg" alt="Laoshi 11" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 11</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/huang-laoshi.jpeg" alt="Laoshi 12" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 12</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/irene-laoshi.jpg" alt="Laoshi 13" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 13</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/jeffly-laoshi.jpg" alt="Laoshi 14" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 14</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/jeffrey-laoshi.jpg" alt="Laoshi 15" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 15</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/jennifer-laoshi.jpg" alt="Laoshi 16" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 16</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/kezia-laoshi.jpg" alt="Laoshi 17" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 17</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/lin-laoshi.jpg" alt="Laoshi 18" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 18</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/lina-laoshi.jpg" alt="Laoshi 19" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 19</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/mei-laoshi.jpg" alt="Laoshi 20" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 20</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/merki-laoshi.jpg" alt="Laoshi 21" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 21</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/messi-laoshi.jpg" alt="Laoshi 22" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 22</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/nandes-laoshi.jpg" alt="Laoshi 23" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 23</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/natalia-laoshi.jpg" alt="Laoshi 24" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 24</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/nia-laoshi.jpg" alt="Laoshi 25" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 25</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/novi-laoshi.jpg" alt="Laoshi 26" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 26</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/putri-laoshi.jpg" alt="Laoshi 27" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 27</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/rene-laoshi.jpg" alt="Laoshi 28" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 28</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/rul-laoshi.jpg" alt="Laoshi 29" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 29</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/sinta-laoshi.jpg" alt="Laoshi 30" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 30</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/steffie-laoshi.jpg" alt="Laoshi 31" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 31</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/syela-laoshi.jpg" alt="Laoshi 32" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 32</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/tamarisk-laoshi.jpg" alt="Laoshi 33" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 33</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/venesia-laoshi.jpg" alt="Laoshi 34" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 34</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/vivi-laoshi.jpg" alt="Laoshi 35" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 35</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/winson-laoshi.jpg" alt="Laoshi 36" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 36</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/yohana-laoshi.jpg" alt="Laoshi 37" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Laoshi 37</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/yuli-laoshi.jpg" alt="Laoshi 38" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Laoshi 38</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/guru-39.jpg" alt="Laoshi 39" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👩‍🏫</span><span class="gp-ph-name">Soon</span></div>
+      </div>
+      <div class="gp-card">
+        <img src="assets/images/guru/guru-40.jpg" alt="Laoshi 40" class="gp-img" loading="lazy" onerror="this.parentElement.classList.add('gp-empty')" />
+        <div class="gp-placeholder"><span class="gp-ph-icon">👨‍🏫</span><span class="gp-ph-name">Soon</span></div>
+      </div>
+
+    </div><!-- /gp-grid -->
   </div>
 </section>
+
 <section class="cta-sec">
   <div class="container">
     <div class="cta-inner fi">
@@ -110,12 +328,7 @@
           <span class="f-logo-name">Lexa Course</span>
         </div>
         <p class="f-desc">Kursus Mandarin profesional dengan jadwal fleksibel, pengajar bersertifikat HSK, dan metode belajar modern.</p>
-        <div class="f-socials">
-          <a href="#" class="f-soc" title="Instagram">📸</a>
-          <a href="#" class="f-soc" title="TikTok">🎵</a>
-          <a href="#" class="f-soc" title="YouTube">▶️</a>
-          <a href="#" class="f-soc" title="Facebook">👍</a>
-        </div>
+      
       </div>
       <div>
         <div class="f-col-h">Navigasi</div>
@@ -123,7 +336,6 @@
           <a href="index.html" class="f-link">Beranda</a>
           <a href="tentang.html" class="f-link">Tentang Kami</a>
           <a href="program.html" class="f-link">Program</a>
-          <a href="media.html" class="f-link">Media</a>
           <a href="pilih-jadwal.html" class="f-link">Pilih Jadwal</a>
         </div>
       </div>
@@ -136,18 +348,40 @@
         </div>
       </div>
       <div>
-        <div class="f-col-h">Kontak</div>
-        <a href="https://wa.me/6281234567890" class="f-contact" target="_blank"><span>📱</span>+62 812-3456-7890</a>
-        <a href="mailto:info@lexacourse.com" class="f-contact"><span>✉️</span>info@lexacourse.com</a>
-        <div class="f-contact"><span>📍</span>Jakarta, Indonesia</div>
-      </div>
-    </div>
+        <div>
+  <div class="f-col-h">Kontak</div>
+
+  <a href="https://wa.me/6285280051105" class="f-contact" target="_blank">
+  <span>
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.94 11.94 0 0012.05 0C5.5 0 .17 5.33.17 11.88c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.9 11.9 0 005.72 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.15-3.42-8.43zM12.06 21.5h-.01a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.76.99 1-3.66-.24-.37a9.86 9.86 0 01-1.51-5.28C2.13 6.5 6.55 2.08 12.05 2.08c2.64 0 5.13 1.03 7 2.9a9.84 9.84 0 012.9 7c0 5.5-4.42 9.92-9.89 9.92zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.47-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35z"/>
+    </svg>
+  </span>
+  +62 812-3456-7890
+</a>
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/lexa_course/" class="f-contact" target="_blank">
+    <span>
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7.75 2C4.678 2 2 4.678 2 7.75v8.5C2 19.322 4.678 22 7.75 22h8.5C19.322 22 22 19.322 22 16.25v-8.5C22 4.678 19.322 2 16.25 2h-8.5zm0 2h8.5C18.216 4 20 5.784 20 7.75v8.5c0 1.966-1.784 3.75-3.75 3.75h-8.5C5.784 20 4 18.216 4 16.25v-8.5C4 5.784 5.784 4 7.75 4zm8.75 1.5a1 1 0 100 2 1 1 0 000-2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
+      </svg>
+    </span>
+    @LexaCourse
+  </a>
+
+  <div class="f-contact">
+    <span>📍</span>
+    Jl. Yos Sudarso 7/17a<br>
+    Kec. Tanjung Priok, Jakarta Utara, DKI Jakarta
+  </div>
+</div>
   </div>
   <div class="container"><div class="f-bottom"><span>© 2025 Lexa Course. Hak cipta dilindungi.</span><span class="f-cn">学习普通话</span></div></div>
 </footer>
 <!-- WhatsApp Float -->
 <div class="wa-float">
-  <a href="https://wa.me/6281234567890?text=Halo%20Lexa%20Course%2C%20saya%20ingin%20bertanya%20tentang%20kursus%20Mandarin." class="wa-btn" target="_blank" rel="noopener" aria-label="Hubungi via WhatsApp">
+  <a href="https://wa.me/6285280051105?text=Halo%20Lexa%20Course%2C%20saya%20ingin%20bertanya%20tentang%20kursus%20Mandarin." class="wa-btn" target="_blank" rel="noopener" aria-label="Hubungi via WhatsApp">
     <svg class="wa-ico" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
   <span class="wa-tip">Hubungi Kami</span>

@@ -121,114 +121,331 @@ window.faqToggle = function(btn){
 /* ── BOOKING ── */
 (function(){
   if(!document.querySelector('.booking-wrap')) return;
-  let step=1, total=5, data={paket:'',hari:[],jam:[],guru:'',nama:'',wa:'',email:'',level:''};
-  const API_URL='YOUR_GOOGLE_APPS_SCRIPT_URL';
-  const WA_NUM='6281234567890';
 
-  document.querySelectorAll('.pkg-opt').forEach(el=>el.addEventListener('click',()=>{
-    document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));
-    el.classList.add('on'); data.paket=el.dataset.pkg; genSchedule();
+  /* ── CONFIG ── ganti setelah deploy Apps Script */
+  const API_URL = 'https://script.google.com/macros/s/AKfycbw6mZHYRqpWw2L0GsaRl9F7mcugpjT0ljfSmPqGHnPU5OK6hlbqgoa-4rbP7aen1LvV/exec';
+  const WA_NUM  = '6281234567890';
+
+  /* Map hari Indonesia → English (sesuai sheet) */
+  const HARI_MAP = {
+    'Senin':'Monday','Selasa':'Tuesday','Rabu':'Wednesday',
+    'Kamis':'Thursday','Jumat':'Friday','Sabtu':'Saturday','Minggu':'Sunday'
+  };
+
+  let step  = 1;
+  const TOTAL = 5;
+  let data  = { paket:'', hari:[], jam:[], guru:'', nama:'', wa:'', email:'', level:'' };
+  let availableGuruCache = {}; // { "Monday_19:00": ["Mei","Zhang"] }
+
+  /* ── Paket selection ── */
+  document.querySelectorAll('.pkg-opt').forEach(el => el.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-opt').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+    data.paket = el.dataset.pkg;
+    genSchedule();
   }));
 
+  /* ── Generate jadwal fields ── */
   function genSchedule(){
-    const wrap=document.getElementById('sched-fields');
+    const wrap = document.getElementById('sched-fields');
     if(!wrap) return;
-    const n={silver:1,gold:2,platinum:3}[data.paket]||1;
-    const days=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
-    const hrs=Array.from({length:16},(_,i)=>`${String(i+7).padStart(2,'0')}:00`);
-    wrap.innerHTML=Array.from({length:n},(_,i)=>`
-      <div class="form-group"><label class="form-label">Sesi ${i+1}</label>
-      <div class="schedule-row">
-        <select class="form-control" id="hari${i}"><option value="">Pilih hari</option>${days.map(d=>`<option>${d}</option>`).join('')}</select>
-        <select class="form-control" id="jam${i}"><option value="">Pilih jam</option>${hrs.map(h=>`<option>${h}</option>`).join('')}</select>
-      </div></div>`).join('');
-    data.sessions=n;
+    const basePkg = (data.paket || '').split('-')[0]; // ambil "silver" dari "silver-sg"
+
+const n = {
+  silver: 1,
+  gold: 2,
+  platinum: 3
+}[basePkg] || 1;
+    const days = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+    const hrs  = Array.from({length:16}, (_,i) => `${String(i+7).padStart(2,'0')}:00`);
+    wrap.innerHTML = Array.from({length:n}, (_,i) => `
+      <div class="form-group">
+        <label class="form-label">Sesi ${i+1} — Pilih Hari &amp; Jam</label>
+        <div class="schedule-row">
+          <select class="form-control" id="hari${i}" onchange="window.onScheduleChange()">
+            <option value="">Pilih hari</option>
+            ${days.map(d => `<option value="${d}">${d}</option>`).join('')}
+          </select>
+          <select class="form-control" id="jam${i}" onchange="window.onScheduleChange()">
+            <option value="">Pilih jam</option>
+            ${hrs.map(h => `<option value="${h}">${h}</option>`).join('')}
+          </select>
+        </div>
+      </div>`).join('');
+    data.sessions = n;
   }
 
-  document.querySelectorAll('.teacher-opt').forEach(el=>el.addEventListener('click',()=>{
-    document.querySelectorAll('.teacher-opt').forEach(e=>e.classList.remove('on'));
-    el.classList.add('on'); data.guru=el.dataset.teacher;
-  }));
+  /* ── Saat hari/jam berubah, prefetch available guru ── */
+  window.onScheduleChange = async function(){
+    if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL') return;
+    const n = data.sessions || 1;
+    for(let i = 0; i < n; i++){
+      const hari = document.getElementById('hari'+i)?.value;
+      const jam  = document.getElementById('jam'+i)?.value;
+      if(!hari || !jam) continue;
+      const hariEn = HARI_MAP[hari] || hari;
+      const key    = `${hariEn}_${jam}`;
+      if(availableGuruCache[key]) continue; // sudah di-cache
+      try {
+        const res  = await fetch(`${API_URL}?action=check&hari=${hariEn}&jam=${encodeURIComponent(jam)}`);
+        const json = await res.json();
+        if(json.tersedia) availableGuruCache[key] = json.tersedia;
+      } catch(e) { /* silent fail */ }
+    }
+  };
 
+  /* ── Render daftar guru dari API ── */
+  async function renderTeacherOptions(){
+    const wrap = document.getElementById('teacher-options-wrap');
+    if(!wrap) return;
+
+    // Kumpulkan semua hari+jam yang dipilih
+    const n    = data.sessions || 1;
+    const slots = [];
+    for(let i = 0; i < n; i++){
+      const h = document.getElementById('hari'+i)?.value;
+      const j = document.getElementById('jam'+i)?.value;
+      if(h && j) slots.push({ hari: HARI_MAP[h] || h, jam: j });
+    }
+
+    // Jika API belum dikonfigurasi, tampilkan guru statis
+    if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
+      renderStaticTeachers(wrap);
+      return;
+    }
+
+    wrap.innerHTML = `<div class="teacher-loading">
+      <div class="spinner" style="border-color:rgba(39,117,240,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
+      <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
+    </div>`;
+
+    try {
+      // Cek slot pertama saja untuk menentukan guru yang tersedia
+      const firstSlot = slots[0];
+      let available = [];
+
+      if(firstSlot){
+        const res  = await fetch(`${API_URL}?action=check&hari=${firstSlot.hari}&jam=${encodeURIComponent(firstSlot.jam)}`);
+        const json = await res.json();
+        available  = json.tersedia || [];
+      }
+
+      if(available.length === 0){
+        wrap.innerHTML = `<div class="teacher-empty">
+          <div style="font-size:2rem;margin-bottom:10px">😕</div>
+          <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">Tidak Ada Pengajar Tersedia</div>
+          <div style="font-size:13px;font-weight:300;color:var(--ink-3)">Tidak ada pengajar yang tersedia pada jadwal tersebut.<br>Silakan kembali dan pilih jadwal lain.</div>
+        </div>`;
+        return;
+      }
+
+      // Render guru yang tersedia
+      const avatars = ['👩‍🏫','👨‍🏫','👩‍🏫','👨‍🏫','👩‍🏫'];
+      wrap.innerHTML = `
+        <div style="font-size:13px;font-weight:500;color:var(--ink-3);margin-bottom:16px">
+          ✅ <strong style="color:var(--blue)">${available.length} pengajar tersedia</strong> untuk jadwal yang Anda pilih:
+        </div>
+        <div class="teacher-opts">
+          ${available.map((nama, i) => `
+            <div class="teacher-opt" data-teacher="${nama}" onclick="selectTeacher(this)">
+              <div class="teacher-av">${avatars[i % avatars.length]}</div>
+              <div class="teacher-nm">${nama}</div>
+              <div class="teacher-sp" style="color:var(--blue);font-weight:500;font-size:11px">✓ Tersedia</div>
+            </div>`).join('')}
+        </div>`;
+
+    } catch(err) {
+      // Fallback ke guru statis jika API error
+      renderStaticTeachers(wrap);
+    }
+  }
+
+  function renderStaticTeachers(wrap){
+    wrap.innerHTML = `
+      <div style="font-size:12px;font-weight:400;color:var(--ink-4);margin-bottom:14px;padding:10px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--line)">
+        ℹ️ Koneksi ke jadwal belum aktif. Konfirmasi ketersediaan akan dilakukan via WhatsApp.
+      </div>
+      <div class="teacher-opts">
+        <div class="teacher-opt" data-teacher="Laoshi Mei" onclick="selectTeacher(this)">
+          <div class="teacher-av">👩‍🏫</div>
+          <div class="teacher-nm">Laoshi Mei</div>
+          <div class="teacher-sp">Percakapan · HSK 1–4</div>
+        </div>
+        <div class="teacher-opt" data-teacher="Laoshi Zhang" onclick="selectTeacher(this)">
+          <div class="teacher-av">👨‍🏫</div>
+          <div class="teacher-nm">Laoshi Zhang</div>
+          <div class="teacher-sp">Bisnis · HSK 4–6</div>
+        </div>
+        <div class="teacher-opt" data-teacher="Laoshi Li" onclick="selectTeacher(this)">
+          <div class="teacher-av">👩‍🏫</div>
+          <div class="teacher-nm">Laoshi Li</div>
+          <div class="teacher-sp">Karakter · HSK 1–3</div>
+        </div>
+      </div>`;
+  }
+
+  window.selectTeacher = function(el){
+    document.querySelectorAll('.teacher-opt').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+    data.guru = el.dataset.teacher;
+  };
+
+  /* ── Validasi setiap step ── */
   function validate(s){
     clearErr();
-    if(s===1&&!data.paket){showErr('Pilih paket terlebih dahulu.');return false;}
-    if(s===2){
-      data.hari=[]; data.jam=[];
-      for(let i=0;i<(data.sessions||1);i++){
-        const h=document.getElementById('hari'+i)?.value;
-        const j=document.getElementById('jam'+i)?.value;
-        if(!h||!j){showErr('Lengkapi semua hari dan jam.');return false;}
-        data.hari.push(h); data.jam.push(j);
+    if(s === 1 && !data.paket){
+      showErr('Pilih paket terlebih dahulu.'); return false;
+    }
+    if(s === 2){
+      data.hari = []; data.jam = [];
+      for(let i = 0; i < (data.sessions||1); i++){
+        const h = document.getElementById('hari'+i)?.value;
+        const j = document.getElementById('jam'+i)?.value;
+        if(!h || !j){ showErr('Lengkapi semua hari dan jam untuk setiap sesi.'); return false; }
+        data.hari.push(h);
+        data.jam.push(j);
       }
     }
-    if(s===3&&!data.guru){showErr('Pilih pengajar.');return false;}
-    if(s===4){
-      const n=document.getElementById('inp-nama')?.value.trim();
-      const w=document.getElementById('inp-wa')?.value.trim();
-      if(!n){showErr('Nama wajib diisi.');return false;}
-      if(!w){showErr('Nomor WhatsApp wajib diisi.');return false;}
-      data.nama=n; data.wa=w;
-      data.email=document.getElementById('inp-email')?.value.trim()||'';
-      data.level=document.getElementById('inp-level')?.value||'';
+    if(s === 3 && !data.guru){
+      showErr('Pilih salah satu pengajar.'); return false;
+    }
+    if(s === 4){
+      const n = document.getElementById('inp-nama')?.value.trim();
+      const w = document.getElementById('inp-wa')?.value.trim();
+      if(!n){ showErr('Nama lengkap wajib diisi.'); return false; }
+      if(!w){ showErr('Nomor WhatsApp wajib diisi.'); return false; }
+      data.nama  = n; data.wa = w;
+      data.email = document.getElementById('inp-email')?.value.trim() || '';
+      data.level = document.getElementById('inp-level')?.value || '';
     }
     return true;
   }
 
+  /* ── Ringkasan konfirmasi ── */
   function buildSummary(){
-    const el=document.getElementById('booking-summary');
+    const el = document.getElementById('booking-summary');
     if(!el) return;
-    const jadwal=data.hari.map((h,i)=>`${h} ${data.jam[i]}`).join(', ');
-    el.innerHTML=[
-      ['Nama',data.nama],['Paket',cap(data.paket)],['Jadwal',jadwal],
-      ['Pengajar',data.guru],['WhatsApp',data.wa],
-      ...(data.email?[['Email',data.email]]:[]),
-      ...(data.level?[['Level',data.level]]:[]),
-    ].map(([k,v])=>`<div class="sum-row"><span class="sum-k">${k}</span><span class="sum-v">${v}</span></div>`).join('');
+    const jadwal = data.hari.map((h,i) => `${h} pukul ${data.jam[i]}`).join(' • ');
+    el.innerHTML = [
+      ['Nama',     data.nama],
+      ['Paket',    cap(data.paket)],
+      ['Jadwal',   jadwal],
+      ['Pengajar', data.guru],
+      ['WhatsApp', data.wa],
+      ...(data.email ? [['Email', data.email]] : []),
+      ...(data.level ? [['Level', data.level]] : []),
+    ].map(([k,v]) => `
+      <div class="sum-row">
+        <span class="sum-k">${k}</span>
+        <span class="sum-v">${v}</span>
+      </div>`).join('');
   }
 
+  /* ── Update UI step indicator ── */
   function updateUI(){
-    document.querySelectorAll('.step-panel').forEach((p,i)=>p.classList.toggle('on',i+1===step));
-    document.querySelectorAll('.step-item').forEach((el,i)=>{
-      const n=i+1;
-      el.classList.toggle('cur',n===step);
-      el.classList.toggle('done',n<step);
+    document.querySelectorAll('.step-panel').forEach((p,i) => p.classList.toggle('on', i+1 === step));
+    document.querySelectorAll('.step-item').forEach((el,i) => {
+      el.classList.toggle('cur',  i+1 === step);
+      el.classList.toggle('done', i+1 <  step);
     });
-    document.querySelectorAll('.step-conn').forEach((el,i)=>el.classList.toggle('done',i+1<step));
-    const prev=document.getElementById('btnPrev'),next=document.getElementById('btnNext'),sub=document.getElementById('btnSubmit');
-    if(prev) prev.style.display=step===1?'none':'flex';
-    if(next) next.style.display=step===total?'none':'flex';
-    if(sub)  sub.style.display=step===total?'flex':'none';
-    document.querySelector('.booking-wrap')?.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('.step-conn').forEach((el,i) => el.classList.toggle('done', i+1 < step));
+    const prev = document.getElementById('btnPrev');
+    const next = document.getElementById('btnNext');
+    const sub  = document.getElementById('btnSubmit');
+    if(prev) prev.style.display = step === 1     ? 'none' : 'flex';
+    if(next) next.style.display = step === TOTAL ? 'none' : 'flex';
+    if(sub)  sub.style.display  = step === TOTAL ? 'flex' : 'none';
+    document.querySelector('.booking-wrap')?.scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
-  window.nextStep=()=>{ if(validate(step)){ step++; updateUI(); if(step===total) buildSummary(); }};
-  window.prevStep=()=>{ if(step>1){ step--; updateUI(); }};
-  window.submitBooking=async()=>{
-    const btn=document.getElementById('btnSubmit');
-    if(!btn) return;
-    btn.classList.add('btn-loading');
-    btn.innerHTML='<div class="spinner"></div> Mengirim...';
-    const jadwal=data.hari.map((h,i)=>`${h} pukul ${data.jam[i]}`).join(', ');
-    if(API_URL!=='YOUR_GOOGLE_APPS_SCRIPT_URL'){
-      try{ await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({...data,jadwal})}); }catch(e){}
+  /* ── Navigasi step ── */
+  window.nextStep = async () => {
+    if(!validate(step)) return;
+
+    // Saat masuk step 3 (pilih guru), fetch dulu dari API
+    if(step === 2){
+      step++;
+      updateUI();
+      await renderTeacherOptions();
+    } else {
+      step++;
+      updateUI();
+      if(step === TOTAL) buildSummary();
     }
-    const msg=`Halo Lexa Course, saya ingin booking kelas Mandarin.\n\nNama: ${data.nama}\nPaket: ${cap(data.paket)}\nJadwal: ${jadwal}\nGuru: ${data.guru}\nWhatsApp: ${data.wa}${data.email?'\nEmail: '+data.email:''}${data.level?'\nLevel: '+data.level:''}`;
-    setTimeout(()=>{
-      window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`,'_blank');
-      btn.classList.remove('btn-loading');
-      btn.innerHTML='✓ Booking Terkirim!';
-    },1000);
   };
 
-  function showErr(m){const el=document.getElementById('bk-err');if(el){el.textContent=m;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}}
-  function clearErr(){const el=document.getElementById('bk-err');if(el)el.style.display='none';}
-  function cap(s){return s?s[0].toUpperCase()+s.slice(1):'';}
+  window.prevStep = () => {
+    if(step > 1){ step--; updateUI(); }
+  };
 
-  // Pre-select from URL
-  const params=new URLSearchParams(location.search);
-  const pkg=params.get('paket');
-  if(pkg){ const el=document.querySelector(`.pkg-opt[data-pkg="${pkg}"]`); if(el){ el.click(); } }
+  /* ── Submit booking ── */
+  window.submitBooking = async () => {
+    const btn = document.getElementById('btnSubmit');
+    if(!btn) return;
+    btn.classList.add('btn-loading');
+    btn.innerHTML = '<div class="spinner"></div> Mengirim...';
+
+    const jadwal = data.hari.map((h,i) => `${h} pukul ${data.jam[i]}`).join(', ');
+
+    /* Kirim ke API jika sudah dikonfigurasi */
+    if(API_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
+      try {
+        // Booking untuk setiap sesi
+        const hariEn = (HARI_MAP[data.hari[0]] || data.hari[0]);
+        const payload = {
+          action  : 'book',
+          guru    : data.guru,
+          hari    : hariEn,
+          jam     : data.jam[0],
+          nama    : data.nama,
+          wa      : data.wa,
+          email   : data.email,
+          paket   : cap(data.paket),
+        };
+        const res  = await fetch(API_URL, {
+          method  : 'POST',
+          mode    : 'no-cors', // wajib untuk Apps Script
+          headers : { 'Content-Type': 'application/json' },
+          body    : JSON.stringify(payload),
+        });
+      } catch(e) {
+        // Lanjutkan ke WhatsApp meski API error
+      }
+    }
+
+    /* Redirect ke WhatsApp */
+    const msg = `Halo Lexa Course, saya ingin booking kelas Mandarin.\n\n` +
+      `Nama: ${data.nama}\n` +
+      `Paket: ${cap(data.paket)}\n` +
+      `Jadwal: ${jadwal}\n` +
+      `Guru: ${data.guru}\n` +
+      `WhatsApp: ${data.wa}` +
+      (data.email ? `\nEmail: ${data.email}` : '') +
+      (data.level ? `\nLevel: ${data.level}` : '');
+
+    setTimeout(() => {
+      window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`, '_blank');
+      btn.classList.remove('btn-loading');
+      btn.innerHTML = '✓ Booking Terkirim!';
+    }, 900);
+  };
+
+  function showErr(m){
+    const el = document.getElementById('bk-err');
+    if(el){ el.textContent = m; el.style.display = 'block'; el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  }
+  function clearErr(){
+    const el = document.getElementById('bk-err');
+    if(el) el.style.display = 'none';
+  }
+  function cap(s){ return s ? s[0].toUpperCase() + s.slice(1) : ''; }
+
+  /* Pre-select paket dari URL param */
+  const urlPkg = new URLSearchParams(location.search).get('paket');
+  if(urlPkg){
+    const el = document.querySelector(`.pkg-opt[data-pkg="${urlPkg}"]`);
+    if(el){ setTimeout(() => el.click(), 100); }
+  }
 
   updateUI();
 })();
@@ -243,3 +460,118 @@ window.switchTab=function(id,btn){
 window.openLightbox=function(){document.getElementById('lightbox')?.classList.add('open');document.body.style.overflow='hidden';};
 window.closeLightbox=function(){document.getElementById('lightbox')?.classList.remove('open');document.body.style.overflow='';};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')window.closeLightbox();});
+
+/* ── hitung harga 0-70 ── */
+document.addEventListener("DOMContentLoaded", function () {
+  let target = 70;
+  let current = 0;
+  let speed = 20;
+
+  let counter = setInterval(() => {
+    current++;
+    document.getElementById("price").innerText = current;
+
+    if (current >= target) {
+      clearInterval(counter);
+    }
+  }, speed);
+});
+
+/* ── DROPDOWN NAVIGATION ── */
+document.querySelectorAll('.nav-item').forEach(item => {
+  const drop = item.querySelector('.dropdown');
+  if(!drop) return;
+  // Touch/click toggle for mobile
+  item.querySelector('.nav-a-drop')?.addEventListener('click', e => {
+    e.stopPropagation();
+    item.classList.toggle('open');
+  });
+  document.addEventListener('click', () => item.classList.remove('open'));
+});
+
+/* ── PROGRAM PAGE TABS ── */
+window.switchProgTab = function(id, btn) {
+  document.querySelectorAll('.prog-tab-content').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.prog-tab').forEach(b => b.classList.remove('on'));
+  const el = document.getElementById('prog-' + id);
+  if(el) el.classList.add('on');
+  btn.classList.add('on');
+  // Update URL hash
+  history.replaceState(null, '', '#' + id);
+};
+
+// Auto-activate tab from URL hash
+(function(){
+  const hash = location.hash.replace('#','');
+  const map  = { 'private': 'private', 'small-group': 'small-group', 'group': 'group' };
+  const tab  = map[hash] || 'private';
+  const btn  = document.querySelector(`.prog-tab[data-tab="${tab}"]`);
+  if(btn) btn.click();
+  else {
+    const first = document.querySelector('.prog-tab');
+    if(first) first.click();
+  }
+})();
+
+/* ── PROGRAM PAGE: tab switcher ── */
+window.switchProgTab = function(id, btn){
+  document.querySelectorAll('.prog-tab-content').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.prog-tab').forEach(b=>b.classList.remove('on'));
+  const el = document.getElementById('prog-'+id);
+  if(el) el.classList.add('on');
+  btn.classList.add('on');
+  history.replaceState(null,'','#'+id);
+};
+
+// Auto-activate from hash on page load
+(function(){
+  if(!document.querySelector('.prog-tabs')) return;
+  const hash = location.hash.replace('#','');
+  const valid = ['private','small-group','group'];
+  const tab   = valid.includes(hash) ? hash : 'private';
+  const btn   = document.querySelector(`.prog-tab[data-tab="${tab}"]`);
+  if(btn){ btn.classList.add('on'); }
+  else    { document.querySelector('.prog-tab')?.classList.add('on'); }
+  const content = document.getElementById('prog-'+tab);
+  if(content) content.classList.add('on');
+  else        { document.querySelector('.prog-tab-content')?.classList.add('on'); }
+})();
+
+/* ── DROPDOWN NAV ── */
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('mouseenter',()=>item.classList.add('open'));
+  item.addEventListener('mouseleave',()=>item.classList.remove('open'));
+  item.querySelector('.nav-a-drop')?.addEventListener('click',e=>{
+    e.stopPropagation();
+    item.classList.toggle('open');
+  });
+});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('open'));
+});
+
+function goToProgram(e, tab) {
+  // kalau sudah di halaman program
+  if (window.location.pathname.includes("program.html")) {
+    e.preventDefault();
+
+    switchProgTab(tab, document.querySelector(`.prog-tab[data-tab="${tab}"]`));
+
+    // scroll ke section
+    const section = document.getElementById(tab);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+}
+
+window.addEventListener("load", function () {
+  const hash = window.location.hash.replace("#", "");
+
+  if (hash) {
+    const btn = document.querySelector(`.prog-tab[data-tab="${hash}"]`);
+    if (btn) {
+      switchProgTab(hash, btn);
+    }
+  }
+});
