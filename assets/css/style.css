@@ -1392,6 +1392,7 @@ button{cursor:pointer;font-family:var(--font)}
 
 /* Foto */
 .gp-img {
+  min-height: 100%;
   position: absolute;
   inset: 0;
   width: 100%;

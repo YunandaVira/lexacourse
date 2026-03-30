@@ -575,3 +575,10 @@ window.addEventListener("load", function () {
     }
   }
 });
+
+document.querySelectorAll('.gp-img').forEach(img => {
+  img.addEventListener('error', function () {
+    this.style.display = 'none';
+    this.parentElement.classList.add('gp-empty');
+  });
+});
