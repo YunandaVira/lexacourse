@@ -1452,6 +1452,13 @@ button{cursor:pointer;font-family:var(--font)}
 @media (max-width: 480px) {
   .gp-grid { grid-template-columns: repeat(1, 1fr); gap: 10px; }
 }
+
+@media (max-width:768px) {
+  .fi, .fi-l, .fi-r {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    DROPDOWN NAVIGATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
