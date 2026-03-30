@@ -585,6 +585,8 @@ document.querySelectorAll('.gp-img').forEach(img => {
 
 const mobProgram = document.getElementById("mobProgram");
 
-mobProgram.addEventListener("click", function () {
-  this.parentElement.classList.toggle("active");
-});
+if (mobProgram) {
+  mobProgram.addEventListener("click", function () {
+    this.parentElement.classList.toggle("active");
+  });
+}

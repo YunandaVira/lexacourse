@@ -1925,6 +1925,8 @@ button{cursor:pointer;font-family:var(--font)}
   overflow: hidden;
   transition: max-height 0.3s ease;
   padding-left: 12px;
+  display: none;
+  flex-direction: column;
 }
 
 .mob-sub-a {
@@ -1938,6 +1940,7 @@ button{cursor:pointer;font-family:var(--font)}
 /* aktif */
 .mob-item.active .mob-sub {
   max-height: 200px;
+  display: flex;
 }
 
 .mob-item.active .mob-arrow {
