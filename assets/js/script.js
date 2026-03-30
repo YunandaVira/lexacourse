@@ -583,10 +583,36 @@ document.querySelectorAll('.gp-img').forEach(img => {
   });
 });
 
+
+// =========================
+// MOBILE DROPDOWN PROGRAM
+// =========================
 const mobProgram = document.getElementById("mobProgram");
 
 if (mobProgram) {
-  mobProgram.addEventListener("click", function () {
-    this.parentElement.classList.toggle("active");
+  mobProgram.addEventListener("click", () => {
+    mobProgram.parentElement.classList.toggle("open");
   });
 }
+
+
+// =========================
+// AUTO PINDAH TAB DARI MOBILE LINK
+// =========================
+function checkHashTab() {
+  const hash = window.location.hash.replace("#", "");
+
+  if (hash) {
+    document.querySelectorAll(".prog-tab").forEach(btn => {
+      btn.classList.remove("on");
+      if (btn.dataset.tab === hash) btn.classList.add("on");
+    });
+
+    document.querySelectorAll(".prog-content").forEach(c => {
+      c.classList.remove("show");
+      if (c.id === hash) c.classList.add("show");
+    });
+  }
+}
+
+window.addEventListener("load", checkHashTab);
