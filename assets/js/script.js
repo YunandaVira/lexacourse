@@ -477,17 +477,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }, speed);
 });
 
-/* ── DROPDOWN NAVIGATION ── */
-document.querySelectorAll('.nav-item').forEach(item => {
-  const drop = item.querySelector('.dropdown');
-  if(!drop) return;
-  // Touch/click toggle for mobile
-  item.querySelector('.nav-a-drop')?.addEventListener('click', e => {
-    e.stopPropagation();
-    item.classList.toggle('open');
-  });
-  document.addEventListener('click', () => item.classList.remove('open'));
-});
+
 
 /* ── PROGRAM PAGE TABS ── */
 window.switchProgTab = function(id, btn) {
@@ -537,18 +527,7 @@ window.switchProgTab = function(id, btn){
   else        { document.querySelector('.prog-tab-content')?.classList.add('on'); }
 })();
 
-/* ── DROPDOWN NAV ── */
-document.querySelectorAll('.nav-item').forEach(item=>{
-  item.addEventListener('mouseenter',()=>item.classList.add('open'));
-  item.addEventListener('mouseleave',()=>item.classList.remove('open'));
-  item.querySelector('.nav-a-drop')?.addEventListener('click',e=>{
-    e.stopPropagation();
-    item.classList.toggle('open');
-  });
-});
-document.addEventListener('click',()=>{
-  document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('open'));
-});
+
 
 function goToProgram(e, tab) {
   // kalau sudah di halaman program
@@ -583,43 +562,32 @@ document.querySelectorAll('.gp-img').forEach(img => {
   });
 });
 
-
-
-
-if (hamburger) {
-  hamburger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    mobMenu.classList.toggle("open");
-  });
-}
-
 // =========================
-// DROPDOWN PROGRAM MOBILE
+// MOBILE DROPDOWN PROGRAM (FIX)
 // =========================
 const mobProgram = document.getElementById("mobProgram");
 
 if (mobProgram) {
-  mobProgram.addEventListener("click", (e) => {
-    e.stopPropagation(); // ⬅️ PENTING BANGET
-    mobProgram.parentElement.classList.toggle("open");
-  });
-}
-
-// =========================
-// BIAR KLIK DALAM MENU GA NUTUP
-// =========================
-if (mobMenu) {
-  mobMenu.addEventListener("click", (e) => {
+  mobProgram.addEventListener("click", function (e) {
     e.stopPropagation();
+    this.parentElement.classList.toggle("open");
   });
 }
 
-// =========================
-// KLIK LUAR BARU NUTUP
-// =========================
-document.addEventListener("click", () => {
-  mobMenu.classList.remove("open");
+// BIAR KLIK DALAM MENU GA NUTUP
+mobMenu?.addEventListener("click", function (e) {
+  e.stopPropagation();
 });
+
+// KLIK LINK BIASA -> TUTUP MENU
+document.querySelectorAll('.mob-a:not(.mob-drop)').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger?.classList.remove('open');
+    mobMenu?.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
 
 // =========================
 // AUTO PINDAH TAB DARI MOBILE LINK
