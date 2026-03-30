@@ -584,17 +584,42 @@ document.querySelectorAll('.gp-img').forEach(img => {
 });
 
 
+
+
+if (hamburger) {
+  hamburger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    mobMenu.classList.toggle("open");
+  });
+}
+
 // =========================
-// MOBILE DROPDOWN PROGRAM
+// DROPDOWN PROGRAM MOBILE
 // =========================
 const mobProgram = document.getElementById("mobProgram");
 
 if (mobProgram) {
-  mobProgram.addEventListener("click", () => {
+  mobProgram.addEventListener("click", (e) => {
+    e.stopPropagation(); // ⬅️ PENTING BANGET
     mobProgram.parentElement.classList.toggle("open");
   });
 }
 
+// =========================
+// BIAR KLIK DALAM MENU GA NUTUP
+// =========================
+if (mobMenu) {
+  mobMenu.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+}
+
+// =========================
+// KLIK LUAR BARU NUTUP
+// =========================
+document.addEventListener("click", () => {
+  mobMenu.classList.remove("open");
+});
 
 // =========================
 // AUTO PINDAH TAB DARI MOBILE LINK
