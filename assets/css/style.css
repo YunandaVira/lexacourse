@@ -1949,3 +1949,34 @@ button{cursor:pointer;font-family:var(--font)}
 .mob-item.active .mob-arrow {
   transform: rotate(180deg);
 }
+/* FIX MOBILE OVERFLOW */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Biar semua section ga bisa keluar layar */
+section, .hero-wrap, .sl-wrap {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .s-left,
+  .s-right,
+  .s-fl,
+  .s-fr {
+    transform: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .s-center {
+    transform: scale(1);
+  }
+}
