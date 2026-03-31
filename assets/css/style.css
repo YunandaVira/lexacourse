@@ -1949,6 +1949,7 @@ button{cursor:pointer;font-family:var(--font)}
 .mob-item.active .mob-arrow {
   transform: rotate(180deg);
 }
+
 /* FIX MOBILE OVERFLOW */
 html, body {
   overflow-x: hidden;
@@ -1956,7 +1957,7 @@ html, body {
 
 /* Biar semua section ga bisa keluar layar */
 section, .hero-wrap, .sl-wrap {
-  overflow-x: hidden;
+  overflow-x: visible;
 }
 
 @media (max-width: 768px) {
