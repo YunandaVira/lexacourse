@@ -1955,10 +1955,6 @@ html, body {
   overflow-x: visible;
 }
 
-/* Biar semua section ga bisa keluar layar */
-section, .hero-wrap, .sl-wrap {
-  overflow-x: visible;
-}
 
 @media (max-width: 768px) {
   .hero-grid {
@@ -1980,4 +1976,103 @@ section, .hero-wrap, .sl-wrap {
   .s-center {
     transform: scale(1);
   }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TEACHER OPTS — ukuran card konsisten
+   Card selalu 140px, tidak melar/mengecil
+   berapa pun jumlah guru yang tersedia
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Override grid lama */
+.teacher-opts {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center; /* tengah jika guru sedikit */
+}
+
+.teacher-opt {
+  width: 280px;
+  flex: 0 0 280px;
+  box-sizing: border-box;
+}
+
+.teacher-img {
+  width: 240px;
+  height: 390px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto 12px;
+  border: 2px solid var(--line);
+  transition: border-color var(--t2);
+  background: var(--surface);
+}
+
+.teacher-opt:hover .teacher-img,
+.teacher-opt.on    .teacher-img {
+  border-color: var(--blue);
+}
+
+/* Mobile: tetap proporsional */
+@media (max-width: 768px) {
+  .teacher-opt {
+    width: 160px;
+    flex: 0 0 160px;
+  }
+
+  .teacher-img {
+    width: 130px;
+    height: 165px;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-opt {
+    width: 140px;
+    flex: 0 0 140px;
+  }
+
+  .teacher-img {
+    width: 110px;
+    height: 140px;
+  }
+}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FIX: Slider bocor ke kanan
+   Hanya sl-wrap yang perlu dikunci —
+   kartu tetap visible, tidak terpotong
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sl-wrap { overflow: hidden; }
+body     { overflow-x: hidden; }
+
+/* ── VISION PHOTO ── */
+.vision-right {
+  padding: 0;
+  overflow: hidden;
+}
+
+.vision-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: var(--r-xl);
+  transition: transform var(--t3) var(--ease);
+}
+
+.vision-right:hover .vision-img {
+  transform: scale(1.03);
+}
+
+/* Teks CN hanya muncul jika foto gagal load (fallback) */
+.vision-fallback-only {
+  display: none;
+}
+
+.vision-right.vision-fallback .vision-fallback-only {
+  display: block;
 }

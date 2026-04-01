@@ -123,8 +123,8 @@ window.faqToggle = function(btn){
   if(!document.querySelector('.booking-wrap')) return;
 
   /* ── CONFIG ── ganti setelah deploy Apps Script */
-  const API_URL = 'https://script.google.com/macros/s/AKfycbw6mZHYRqpWw2L0GsaRl9F7mcugpjT0ljfSmPqGHnPU5OK6hlbqgoa-4rbP7aen1LvV/exec';
-  const WA_NUM  = '6281234567890';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbxFOl5HTKfAQhj93IiBqW2W3fSEcnpymlFcqwd41Drc_chNct42mTsZaYpFZN2poTZz/exec';
+  const WA_NUM  = '6285280051105';
 
   /* Map hari Indonesia → English (sesuai sheet) */
   const HARI_MAP = {
@@ -194,71 +194,129 @@ const n = {
     }
   };
 
+function getGuruImgHtml(nama) {
+  const base = nama.toLowerCase().trim().replace(/\s+/g, '-');
+  const exts = ['jpg', 'jpeg', 'png', 'webp'];
+  
+  // Coba ekstensi satu per satu via onerror chain
+  // jpg → jpeg → png → webp → default
+  return `<img 
+    src="./assets/images/guru/${base}.jpg"
+    alt="${nama}"
+    class="teacher-img"
+    onerror="
+      var exts = ['jpeg','png','webp'];
+      var tried = this.dataset.tried ? parseInt(this.dataset.tried) : 0;
+      if(tried < exts.length){
+        this.dataset.tried = tried + 1;
+        this.src = './assets/images/guru/${base}.' + exts[tried];
+      } else {
+        this.onerror=null;
+        this.src='./assets/images/guru/default.jpg';
+      }
+    "
+  />`;
+}
   /* ── Render daftar guru dari API ── */
-  async function renderTeacherOptions(){
-    const wrap = document.getElementById('teacher-options-wrap');
-    if(!wrap) return;
+async function renderTeacherOptions(){
+  const wrap = document.getElementById('teacher-options-wrap');
+  if(!wrap) return;
 
-    // Kumpulkan semua hari+jam yang dipilih
-    const n    = data.sessions || 1;
-    const slots = [];
-    for(let i = 0; i < n; i++){
-      const h = document.getElementById('hari'+i)?.value;
-      const j = document.getElementById('jam'+i)?.value;
-      if(h && j) slots.push({ hari: HARI_MAP[h] || h, jam: j });
-    }
+  // Kumpulkan semua hari+jam yang dipilih
+  const n     = data.sessions || 1;
+  const slots = [];
+  for(let i = 0; i < n; i++){
+    const h = document.getElementById('hari'+i)?.value;
+    const j = document.getElementById('jam'+i)?.value;
+    if(h && j) slots.push({ hari: HARI_MAP[h] || h, jam: j });
+  }
 
-    // Jika API belum dikonfigurasi, tampilkan guru statis
-    if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
-      renderStaticTeachers(wrap);
+  // Jika API belum dikonfigurasi, tampilkan guru statis
+  if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
+    renderStaticTeachers(wrap);
+    return;
+  }
+
+  // Pastikan semua sesi sudah diisi
+  if(slots.length < n){
+    wrap.innerHTML = `<div class="teacher-empty">
+      <div style="font-size:2rem;margin-bottom:10px">⚠️</div>
+      <div style="font-size:15px;font-weight:600;color:var(--ink)">Lengkapi semua jadwal</div>
+      <div style="font-size:13px;font-weight:300;color:var(--ink-3)">Pilih hari dan jam untuk semua sesi terlebih dahulu.</div>
+    </div>`;
+    return;
+  }
+
+  wrap.innerHTML = `<div class="teacher-loading">
+    <div class="spinner" style="border-color:rgba(39,117,240,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
+    <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
+  </div>`;
+
+  try {
+    // ✅ FIX: Bangun URL dengan SEMUA slot (hari1, jam1, hari2, jam2, dst)
+    const params = new URLSearchParams({ action: 'check' });
+    slots.forEach((slot, i) => {
+      params.append(`hari${i + 1}`, slot.hari);
+      params.append(`jam${i + 1}`,  slot.jam);
+    });
+
+    const res       = await fetch(`${API_URL}?${params.toString()}`);
+    const json      = await res.json();
+ const available = json.tersedia || [];
+
+    // ✅ Tentukan apakah perlu tampilkan card "rekomendasi admin"
+    const showAdminCard = available.length === 0 || available.length === 1;
+
+    if(available.length === 0){
+      wrap.innerHTML = `<div class="teacher-empty">
+        <div style="font-size:2rem;margin-bottom:10px">😕</div>
+        <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">Tidak Ada Pengajar Tersedia</div>
+        <div style="font-size:13px;font-weight:300;color:var(--ink-3)">
+          Tidak ada pengajar yang tersedia untuk semua jadwal yang dipilih.<br>
+          Silakan kembali dan pilih jadwal lain, atau minta rekomendasi admin.
+        </div>
+      </div>
+      <div class="teacher-opts">
+        ${adminCard()}
+      </div>`;
       return;
     }
 
-    wrap.innerHTML = `<div class="teacher-loading">
-      <div class="spinner" style="border-color:rgba(39,117,240,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
-      <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
-    </div>`;
+    // Render guru yang tersedia + admin card jika perlu
+    wrap.innerHTML = `
+      <div style="font-size:13px;font-weight:500;color:var(--ink-3);margin-bottom:16px">
+        ✅ <strong style="color:var(--blue)">${available.length} pengajar tersedia</strong> untuk semua jadwal yang Anda pilih:
+      </div>
+      <div class="teacher-opts">
+        ${available.map(nama => `
+          <div class="teacher-opt" data-teacher="${nama}" onclick="selectTeacher(this)">
+            <div class="teacher-av">
+${getGuruImgHtml(nama)}
+            </div>
+            <div class="teacher-nm">Laoshi ${nama}</div>
+            <div class="teacher-sp" style="color:var(--blue);font-weight:500;font-size:11px">✓ Tersedia semua sesi</div>
+          </div>
+        `).join('')}
 
-    try {
-      // Cek slot pertama saja untuk menentukan guru yang tersedia
-      const firstSlot = slots[0];
-      let available = [];
+        ${showAdminCard ? adminCard() : ''}
+      </div>`;
 
-      if(firstSlot){
-        const res  = await fetch(`${API_URL}?action=check&hari=${firstSlot.hari}&jam=${encodeURIComponent(firstSlot.jam)}`);
-        const json = await res.json();
-        available  = json.tersedia || [];
-      }
-
-      if(available.length === 0){
-        wrap.innerHTML = `<div class="teacher-empty">
-          <div style="font-size:2rem;margin-bottom:10px">😕</div>
-          <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">Tidak Ada Pengajar Tersedia</div>
-          <div style="font-size:13px;font-weight:300;color:var(--ink-3)">Tidak ada pengajar yang tersedia pada jadwal tersebut.<br>Silakan kembali dan pilih jadwal lain.</div>
-        </div>`;
-        return;
-      }
-
-      // Render guru yang tersedia
-      const avatars = ['👩‍🏫','👨‍🏫','👩‍🏫','👨‍🏫','👩‍🏫'];
-      wrap.innerHTML = `
-        <div style="font-size:13px;font-weight:500;color:var(--ink-3);margin-bottom:16px">
-          ✅ <strong style="color:var(--blue)">${available.length} pengajar tersedia</strong> untuk jadwal yang Anda pilih:
-        </div>
-        <div class="teacher-opts">
-          ${available.map((nama, i) => `
-            <div class="teacher-opt" data-teacher="${nama}" onclick="selectTeacher(this)">
-              <div class="teacher-av">${avatars[i % avatars.length]}</div>
-              <div class="teacher-nm">${nama}</div>
-              <div class="teacher-sp" style="color:var(--blue);font-weight:500;font-size:11px">✓ Tersedia</div>
-            </div>`).join('')}
-        </div>`;
-
-    } catch(err) {
-      // Fallback ke guru statis jika API error
-      renderStaticTeachers(wrap);
-    }
+  } catch(err) {
+    renderStaticTeachers(wrap);
   }
+  // ✅ Card rekomendasi admin — muncul jika guru tersedia 0 atau 1
+  function adminCard(){
+    return `
+      <div class="teacher-opt" data-teacher="rekomendasi admin" onclick="selectTeacher(this)"
+        style="border-style:dashed; opacity:0.85;">
+        <div class="teacher-av" style="font-size:2rem;line-height:1;padding:8px 0">🙋</div>
+        <div class="teacher-nm" style="color:var(--ink-3)">Ingin Laoshi lain?</div>
+        <div class="teacher-sp" style="color:var(--ink-4);font-size:11px;font-weight:400;white-space:normal;text-align:center;line-height:1.4">
+          Klik disini untuk meminta<br>rekomendasi admin
+        </div>
+      </div>`;
+  }
+}
 
   function renderStaticTeachers(wrap){
     wrap.innerHTML = `
