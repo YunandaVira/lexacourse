@@ -2016,28 +2016,47 @@ html, body {
   border-color: var(--blue);
 }
 
-/* Mobile: tetap proporsional */
+/* Tablet */
+@media (max-width: 1024px) {
+  .teacher-opt {
+    width: 200px;
+    flex: 0 0 200px;
+  }
+  .teacher-img {
+    width: 170px;
+    height: 275px;
+  }
+}
+
+/* Mobile landscape / tablet kecil */
 @media (max-width: 768px) {
+  .teacher-opts {
+    gap: 10px;
+  }
   .teacher-opt {
     width: 160px;
     flex: 0 0 160px;
   }
-
   .teacher-img {
-    width: 130px;
-    height: 165px;
+    width: 136px;
+    height: 220px;
+    border-radius: 10px;
   }
 }
 
+/* Mobile portrait */
 @media (max-width: 480px) {
-  .teacher-opt {
-    width: 140px;
-    flex: 0 0 140px;
+  .teacher-opts {
+    gap: 8px;
   }
-
+  .teacher-opt {
+    width: calc(50% - 8px); /* 2 kolom pas di layar kecil */
+    flex: 0 0 calc(50% - 8px);
+  }
   .teacher-img {
-    width: 110px;
-    height: 140px;
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
   }
 }
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
