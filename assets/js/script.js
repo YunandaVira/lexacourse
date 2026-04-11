@@ -123,7 +123,7 @@ window.faqToggle = function(btn){
   if(!document.querySelector('.booking-wrap')) return;
 
   /* ── CONFIG ── ganti setelah deploy Apps Script */
-  const API_URL = 'https://script.google.com/macros/s/AKfycbxFOl5HTKfAQhj93IiBqW2W3fSEcnpymlFcqwd41Drc_chNct42mTsZaYpFZN2poTZz/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzr0WBZQC0ykz4Kv9VU5AsZtCwqGuXRR9Rjr422bMU86oEfmw-yIZdxF-_3kd0rPea3/exec';
   const WA_NUM  = '6285280051105';
 
   /* Map hari Indonesia → English (sesuai sheet) */
@@ -133,8 +133,8 @@ window.faqToggle = function(btn){
   };
 
   let step  = 1;
-  const TOTAL = 5;
-  let data  = { paket:'', hari:[], jam:[], guru:'', nama:'', wa:'', email:'', level:'' };
+  const TOTAL = 6;
+  let data  = { paket:'', hari:[], jam:[], guru:'', nama:'', wa:'', email:'', tujuan:'' };
   let availableGuruCache = {}; // { "Monday_19:00": ["Mei","Zhang"] }
 
   /* ── Paket selection ── */
@@ -348,6 +348,25 @@ ${getGuruImgHtml(nama)}
     data.guru = el.dataset.teacher;
   };
 
+  /* ── Pilih Tujuan Belajar ── */
+  window.selectTujuan = function(el){
+    document.querySelectorAll('.tujuan-opt').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+    const tujuan = el.dataset.tujuan;
+    const lainnyaWrap = document.getElementById('tujuan-lainnya-wrap');
+    if(tujuan === 'Lainnya'){
+      lainnyaWrap.style.display = 'block';
+      data.tujuan = document.getElementById('tujuan-lainnya-input')?.value.trim() || '';
+    } else {
+      lainnyaWrap.style.display = 'none';
+      data.tujuan = tujuan;
+    }
+  };
+
+  window.onTujuanLainnyaInput = function(inp){
+    data.tujuan = inp.value.trim();
+  };
+
   /* ── Validasi setiap step ── */
   function validate(s){
     clearErr();
@@ -364,17 +383,25 @@ ${getGuruImgHtml(nama)}
         data.jam.push(j);
       }
     }
-    if(s === 3 && !data.guru){
+    if(s === 3){
+      const tujuanEl = document.querySelector('.tujuan-opt.on');
+      if(!tujuanEl){ showErr('Pilih tujuan belajar terlebih dahulu.'); return false; }
+      if(tujuanEl.dataset.tujuan === 'Lainnya'){
+        const custom = document.getElementById('tujuan-lainnya-input')?.value.trim();
+        if(!custom){ showErr('Tuliskan tujuan belajar Anda.'); return false; }
+        data.tujuan = custom;
+      }
+    }
+    if(s === 4 && !data.guru){
       showErr('Pilih salah satu pengajar.'); return false;
     }
-    if(s === 4){
+    if(s === 5){
       const n = document.getElementById('inp-nama')?.value.trim();
       const w = document.getElementById('inp-wa')?.value.trim();
       if(!n){ showErr('Nama lengkap wajib diisi.'); return false; }
       if(!w){ showErr('Nomor WhatsApp wajib diisi.'); return false; }
       data.nama  = n; data.wa = w;
       data.email = document.getElementById('inp-email')?.value.trim() || '';
-      data.level = document.getElementById('inp-level')?.value || '';
     }
     return true;
   }
@@ -385,13 +412,13 @@ ${getGuruImgHtml(nama)}
     if(!el) return;
     const jadwal = data.hari.map((h,i) => `${h} pukul ${data.jam[i]}`).join(' • ');
     el.innerHTML = [
-      ['Nama',     data.nama],
-      ['Paket',    cap(data.paket)],
-      ['Jadwal',   jadwal],
-      ['Pengajar', data.guru],
-      ['WhatsApp', data.wa],
+      ['Nama',           data.nama],
+      ['Paket',          cap(data.paket)],
+      ['Jadwal',         jadwal],
+      ['Tujuan Belajar', data.tujuan],
+      ['Pengajar',       data.guru],
+      ['WhatsApp',       data.wa],
       ...(data.email ? [['Email', data.email]] : []),
-      ...(data.level ? [['Level', data.level]] : []),
     ].map(([k,v]) => `
       <div class="sum-row">
         <span class="sum-k">${k}</span>
@@ -420,8 +447,8 @@ ${getGuruImgHtml(nama)}
   window.nextStep = async () => {
     if(!validate(step)) return;
 
-    // Saat masuk step 3 (pilih guru), fetch dulu dari API
-    if(step === 2){
+    // Saat masuk step 4 (pilih guru), fetch dulu dari API
+    if(step === 3){
       step++;
       updateUI();
       await renderTeacherOptions();
@@ -476,10 +503,10 @@ ${getGuruImgHtml(nama)}
       `Nama: ${data.nama}\n` +
       `Paket: ${cap(data.paket)}\n` +
       `Jadwal: ${jadwal}\n` +
+      `Tujuan Belajar: ${data.tujuan}\n` +
       `Guru: ${data.guru}\n` +
       `WhatsApp: ${data.wa}` +
-      (data.email ? `\nEmail: ${data.email}` : '') +
-      (data.level ? `\nLevel: ${data.level}` : '');
+      (data.email ? `\nEmail: ${data.email}` : '');
 
     setTimeout(() => {
       window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -618,4 +645,21 @@ document.querySelectorAll('.gp-img').forEach(img => {
     this.style.display = 'none';
     this.parentElement.classList.add('gp-empty');
   });
+});
+
+/* ── DROPDOWN NAVIGATION (click toggle) ── */
+document.querySelectorAll('.nav-item').forEach(item => {
+  const trigger = item.querySelector('.nav-a-drop');
+  if (!trigger) return;
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
 });

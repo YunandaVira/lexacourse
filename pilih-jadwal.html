@@ -24,36 +24,43 @@
     <ul class="nav-links">
       <li><a href="index.html" class="nav-a">Beranda</a></li>
       <li><a href="tentang.html" class="nav-a">Tentang Kami</a></li>
-            <li class="nav-item">
-        <span class="nav-a-drop" id="navProgram">
+      <li class="nav-item">
+        <span class="nav-a-drop" id="navProgram" class="nav-a active">
           Program
           <svg class="drop-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
         </span>
         <div class="dropdown">
           <a href="program.html#private" class="drop-item">
-            <div class="drop-icon" style="background:#EBF2FF;color:#2775F0">👤</div>
+            <div class="drop-icon" style="background:#FFF0F0;color:#820000"><img src="assets/images/emot/user.png" width="16"></div>
             <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
           </a>
           <a href="program.html#small-group" class="drop-item">
-            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">👥</div>
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309"> <img src="assets/images/emot/group.png" width="20"></div>
             <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
           </a>
           <a href="program.html#group" class="drop-item">
-            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a">👨‍👩‍👧‍👦</div>
+            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a"><img src="assets/images/emot/group2.png" width="18"></div>
             <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
+          </a>
+          <div style="height:1px;background:var(--line);margin:4px 8px"></div>
+          <a href="program.html#intensif" class="drop-item">
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">🔥</div>
+            <div><div class="drop-label">Kelas Intensif</div><div class="drop-sub">Belajar lebih cepat & fokus</div></div>
           </a>
         </div>
       </li>
-      <li><a href="pilih-jadwal.html" class="nav-cta active">Pilih Jadwal</a></li>
+      <li><a href="guru.html" class="nav-a">Laoshi</a></li>
+      <li><a href="pilih-jadwal.html" class="nav-cta">Pilih Jadwal</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mob-menu" id="mobMenu">
   <a href="index.html" class="mob-a">Beranda</a>
-  <a href="tentang.html" class="mob-a">Tentang Kami</a>
+  <a href="tentang.html" class="mob-a active">Tentang Kami</a>
   <a href="program.html" class="mob-a">Program</a>
-  <a href="pilih-jadwal.html" class="mob-a active">Pilih Jadwal</a>
+  <a href="guru.html" class="mob-a">Laoshi</a>
+  <a href="pilih-jadwal.html" class="mob-a">Pilih Jadwal</a>
 </div>
 
 <section class="page-hero" data-cn="约">
@@ -71,11 +78,13 @@
         <div class="step-conn" id="sc1"></div>
         <div class="step-item" id="si2"><div class="step-dot">2</div><span class="step-lbl">Jadwal</span></div>
         <div class="step-conn" id="sc2"></div>
-        <div class="step-item" id="si3"><div class="step-dot">3</div><span class="step-lbl">Pengajar</span></div>
+        <div class="step-item" id="si3"><div class="step-dot">3</div><span class="step-lbl">Tujuan</span></div>
         <div class="step-conn" id="sc3"></div>
-        <div class="step-item" id="si4"><div class="step-dot">4</div><span class="step-lbl">Data Diri</span></div>
+        <div class="step-item" id="si4"><div class="step-dot">4</div><span class="step-lbl">Pengajar</span></div>
         <div class="step-conn" id="sc4"></div>
-        <div class="step-item" id="si5"><div class="step-dot">5</div><span class="step-lbl">Konfirmasi</span></div>
+        <div class="step-item" id="si5"><div class="step-dot">5</div><span class="step-lbl">Data Diri</span></div>
+        <div class="step-conn" id="sc5"></div>
+        <div class="step-item" id="si6"><div class="step-dot">6</div><span class="step-lbl">Konfirmasi</span></div>
       </div>
       <div id="bk-err" class="alert-box alert-err"></div>
       <div class="booking-panel">
@@ -266,11 +275,43 @@
           <div id="sched-fields"><p class="body-sm">Pilih paket terlebih dahulu.</p></div>
         </div>
 
+        <!-- STEP 3: Tujuan Belajar (BARU) -->
         <div class="step-panel" id="sp3">
+          <div class="panel-h">Tujuan Belajar</div>
+          <div class="panel-sub">Pilih tujuan belajar Mandarin Anda agar kami bisa mencocokkan dengan pengajar yang tepat.</div>
+          <div class="form-group">
+            <label class="form-label">Tujuan Belajar <span style="color:#EF4444">*</span></label>
+            <div id="tujuan-opts" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:8px">
+              <div class="tujuan-opt" data-tujuan="Basic (Belum Pernah)" onclick="selectTujuan(this)">🌱 Basic (Belum Pernah)</div>
+              <div class="tujuan-opt" data-tujuan="Speaking" onclick="selectTujuan(this)">🗣️ Speaking</div>
+              <div class="tujuan-opt" data-tujuan="Writing" onclick="selectTujuan(this)">✍️ Writing</div>
+              <div class="tujuan-opt" data-tujuan="Listening" onclick="selectTujuan(this)">👂 Listening</div>
+              <div class="tujuan-opt" data-tujuan="HSK 1" onclick="selectTujuan(this)">📗 HSK 1</div>
+              <div class="tujuan-opt" data-tujuan="HSK 2" onclick="selectTujuan(this)">📗 HSK 2</div>
+              <div class="tujuan-opt" data-tujuan="HSK 3" onclick="selectTujuan(this)">📘 HSK 3</div>
+              <div class="tujuan-opt" data-tujuan="HSK 4" onclick="selectTujuan(this)">📘 HSK 4</div>
+              <div class="tujuan-opt" data-tujuan="HSK 5" onclick="selectTujuan(this)">📙 HSK 5</div>
+              <div class="tujuan-opt" data-tujuan="HSK 6" onclick="selectTujuan(this)">📙 HSK 6</div>
+              <div class="tujuan-opt" data-tujuan="BCT 1" onclick="selectTujuan(this)">💼 BCT 1</div>
+              <div class="tujuan-opt" data-tujuan="BCT 2" onclick="selectTujuan(this)">💼 BCT 2</div>
+              <div class="tujuan-opt" data-tujuan="YCT 1" onclick="selectTujuan(this)">🎒 YCT 1</div>
+              <div class="tujuan-opt" data-tujuan="YCT 2" onclick="selectTujuan(this)">🎒 YCT 2</div>
+              <div class="tujuan-opt" data-tujuan="Lainnya" onclick="selectTujuan(this)" id="tujuan-lainnya-btn">✏️ Lainnya</div>
+            </div>
+            <!-- Textbox muncul otomatis saat pilih "Lainnya" -->
+            <div id="tujuan-lainnya-wrap" style="display:none;margin-top:12px">
+              <input type="text" id="tujuan-lainnya-input" class="form-control"
+                placeholder="Tuliskan tujuan belajar Anda..."
+                oninput="window.onTujuanLainnyaInput(this)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Pilih Pengajar -->
+        <div class="step-panel" id="sp4">
           <div class="panel-h">Pilih Pengajar</div>
-          <div class="panel-sub">Menampilkan pengajar yang tersedia sesuai jadwal yang Anda pilih.</div>
+          <div class="panel-sub">Menampilkan pengajar yang tersedia sesuai jadwal yang Anda pilih.<br>Note: Jika level anda HSK Harap pilih laoshi yang bersertifikasi Minimal 1 level di atas anda! <br>Contoh: HSK 3 Harap pilih laoshi bersertifikasi HSK 4. </div>
           <div id="teacher-options-wrap">
-            <!-- Diisi otomatis oleh JavaScript berdasarkan jadwal yang dipilih -->
             <div class="teacher-opts">
               <div class="teacher-opt" data-teacher="Laoshi Mei" onclick="selectTeacher(this)">
                 <div class="teacher-av">👩‍🏫</div>
@@ -291,24 +332,17 @@
           </div>
         </div>
 
-        <div class="step-panel" id="sp4">
+        <!-- STEP 5: Data Diri -->
+        <div class="step-panel" id="sp5">
           <div class="panel-h">Data Diri Anda</div>
           <div class="panel-sub">Lengkapi informasi untuk melengkapi proses booking.</div>
           <div class="form-group"><label class="form-label">Nama Lengkap <span style="color:#EF4444">*</span></label><input type="text" id="inp-nama" class="form-control" placeholder="Masukkan nama lengkap" /></div>
           <div class="form-group"><label class="form-label">Nomor WhatsApp <span style="color:#EF4444">*</span></label><input type="tel" id="inp-wa" class="form-control" placeholder="Contoh: 08123456789" /></div>
           <div class="form-group"><label class="form-label">Email <span>(opsional)</span></label><input type="email" id="inp-email" class="form-control" placeholder="email@contoh.com" /></div>
-          <div class="form-group"><label class="form-label">Level Mandarin Saat Ini <span>(opsional)</span></label>
-            <select id="inp-level" class="form-control">
-              <option value="">— Pilih Level —</option>
-              <option>Pemula (Belum pernah belajar)</option>
-              <option>Dasar (HSK 1)</option>
-              <option>HSK 2</option><option>HSK 3</option>
-              <option>HSK 4</option><option>HSK 5+</option>
-            </select>
-          </div>
         </div>
 
-        <div class="step-panel" id="sp5">
+        <!-- STEP 6: Konfirmasi -->
+        <div class="step-panel" id="sp6">
           <div class="panel-h">Konfirmasi Booking</div>
           <div class="panel-sub">Periksa kembali detail booking Anda sebelum dikonfirmasi.</div>
           <div class="summary-box" id="booking-summary"></div>
@@ -414,7 +448,7 @@ window.selectPkg = function(el){
       <path d="M20.52 3.48A11.94 11.94 0 0012.05 0C5.5 0 .17 5.33.17 11.88c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.9 11.9 0 005.72 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.15-3.42-8.43zM12.06 21.5h-.01a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.76.99 1-3.66-.24-.37a9.86 9.86 0 01-1.51-5.28C2.13 6.5 6.55 2.08 12.05 2.08c2.64 0 5.13 1.03 7 2.9a9.84 9.84 0 012.9 7c0 5.5-4.42 9.92-9.89 9.92zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.47-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35z"/>
     </svg>
   </span>
-  +62 812-3456-7890
+  +62 8528-0051-105
 </a>
 
   <!-- Instagram -->

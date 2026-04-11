@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callysta Laoshi - Profile Card</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #eef0f5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 1.5rem 1.5rem 1.75rem;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      position: relative;
+      margin-left: 12px;
+    }
+    .badge {
+      position: absolute;
+      top: 0; right: 0;
+      background: #1a6fdb;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px 6px 12px;
+      border-radius: 20px 0px 0px 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid #e0e0e0;
+      background: #ccc;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-item .icon {
+      font-size: 18px;
+      width: 22px;
+      text-align: center;
+    }
+    .info-item span {
+      font-size: 14px;
+      color: #2d2d2d;
+    }
+    .spesialisasi-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+    .pill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f4f5f7;
+      border-radius: 50px;
+      padding: 8px 14px;
+    }
+    .pill .icon {
+      font-size: 16px;
+    }
+    .pill span {
+      font-size: 13px;
+      color: #2d2d2d;
+    }
+    .btn {
+      width: 100%;
+      background: #1a6fdb;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 0;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:hover {
+      background: #1558b0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Badge HSK -->
+    <div class="badge">
+      <img src="assets/images/emot/star.png" width="16"> HSK 5
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">
+        <!-- Ganti src dengan path foto asli jika ada -->
+        <img src="assets/images/vivi.png" alt="Callysta Laoshi">
+      </div>
+      <div>
+        <p class="name">Callysta Laoshi</p>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-list">
+      <div class="info-item">
+        <img src="assets/images/emot/graduation-hat.png" width="16">
+        <span>Alumni Xiamen University, China</span>
+      </div>
+      <div class="info-item">
+         <img src="assets/images/emot/employee.png" width="16">
+        <span>Pengajar Mandarin (2 tahun)</span>
+      </div>
+      <div class="info-item">
+        <img src="assets/images/emot/global.png" width="16">
+        <span>Translator &amp; Interpreter</span>
+      </div>
+    </div>
+
+    <!-- Spesialisasi -->
+    <p class="spesialisasi-label">Spesialisasi:</p>
+    <div class="pill-list">
+      <div class="pill">
+        <img src="assets/images/emot/checklist.png" width="16">
+        <span>Percakapan sehari-hari</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Persiapan HSK</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Mandarin untuk pemula</span>
+      </div>
+    </div>
+
+    <!-- Button
+    <button class="btn">
+      Lihat Profil <span>▶</span>
+    </button>
+-->
+  </div>
+  <div class="card">
+
+    <!-- Badge HSK -->
+    <div class="badge">
+      <img src="assets/images/emot/star.png" width="16"> HSK 5
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">
+        <!-- Ganti src dengan path foto asli jika ada -->
+        <img src="assets/images/vivi.png" alt="Callysta Laoshi">
+      </div>
+      <div>
+        <p class="name">Callysta Laoshi</p>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-list">
+      <div class="info-item">
+        <img src="assets/images/emot/graduation-hat.png" width="16">
+        <span>Alumni Xiamen University, China</span>
+      </div>
+      <div class="info-item">
+         <img src="assets/images/emot/employee.png" width="16">
+        <span>Pengajar Mandarin (2 tahun)</span>
+      </div>
+      <div class="info-item">
+        <img src="assets/images/emot/global.png" width="16">
+        <span>Translator &amp; Interpreter</span>
+      </div>
+    </div>
+
+    <!-- Spesialisasi -->
+    <p class="spesialisasi-label">Spesialisasi:</p>
+    <div class="pill-list">
+      <div class="pill">
+        <img src="assets/images/emot/checklist.png" width="16">
+        <span>Percakapan sehari-hari</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Persiapan HSK</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Mandarin untuk pemula</span>
+      </div>
+    </div>
+
+    <!-- Button
+    <button class="btn">
+      Lihat Profil <span>▶</span>
+    </button>
+-->
+  </div>
+  <div class="card">
+
+    <!-- Badge HSK -->
+    <div class="badge">
+      <img src="assets/images/emot/star.png" width="16"> HSK 5
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">
+        <!-- Ganti src dengan path foto asli jika ada -->
+        <img src="assets/images/vivi.png" alt="Callysta Laoshi">
+      </div>
+      <div>
+        <p class="name">Callysta Laoshi</p>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info-list">
+      <div class="info-item">
+        <img src="assets/images/emot/graduation-hat.png" width="16">
+        <span>Alumni Xiamen University, China</span>
+      </div>
+      <div class="info-item">
+         <img src="assets/images/emot/employee.png" width="16">
+        <span>Pengajar Mandarin (2 tahun)</span>
+      </div>
+      <div class="info-item">
+        <img src="assets/images/emot/global.png" width="16">
+        <span>Translator &amp; Interpreter</span>
+      </div>
+    </div>
+
+    <!-- Spesialisasi -->
+    <p class="spesialisasi-label">Spesialisasi:</p>
+    <div class="pill-list">
+      <div class="pill">
+        <img src="assets/images/emot/checklist.png" width="16">
+        <span>Percakapan sehari-hari</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Persiapan HSK</span>
+      </div>
+      <div class="pill">
+         <img src="assets/images/emot/checklist.png" width="16">
+        <span>Mandarin untuk pemula</span>
+      </div>
+    </div>
+
+    <!-- Button
+    <button class="btn">
+      Lihat Profil <span>▶</span>
+    </button>
+-->
+  </div>
+</body>
+</html>

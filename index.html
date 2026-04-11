@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lexa Course — Kursus Bahasa Mandarin Profesional</title>
+  <title>Lexa Course — Kursus Bahasa Mandarin Online</title>
   <meta name="description" content="Kursus Mandarin profesional dengan pengajar bersertifikat HSK dan jadwal fleksibel." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,38 +22,44 @@
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html" class="nav-a active">Beranda</a></li>
+      <li><a href="index.html" class="nav-a">Beranda</a></li>
       <li><a href="tentang.html" class="nav-a">Tentang Kami</a></li>
-     <li class="nav-item">
+      <li class="nav-item">
         <span class="nav-a-drop" id="navProgram">
           Program
           <svg class="drop-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
         </span>
         <div class="dropdown">
           <a href="program.html#private" class="drop-item">
-            <div class="drop-icon" style="background:#EBF2FF;color:#2775F0">👤</div>
+            <div class="drop-icon" style="background:#FFF0F0;color:#820000"><img src="assets/images/emot/user.png" width="16"></div>
             <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
           </a>
           <a href="program.html#small-group" class="drop-item">
-            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">👥</div>
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309"> <img src="assets/images/emot/group.png" width="20"></div>
             <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
           </a>
           <a href="program.html#group" class="drop-item">
-            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a">👨‍👩‍👧‍👦</div>
+            <div class="drop-icon" style="background:#F0FFF4;color:#16a34a"><img src="assets/images/emot/group2.png" width="18"></div>
             <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
+          </a>
+          <div style="height:1px;background:var(--line);margin:4px 8px"></div>
+          <a href="program.html#intensif" class="drop-item">
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">🔥</div>
+            <div><div class="drop-label">Kelas Intensif</div><div class="drop-sub">Belajar lebih cepat & fokus</div></div>
           </a>
         </div>
       </li>
-      
+      <li><a href="guru.html" class="nav-a">Laoshi</a></li>
       <li><a href="pilih-jadwal.html" class="nav-cta">Pilih Jadwal</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mob-menu" id="mobMenu">
-  <a href="index.html" class="mob-a active">Beranda</a>
-  <a href="tentang.html" class="mob-a">Tentang Kami</a>
+  <a href="index.html" class="mob-a">Beranda</a>
+  <a href="tentang.html" class="mob-a active">Tentang Kami</a>
   <a href="program.html" class="mob-a">Program</a>
+  <a href="guru.html" class="mob-a">Laoshi</a>
   <a href="pilih-jadwal.html" class="mob-a">Pilih Jadwal</a>
 </div>
 
@@ -71,10 +77,10 @@
       <div class="hero-grid">
         <div>
           <div class="hero-kicker au d1"><span class="hero-kicker-bar"></span>Kursus Mandarin Profesional</div>
-          <h1 class="hero-h1 au d2">Kuasai Bahasa Mandarin Dengan<span>LEXA COURSE</span></h1>
-           <strong class="hero-price">Kelas Private Mulai Dari Rp.<span id="price">0</span>.000</strong>
+          <h1 class="hero-h1 au d2">Kursus Mandarin <br>Hanya di Lexa Course</h1>
+           <strong class="hero-price">Harga PRIVATE Mulai <br><span id="price">0</span>-ribuan</strong>
           <div class="hero-line au d3"></div>
-          <p class="hero-p au d3">Belajar bersama pengajar bersertifikat HSK dan guru lulusan China. Jadwal fleksibel, kurikulum terstandar, dan kemajuan yang terukur sejak hari pertama.</p>
+          <p class="hero-p au d3">Belajar bersama pengajar bersertifikat HSK, HSKK, BCT, hingga YCT, serta guru lulusan terbaik dari China. Nikmati jadwal fleksibel dengan kemajuan yang terukur sejak hari pertama.</p>
           <div class="hero-btns au d4">
             <a href="pilih-jadwal.html" class="btn btn-blue">
               Pilih Jadwal Sekarang
@@ -89,38 +95,6 @@
             <div class="sl-stage"><div class="sl-track" id="slTrack"></div></div>
             <div class="sl-dots" id="slDots"></div>
 
-            <!-- Online Learning Badge -->
-            <div class="online-badge">
-              <div class="ob-label">Tersedia secara online</div>
-              <div class="ob-platforms">
-                <!-- Zoom icon -->
-                <div class="ob-platform" title="Zoom">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#2D8CFF"/>
-                    <path d="M8 17.5C8 15.567 9.567 14 11.5 14H27C28.933 14 30.5 15.567 30.5 17.5V30.5C30.5 32.433 28.933 34 27 34H11.5C9.567 34 8 32.433 8 30.5V17.5Z" fill="white"/>
-                    <path d="M30.5 20.8L38.5 16.5C39.2 16.1 40 16.6 40 17.4V30.6C40 31.4 39.2 31.9 38.5 31.5L30.5 27.2V20.8Z" fill="white"/>
-                  </svg>
-                </div>
-                <!-- WhatsApp Group icon -->
-                <div class="ob-platform" title="WhatsApp">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#25D366"/>
-                    <path d="M24 10C16.268 10 10 16.268 10 24C10 26.628 10.762 29.082 12.083 31.155L10.146 37.854L17.013 35.947C19.02 37.138 21.43 37.832 24 37.832C31.732 37.832 38 31.564 38 23.832C38 16.1 31.732 10 24 10Z" fill="white" fill-opacity="0.2"/>
-                    <path d="M24 12C17.373 12 12 17.373 12 24C12 26.279 12.644 28.408 13.766 30.217L12.146 35.854L17.937 34.262C19.693 35.299 21.776 35.9 24 35.9C30.627 35.9 36 30.527 36 23.9C36 17.273 30.627 12 24 12ZM30.472 28.944C30.178 29.706 28.847 30.397 28.218 30.479C27.589 30.562 26.879 30.594 26.1 30.35C25.635 30.205 25.036 30.007 24.27 29.682C21.198 28.391 19.218 25.31 19.071 25.113C18.924 24.916 17.868 23.517 17.868 22.069C17.868 20.622 18.632 19.912 18.909 19.61C19.186 19.308 19.514 19.234 19.71 19.234C19.906 19.234 20.101 19.236 20.272 19.244C20.451 19.252 20.692 19.177 20.93 19.727C21.171 20.287 21.748 21.735 21.821 21.882C21.894 22.029 21.942 22.2 21.845 22.397C21.748 22.594 21.7 22.716 21.553 22.888C21.406 23.059 21.246 23.271 21.111 23.405C20.964 23.55 20.811 23.707 20.981 23.991C21.151 24.275 21.742 25.24 22.617 26.024C23.736 27.025 24.672 27.334 24.957 27.481C25.241 27.628 25.411 27.604 25.581 27.407C25.751 27.21 26.316 26.548 26.511 26.264C26.706 25.98 26.9 26.028 27.161 26.126C27.422 26.224 28.87 26.934 29.154 27.081C29.439 27.228 29.625 27.3 29.698 27.42C29.772 27.54 29.772 28.08 29.479 28.944H30.472Z" fill="white"/>
-                  </svg>
-                </div>
-                <!-- In Person icon -->
-                <div class="ob-platform ob-platform-text" title="Tatap Muka">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#EBF2FF"/>
-                    <circle cx="24" cy="19" r="5" fill="#2775F0"/>
-                    <path d="M14 36C14 30.477 18.477 26 24 26C29.523 26 34 30.477 34 36" stroke="#2775F0" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="ob-tagline">Zoom Meet</div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -134,8 +108,8 @@
   <div class="container">
     <div class="band-grid">
       <div class="band-col fi"><div class="band-n">999+</div><div class="band-l">Siswa Bergabung</div></div>
-      <div class="band-col fi" data-d="1"><div class="band-n">3</div><div class="band-l">Paket Kelas</div></div>
-      <div class="band-col fi" data-d="2"><div class="band-n">110+</div><div class="band-l">Pilihan Jadwal</div></div>
+      <div class="band-col fi" data-d="1"><div class="band-n">50+</div><div class="band-l">Dipercaya Sekolah & Universitas</div></div>
+      <div class="band-col fi" data-d="2"><div class="band-n">8000+</div><div class="band-l">Jam Mengajar</div></div>
       <div class="band-col fi" data-d="3"><div class="band-n">98%</div><div class="band-l">Kepuasan Siswa</div></div>
     </div>
   </div>
@@ -147,70 +121,17 @@
     <div class="why-grid">
       <div class="fi-l">
         <div class="tag">Mengapa Lexa Course</div>
-        <h2 class="heading-lg" style="margin-top:12px">Pendekatan Belajar<br>yang <span>Berbeda</span></h2>
+        <h2 class="heading-lg" style="margin-top:12px">Strategi Belajar <br><span>Tepat Sasaran</span></h2>
         <div class="why-list">
-          <div class="why-row"><div class="why-n">01</div><div><div class="why-t">Jadwal Sepenuhnya Fleksibel</div><div class="why-d">Pilih hari dan jam sesuai rutinitas. Tersedia 7 hari seminggu, pukul 07.00 WIB – 22.00 WIB.</div></div></div>
-          <div class="why-row"><div class="why-n">02</div><div><div class="why-t">Pengajar Bersertifikat HSK</div><div class="why-d">Setiap pengajar memiliki sertifikat HSK resmi dan berpengalaman di bidangnya.</div></div></div>
-          <div class="why-row"><div class="why-n">03</div><div><div class="why-t">Kelas Kecil, Perhatian Penuh</div><div class="why-d">Lexa Course menyediakan kelas private dan group untuk mendorong diskusi interaktif antara siswa dengan tutor</div></div></div>
-          <div class="why-row"><div class="why-n">04</div><div><div class="why-t">Kurikulum Standar HSK dan Sertifikasi </div><div class="why-d">Materi mengacu pada kebutuhan siswa mulai dari Persiapan Kuliah, HSK 1-6, YCT 1-6, IGCSE, HSKK, BCT, Sekolah, Pekerjaan. Dilengkapi modul digital dan Sertifikat validasi kemampuan serta pengetahuan yang telah diperoleh</div></div></div>
+          <div class="why-row"><div class="why-n">01</div><div><div class="why-t">Belajar Kapan Saja, 7 Hari Seminggu</div><div class="why-d">Atur jadwal belajar Mandarin Anda antara pukul 07.00 – 22.00 WIB. Fleksibilitas total untuk hasil yang maksimal.</div></div></div>
+          <div class="why-row"><div class="why-n">02</div><div><div class="why-t">Tim Pengajar Profesional & Lulusan China</div><div class="why-d">Pengajar memiliki sertifikat resmi dan berpengalaman di bidangnya.</div></div></div>
+          <div class="why-row"><div class="why-n">03</div><div><div class="why-t">Interaksi Maksimal, Belajar Lebih Personal</div><div class="why-d">Di Lexa Course, Anda tidak hanya belajar. Melalui kelas Private dan Group yang interaktif, tutor kami berfokus sepenuhnya pada progres dan kebutuhan spesifik Anda.</div></div></div>
+          <div class="why-row"><div class="why-n">04</div><div><div class="why-t">Kurikulum Berbasis Standar Internasional</div><div class="why-d">Kami menyediakan materi yang komprehensif mulai dari HSK hingga Mandarin Bisnis, Sekolah Internasional, dan Mandarin Tradisional (Taiwan).</div></div></div>
         </div>
       </div>
       <div class="fi-r">
-        <div class="why-card">
-
-          <!-- Top: HSK Certification highlight -->
-          <div class="wc-highlight">
-            <div class="wc-hl-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#2775F0" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="wc-hl-title">Kurikulum Terstandar HSK Internasional</div>
-              <div class="wc-hl-sub">Persiapan Kuliah, HSK 1-6, YCT 1-6, IGCSE, HSKK, BCT, Sekolah, Pekerjaan</div>
-            </div>
-          </div>
-
-          <!-- Stat grid 2x2 -->
-          <div class="wc-stats">
-            <div class="wc-stat">
-              <div class="wc-stat-n">999<span>+</span></div>
-              <div class="wc-stat-l">Siswa Lulus</div>
-            </div>
-            <div class="wc-stat">
-              <div class="wc-stat-n">98<span>%</span></div>
-              <div class="wc-stat-l">Tingkat Kepuasan</div>
-            </div>
-            <div class="wc-stat">
-              <div class="wc-stat-n">30<span>+</span></div>
-              <div class="wc-stat-l">Pengajar Ahli</div>
-            </div>
-            <div class="wc-stat">
-              <div class="wc-stat-n">4<span>+</span></div>
-              <div class="wc-stat-l">Tahun Berpengalaman</div>
-            </div>
-          </div>
-
-          <!-- Bottom: Quick feature chips -->
-          <div class="wc-chips">
-            <span class="wc-chip">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
-              Jadwal Fleksibel
-            </span>
-            <span class="wc-chip">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
-              Kelas Online
-            </span>
-            <span class="wc-chip">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Gratis Modul Digital
-            </span>
-            <span class="wc-chip">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-              Tersedia kelas Private, Small Group & Group
-            </span>
-            
-          </div>
+        
+  <img src="assets/images/home2.png" class="why-img"></div>
 
         </div>
       </div>
@@ -244,7 +165,7 @@
     <ul class="pc-list">
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -253,7 +174,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -262,7 +183,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -271,7 +192,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -280,7 +201,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -289,7 +210,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -298,7 +219,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -322,7 +243,7 @@
     <ul class="pc-list">
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -331,7 +252,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -340,7 +261,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -349,7 +270,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -358,7 +279,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -367,7 +288,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -376,7 +297,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -387,10 +308,10 @@
   </div>
 </div>
       <div class="pc pc-p fi" data-d="3" id="platinum">
-  <div class="pc-head" data-char="白">
+  <div class="pc-head" data-char="铂金">
     <div class="pc-tier">Paket</div>
     <div class="pc-name">Platinum</div>
-    <div class="pc-tag">Untuk target HSK & profesional</div>
+    <div class="pc-tag">Kelas Lebih Intensif untuk Hasil yang Maksimal</div>
   </div>
   <div class="pc-stats">
     <div class="pc-stat"><div class="pc-stat-n">12x</div><div class="pc-stat-l">Pertemuan</div></div>
@@ -400,7 +321,7 @@
     <ul class="pc-list">
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -409,7 +330,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -418,7 +339,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -427,7 +348,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -436,7 +357,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -445,7 +366,7 @@
 
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -454,7 +375,7 @@
  
   <li class="pc-li">
     <span class="pc-ck">
-      <svg fill="none" stroke="#2775F0" stroke-width="2.5" viewBox="0 0 24 24">
+      <svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24">
         <path d="M5 13l4 4L19 7"/>
       </svg>
     </span>
@@ -594,7 +515,7 @@
     <div class="cta-inner fi">
       <span class="cta-tag">Mulai Perjalanan Anda</span>
       <h2 class="cta-h2">Siap Kuasai Bahasa Mandarin <span>Hari Ini</span>?</h2>
-      <p class="cta-p">Bergabunglah bersama ratusan siswa yang telah membuktikan bahwa belajar Mandarin bisa terasa menyenangkan, terstruktur, dan penuh hasil nyata.</p>
+      <p class="cta-p">Bergabunglah dengan ratusan siswa aktif dan rasakan bedanya belajar Mandarin yang terukur serta menyenangkan. Dirancang khusus oleh laoshi terbaik lulusan China, kurikulum kami memastikan setiap detik yang Anda investasikan berbuah hasil nyata untuk masa depan pendidikan dan karier global.</p>
       <a href="pilih-jadwal.html" class="btn btn-white" style="font-size:15px;padding:14px 36px">
         Pilih Jadwal Sekarang
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -610,7 +531,7 @@
           <span class="f-logo-cn">学</span>
           <span class="f-logo-name">Lexa Course</span>
         </div>
-        <p class="f-desc">Kursus Mandarin profesional dengan jadwal fleksibel, pengajar bersertifikat HSK, dan metode belajar modern.</p>
+        <p class="f-desc">Solusi Belajar Mandarin Profesional: Pengajar Lulusan China, Kurikulum Internasional Teruji, dan Fleksibilitas Tanpa Batas. Telah dipercaya dalam 8.000+ jam kelas berjalan</p>
       
       </div>
       <div>
@@ -640,7 +561,7 @@
       <path d="M20.52 3.48A11.94 11.94 0 0012.05 0C5.5 0 .17 5.33.17 11.88c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.9 11.9 0 005.72 1.45h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.15-3.42-8.43zM12.06 21.5h-.01a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.76.99 1-3.66-.24-.37a9.86 9.86 0 01-1.51-5.28C2.13 6.5 6.55 2.08 12.05 2.08c2.64 0 5.13 1.03 7 2.9a9.84 9.84 0 012.9 7c0 5.5-4.42 9.92-9.89 9.92zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.47-2.4-1.48-.88-.78-1.48-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35z"/>
     </svg>
   </span>
-  +62 812-3456-7890
+  +62 8528-0051-105
 </a>
 
   <!-- Instagram -->
