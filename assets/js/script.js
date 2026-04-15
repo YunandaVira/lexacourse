@@ -55,19 +55,22 @@ document.querySelectorAll('.nav-a,.mob-a').forEach(a=>{
   const dotsEl = document.getElementById('slDots');
   if(!track) return;
   const cards=[
-    {h:'你好',p:'nǐ hǎo',  m:'Halo',             e:'👋',c:'#2775F0'},
-    {h:'谢谢',p:'xiè xiè', m:'Terima kasih',     e:'🙏',c:'#D97706'},
-    {h:'学习',p:'xué xí',  m:'Belajar',          e:'📚',c:'#16A34A'},
-    {h:'朋友',p:'péng yǒu',m:'Teman',            e:'🤝',c:'#7C3AED'},
-    {h:'中文',p:'zhōng wén',m:'Bahasa Mandarin', e:'🀄',c:'#DC2626'},
-    {h:'很好',p:'hěn hǎo', m:'Sangat baik',      e:'✨',c:'#0891B2'},
-    {h:'再见',p:'zài jiàn',m:'Sampai jumpa',      e:'🌟',c:'#EA580C'},
-  ];
+  {h:'你好',p:'nǐ hǎo',  m:'Halo',             img:'assets/images/emot/hallo.png', c:'#5927f0'},
+  {h:'谢谢',p:'xiè xiè', m:'Terima kasih',     img:'assets/images/emot/hands.png',c:'#D97706'},
+  {h:'学习',p:'xué xí',  m:'Belajar',          img:'assets/images/emot/studying.png', c:'#16A34A'},
+  {h:'朋友',p:'péng yǒu',m:'Teman',            img:'assets/images/emot/friends.png',c:'#7C3AED'},
+  {h:'中文',p:'zhōng wén',m:'Bahasa Mandarin', img:'assets/images/emot/china.png', c:'#DC2626'},
+  {h:'很好',p:'hěn hǎo', m:'Sangat baik',      img:'assets/images/emot/good.png',  c:'#0891B2'},
+  {h:'再见',p:'zài jiàn',m:'Sampai jumpa',     img:'assets/images/emot/wave.png',   c:'#EA580C'},
+];
   let cur=0,busy=false,tmr;
   cards.forEach((c,i)=>{
     const el=document.createElement('div');
     el.className='s-card'; el.dataset.i=i;
-    el.innerHTML=`<div class="s-card-top" style="background:${c.c}"></div><div class="s-label">Karakter Mandarin</div><div class="s-emoji">${c.e}</div><div class="s-char" style="color:${c.c}">${c.h}</div><div class="s-line" style="background:${c.c}"></div><div class="s-pin" style="color:${c.c}">${c.p}</div><div class="s-mean">${c.m}</div>`;
+    el.innerHTML=`<div class="s-card-top" style="background:${c.c}"></div><div class="s-label">Karakter Mandarin</div><div class="s-emoji">
+  <img src="${c.img}" width="28">
+</div>
+<div class="s-char" style="color:${c.c}">${c.h}</div><div class="s-line" style="background:${c.c}"></div><div class="s-pin" style="color:${c.c}">${c.p}</div><div class="s-mean">${c.m}</div>`;
     el.addEventListener('click',()=>{if(!busy)go(i)});
     track.appendChild(el);
   });
@@ -663,3 +666,34 @@ document.querySelectorAll('.nav-item').forEach(item => {
 document.addEventListener('click', () => {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
 });
+
+/* ── COUNTING NUMBER ── */
+(function(){
+  const els = document.querySelectorAll('.band-n');
+
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target) || 0;
+        const suffix = el.dataset.suffix || '+';
+
+        let current = 0;
+        const speed = target / 60; // makin kecil = makin lambat
+
+        const counter = setInterval(()=>{
+          current += Math.ceil(speed);
+          if(current >= target){
+            current = target;
+            clearInterval(counter);
+          }
+          el.textContent = current + (suffix || '');
+        }, 20);
+
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  els.forEach(el => io.observe(el));
+})();

@@ -44,7 +44,8 @@
           </a>
           <div style="height:1px;background:var(--line);margin:4px 8px"></div>
           <a href="program.html#intensif" class="drop-item">
-            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">🔥</div>
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">
+             <img src="assets/images/emot/fire.png" width="18"></div>
             <div><div class="drop-label">Kelas Intensif</div><div class="drop-sub">Belajar lebih cepat & fokus</div></div>
           </a>
         </div>
@@ -93,25 +94,36 @@
           <div class="panel-h">Pilih Paket Kelas</div>
           <div class="panel-sub">Pilih jenis kelas lalu tentukan paket intensitas belajar yang sesuai.</div>
 
-          <!-- Step 1a: Pilih Jenis Kelas -->
-          <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:12px">① Jenis Kelas</div>
-          <div class="bk-type-row" id="bkTypeRow">
-            <div class="bk-type-btn" data-type="private" onclick="selectBkType(this)">
-              <div class="bk-type-icon">👤</div>
-              <div class="bk-type-name">Kelas Private</div>
-              <div class="bk-type-siswa">Hanya Anda · Fokus penuh</div>
-            </div>
-            <div class="bk-type-btn" data-type="small-group" onclick="selectBkType(this)">
-              <div class="bk-type-icon">👥</div>
-              <div class="bk-type-name">Small Group</div>
-              <div class="bk-type-siswa">2–5 siswa · Interaktif</div>
-            </div>
-            <div class="bk-type-btn" data-type="group" onclick="selectBkType(this)">
-              <div class="bk-type-icon">👨‍👩‍👧‍👦</div>
-              <div class="bk-type-name">Kelas Group</div>
-              <div class="bk-type-siswa">6–10 siswa · Ekonomis</div>
-            </div>
-          </div>
+        <!-- Step 1a: Pilih Jenis Kelas -->
+<div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);margin-bottom:12px">① Jenis Kelas</div>
+
+<div class="bk-type-row" id="bkTypeRow">
+
+  <div class="bk-type-btn" data-type="private" onclick="selectBkType(this)">
+    <div class="bk-type-icon">
+      <img src="assets/images/emot/user.png" width="20">
+    </div>
+    <div class="bk-type-name">Kelas Private</div>
+    <div class="bk-type-siswa">Hanya Anda · Fokus penuh</div>
+  </div>
+
+  <div class="bk-type-btn" data-type="small-group" onclick="selectBkType(this)">
+    <div class="bk-type-icon">
+      <img src="assets/images/emot/group.png" width="20">
+    </div>
+    <div class="bk-type-name">Small Group</div>
+    <div class="bk-type-siswa">2–5 siswa · Interaktif</div>
+  </div>
+
+  <div class="bk-type-btn" data-type="group" onclick="selectBkType(this)">
+    <div class="bk-type-icon">
+      <img src="assets/images/emot/group2.png" width="20">
+    </div>
+    <div class="bk-type-name">Kelas Group</div>
+    <div class="bk-type-siswa">6–10 siswa · Ekonomis</div>
+  </div>
+
+</div>
 
           <!-- Step 1b: Pilih Paket -->
           <div class="bk-divider">② Pilih Paket</div>
@@ -136,7 +148,7 @@
             <div class="pkg-opt" data-pkg="gold-private" onclick="selectPkg(this)">
               <div class="pkg-opt-strip"></div>
               <div class="pkg-opt-body">
-                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-tier">Paket Gold</div>
                 <div class="pkg-opt-name">Gold</div>
                 <div class="pkg-opt-features">
                   <div class="pkg-opt-feat">8x Pertemuan</div>
@@ -151,7 +163,7 @@
             <div class="pkg-opt" data-pkg="platinum-private" onclick="selectPkg(this)">
               <div class="pkg-opt-strip"></div>
               <div class="pkg-opt-body">
-                <div class="pkg-opt-tier">Paket Platinum</div>
+                <div class="pkg-opt-tier">Paket Platinum <br>★ Terpopuler</div>
                 <div class="pkg-opt-name">Platinum</div>
                 <div class="pkg-opt-features">
                   <div class="pkg-opt-feat">12x Pertemuan</div>
@@ -185,7 +197,7 @@
             <div class="pkg-opt" data-pkg="gold-sg" onclick="selectPkg(this)">
               <div class="pkg-opt-strip"></div>
               <div class="pkg-opt-body">
-                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-tier">Paket Gold</div>
                 <div class="pkg-opt-name">Gold</div>
                 <div class="pkg-opt-features">
                   <div class="pkg-opt-feat">8x Pertemuan</div>
@@ -234,7 +246,7 @@
             <div class="pkg-opt" data-pkg="gold-group" onclick="selectPkg(this)">
               <div class="pkg-opt-strip"></div>
               <div class="pkg-opt-body">
-                <div class="pkg-opt-tier">Paket Gold ★ Terpopuler</div>
+                <div class="pkg-opt-tier">Paket Gold</div>
                 <div class="pkg-opt-name">Gold</div>
                 <div class="pkg-opt-features">
                   <div class="pkg-opt-feat">8x Pertemuan</div>
@@ -249,7 +261,7 @@
             <div class="pkg-opt" data-pkg="platinum-group" onclick="selectPkg(this)">
               <div class="pkg-opt-strip"></div>
               <div class="pkg-opt-body">
-                <div class="pkg-opt-tier">Paket Platinum</div>
+                <div class="pkg-opt-tier">Paket Platinum ★ Terpopuler</div>
                 <div class="pkg-opt-name">Platinum</div>
                 <div class="pkg-opt-features">
                   <div class="pkg-opt-feat">12x Pertemuan</div>
@@ -365,9 +377,36 @@
   <div class="container">
     <div class="tc-text fi" style="margin-bottom:48px"><div class="tag tag-center">Cara Booking</div><h2 class="heading-lg" style="margin-top:12px">Mudah dalam <span>Tiga Langkah</span></h2></div>
     <div class="how-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="how-step fi" data-d="1"><div class="how-num">01</div><div class="how-line"></div><div class="how-icon">📋</div><div class="how-t">Isi Formulir</div><div class="how-d">Pilih paket, jadwal, pengajar, dan isi data diri Anda melalui formulir online.</div></div>
-      <div class="how-step fi" data-d="2"><div class="how-num">02</div><div class="how-line"></div><div class="how-icon">📱</div><div class="how-t">Konfirmasi WhatsApp</div><div class="how-d">Tim kami menghubungi via WhatsApp untuk konfirmasi jadwal dan detail pembayaran.</div></div>
-      <div class="how-step fi" data-d="2"><div class="how-num">03</div><div class="how-line"></div><div class="how-icon">🎯</div><div class="how-t">Mulai Belajar</div><div class="how-d">Ikuti kelas pertama dan rasakan perbedaan belajar Mandarin bersama Lexa Course.</div></div>
+
+      <div class="how-step fi" data-d="1">
+        <div class="how-num">01</div>
+        <div class="how-line"></div>
+        <div class="how-icon">
+          <img src="assets/images/emot/form.png" width="24">
+        </div>
+        <div class="how-t">Isi Formulir</div>
+        <div class="how-d">Pilih paket, jadwal, pengajar, dan isi data diri Anda melalui formulir online.</div>
+      </div>
+
+      <div class="how-step fi" data-d="2">
+        <div class="how-num">02</div>
+        <div class="how-line"></div>
+        <div class="how-icon">
+          <img src="assets/images/emot/whatsapp.png" width="24">
+        </div>
+        <div class="how-t">Konfirmasi WhatsApp</div>
+        <div class="how-d">Tim kami menghubungi via WhatsApp untuk konfirmasi jadwal dan detail pembayaran.</div>
+      </div>
+
+      <div class="how-step fi" data-d="3">
+        <div class="how-num">03</div>
+        <div class="how-line"></div>
+        <div class="how-icon">
+          <img src="assets/images/emot/reading.png" width="24">
+        </div>
+        <div class="how-t">Mulai Belajar</div>
+        <div class="how-d">Ikuti kelas pertama dan rasakan perbedaan belajar Mandarin bersama Lexa Course.</div>
+      </div>
     </div>
   </div>
 </section>

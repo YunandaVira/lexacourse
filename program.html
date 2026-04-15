@@ -10,8 +10,108 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" type="image/png" href="assets/images/logop.png" />
+  <style>
+    /* 4-col grid untuk Intensif */
+    .prog-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+    @media (max-width: 1100px) {
+      .prog-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .prog-grid-4 { grid-template-columns: 1fr; }
+    }
+
+
+    /* Semua card sama tinggi */
+    .prog-grid { align-items: stretch !important; }
+    .prog-grid .pc, .prog-grid-4 .pc {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .prog-grid .pc-body, .prog-grid-4 .pc-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .prog-grid .pc-list, .prog-grid-4 .pc-list {
+      flex: 1;
+    }
+
+    /* Banner intensif */
+    .intensif-banner {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      background: linear-gradient(135deg, #fff7ed, #fff0f0);
+      border: 1.5px solid #FFBDBD;
+      border-radius: 14px;
+      flex-wrap: wrap;
+    }
+    .intensif-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .intensif-banner-left p { margin: 0; }
+    .intensif-banner-left .title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .intensif-banner-left .sub {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+      margin-top: 2px !important;
+    }
+    .intensif-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .intensif-banner-btn:hover { background: var(--blue-dark); }
+
+    /* Tab scroll di mobile */
+    @media (max-width: 640px) {
+      .prog-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        width: 100%;
+        padding-bottom: 2px;
+      }
+      .prog-tab { flex-shrink: 0; }
+      .prog-tabs-wrap { overflow-x: auto; padding: 0 16px; }
+      .intensif-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .intensif-banner-btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
+
+<!-- NAVBAR -->
 <nav class="navbar transparent" id="navbar">
   <div class="nav-wrap">
     <a href="index.html" class="nav-logo">
@@ -35,7 +135,7 @@
             <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
           </a>
           <a href="program.html#small-group" class="drop-item">
-            <div class="drop-icon" style="background:#FFF7ED;color:#b45309"> <img src="assets/images/emot/group.png" width="20"></div>
+            <div class="drop-icon" style="background:#FFF7ED;color:#b45309"><img src="assets/images/emot/group.png" width="20"></div>
             <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
           </a>
           <a href="program.html#group" class="drop-item">
@@ -43,9 +143,10 @@
             <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
           </a>
           <div style="height:1px;background:var(--line);margin:4px 8px"></div>
-          <a href="program.html#intensif" class="drop-item">
-            <div class="drop-icon" style="background:#FFF7ED;color:#b45309">🔥</div>
-            <div><div class="drop-label">Kelas Intensif</div><div class="drop-sub">Belajar lebih cepat & fokus</div></div>
+          <a href="program.html#intensif" class="drop-item" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));document.getElementById('prog-intensif').scrollIntoView({behavior:'smooth'})">
+          <div class="drop-icon" style="background:#FFF7ED;color:#b45309">
+            <img src="assets/images/emot/fire.png" width="18"></div>
+            <div><div class="drop-label">Kelas Intensif</div><div class="drop-sub">Belajar lebih cepat &amp; fokus</div></div>
           </a>
         </div>
       </li>
@@ -55,402 +156,493 @@
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
 <div class="mob-menu" id="mobMenu">
   <a href="index.html" class="mob-a">Beranda</a>
-  <a href="tentang.html" class="mob-a active">Tentang Kami</a>
-  <a href="program.html" class="mob-a">Program</a>
+  <a href="tentang.html" class="mob-a">Tentang Kami</a>
+  <a href="program.html" class="mob-a active">Program</a>
   <a href="guru.html" class="mob-a">Laoshi</a>
   <a href="pilih-jadwal.html" class="mob-a">Pilih Jadwal</a>
 </div>
 
+<!-- PAGE HERO -->
 <section class="page-hero" data-cn="课">
   <div class="container">
     <span class="ph-tag">Program Kelas</span>
     <h1 class="ph-h1">Pilih Paket yang Tepat<br>untuk Anda</h1>
-    <p class="ph-p">Tiga pilihan paket yang dirancang untuk memenuhi kebutuhan belajar Mandarin Anda.</p>
+    <p class="ph-p">Empat pilihan program yang dirancang untuk memenuhi kebutuhan belajar Mandarin Anda.</p>
   </div>
 </section>
+
+<!-- MAIN SECTION -->
 <section class="sec">
   <div class="container">
 
-    <div style="display:flex;justify-content:center;margin-bottom:64px">
+    <!-- TABS -->
+    <div class="prog-tabs-wrap" style="display:flex;justify-content:center;margin-bottom:56px">
       <div class="prog-tabs">
         <button class="prog-tab on" data-tab="private" onclick="switchProgTab('private',this)"><img src="assets/images/emot/user.png" width="16"> Kelas Private</button>
         <button class="prog-tab" data-tab="small-group" onclick="switchProgTab('small-group',this)"><img src="assets/images/emot/group.png" width="20"> Small Group</button>
         <button class="prog-tab" data-tab="group" onclick="switchProgTab('group',this)"><img src="assets/images/emot/group2.png" width="18"> Group</button>
-        <button class="prog-tab" data-tab="intensif" onclick="switchProgTab('intensif',this)">🔥 Intensif</button>
+        <button class="prog-tab" data-tab="intensif" onclick="switchProgTab('intensif',this)">
+        <img src="assets/images/emot/fire.png" width="16" style="vertical-align:middle; margin-right:6px;">Intensif</button>
       </div>
     </div>
 
-<!-- Private -->
+    <!-- ===== TAB: PRIVATE ===== -->
     <div id="prog-private" class="prog-tab-content on">
       <div id="private" class="prog-type-section">
-  <div class="prog-type-header">
-    <h2 class="heading-lg">Kelas Private</h2>
-    <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar berdua dengan pengajar secara eksklusif. Materi 100% disesuaikan dengan kebutuhan, ritme, dan tujuan Anda.</p>
-  </div>
-  <div class="prog-grid-wrap"><div class="prog-grid"><div class="pc pc-s fi">
-  <div class="pc-head" data-char="银">
-    <div class="pc-tier">Paket</div>
-    <div class="pc-name">Silver</div>
-    <div class="pc-tag">Langkah awal yang sempurna</div>
-  </div>
-  <div></div>
-  <div class="pc-stats">
-    <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
-    <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-  </div>
-  <div class="pc-price-wrap">
-    <div class="pc-price">
-      <span class="pc-price-curr">Rp</span>
-      <span class="pc-price-num">435.000</span>
+        <div class="prog-type-header">
+          <h2 class="heading-lg">Kelas Private</h2>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar berdua dengan pengajar secara eksklusif. Materi 100% disesuaikan dengan kebutuhan, ritme, dan tujuan Anda.</p>
+        </div>
+        <div class="prog-grid-wrap">
+          <div class="prog-grid">
+            <!-- Silver -->
+            <div class="pc pc-s fi">
+              <div class="pc-head" data-char="银">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Silver</div>
+                <div class="pc-tag">Langkah awal yang sempurna</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">435.000</span></div>
+                <div class="pc-price-note">per bulan · 4 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi kelas per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?paket=silver" class="pc-btn pc-ol">Pilih Paket Silver</a>
+              </div>
+            </div>
+            <!-- Gold -->
+            <div class="pc pc-s fi" data-d="2">
+              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Gold</div>
+                <div class="pc-tag">Intensitas optimal, hasil cepat</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">805.000</span></div>
+                <div class="pc-price-note">per bulan · 8 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi kelas per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?paket=gold" class="pc-btn pc-ol">Pilih Paket Gold</a>
+              </div>
+            </div>
+            <!-- Platinum -->
+            <div class="pc pc-g fi" data-d="3">
+              <div class="pc-g-badge">★ Terpopuler</div>
+              <div class="pc-head" data-char="铂金">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Platinum</div>
+                <div class="pc-tag">Kelas lebih intensif, hasil maksimal</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.050.000</span></div>
+                <div class="pc-price-note">per bulan · 12 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi kelas per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?paket=platinum" class="pc-btn pc-ol">Pilih Paket Platinum</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Banner Intensif -->
+<div style="margin-top:40px;display:flex;justify-content:center;">
+  <div style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fff0f0,#ffe0e0);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🔥</div>
+      <div>
+        <p style="margin:0;font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;">Ingin belajar lebih cepat dan fokus?</p>
+        <p style="margin:2px 0 0;font-size:11px;font-weight:300;color:var(--ink-3);white-space:nowrap;">Coba program Kelas Intensif kami</p>
+      </div>
     </div>
-    <div class="pc-price-note">per bulan · 4 pertemuan</div>
-  </div>
-  <div class="pc-body">
-    <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi kelas per minggu</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-    <a href="pilih-jadwal.html?paket=silver" class="pc-btn pc-ol">Pilih Paket Silver</a>
+    <a href="#intensif" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));window.scrollTo({top:0,behavior:'smooth'})"
+       style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:0.02em;">
+      Lihat Kelas Intensif
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
   </div>
 </div>
-      <div class="pc pc-g fi" data-d="2" id="gold">
-  <div class="pc-head" data-char="金">
-    <div class="pc-tier">Paket</div>
-    <div class="pc-name">Gold</div>
-    <div class="pc-tag">Intensitas optimal, hasil cepat</div>
-  </div>
-  <div class="pc-stats">
-    <div class="pc-stat"><div class="pc-stat-n">8x</div><div class="pc-stat-l">Pertemuan</div></div>
-    <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-  </div>
-  <div class="pc-price-wrap">
-    <div class="pc-price">
-      <span class="pc-price-curr">Rp</span>
-      <span class="pc-price-num">805.000</span>
+      </div>
     </div>
-    <div class="pc-price-note">per bulan · 4 pertemuan</div>
-  </div>
-  <div class="pc-body">
-    <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi kelas per minggu</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-    <a href="pilih-jadwal.html?paket=gold" class="pc-btn pc-blue">Pilih Paket Gold</a>
-  </div>
-</div>
-      <div class="pc pc-p fi" data-d="3" id="platinum">
-  <div class="pc-head" data-char="铂金">
-    <div class="pc-tier">Paket</div>
-    <div class="pc-name">Platinum</div>
-    <div class="pc-tag">Kelas Lebih Intensif untuk Hasil yang Maksimal</div>
-  </div>
-  <div class="pc-stats">
-    <div class="pc-stat"><div class="pc-stat-n">12x</div><div class="pc-stat-l">Pertemuan</div></div>
-    <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-  </div>
-  <div class="pc-price-wrap">
-    <div class="pc-price">
-      <span class="pc-price-curr">Rp</span>
-      <span class="pc-price-num">1.050.000</span>
-    </div>
-    <div class="pc-price-note">per bulan · 4 pertemuan</div>
-  </div>
-  <div class="pc-body">
-    <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi kelas per minggu</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-    <a href="pilih-jadwal.html?paket=platinum" class="pc-btn pc-ol">Pilih Paket Platinum</a>
-  </div>
-</div>
-    </div>
-    </div>
-  </div>
-</div>
 
-<!-- Small Group -->
-<div id="prog-small-group" class="prog-tab-content">
-  <div id="small-group" class="prog-type-section">
-    <div class="prog-type-header">
-      <h2 class="heading-lg">Kelas Small Group</h2>
-      <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">
-        Belajar bersama 2–5 siswa lain dalam suasana interaktif. Harga lebih terjangkau dengan kualitas bimbingan yang tetap optimal.
-      </p>
-    </div>
-    <div class="prog-grid-wrap">
-      <div class="prog-grid">
-        <!-- SILVER -->
-        <div class="pc pc-s fi">
-          <div class="pc-head" data-char="银">
-            <div class="pc-tier">Paket</div>
-            <div class="pc-name">Silver</div>
-            <div class="pc-tag">Mulai belajar bersama, hemat biaya</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 2–5 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-            <a href="pilih-jadwal.html?tipe=small-group&paket=silver" class="pc-btn pc-ol">Pilih Silver Small Group</a>
+    <!-- ===== TAB: SMALL GROUP ===== -->
+    <div id="prog-small-group" class="prog-tab-content">
+      <div id="small-group" class="prog-type-section">
+        <div class="prog-type-header">
+          <h2 class="heading-lg">Kelas Small Group</h2>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 2–5 siswa lain dalam suasana interaktif. Harga lebih terjangkau dengan kualitas bimbingan yang tetap optimal.</p>
+        </div>
+        <div class="prog-grid-wrap">
+          <div class="prog-grid">
+            <!-- Silver -->
+            <div class="pc pc-s fi">
+              <div class="pc-head" data-char="银">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Silver</div>
+                <div class="pc-tag">Mulai belajar bersama, hemat biaya</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 2–5 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=small-group&paket=silver" class="pc-btn pc-ol">Pilih Silver Small Group</a>
+              </div>
+            </div>
+            <!-- Gold -->
+            <div class="pc pc-s fi" data-d="2">
+              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Gold</div>
+                <div class="pc-tag">Kelompok kecil, kemajuan lebih cepat</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 2–5 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=small-group&paket=gold" class="pc-btn pc-ol">Pilih Gold Small Group</a>
+              </div>
+            </div>
+            <!-- Platinum -->
+            <div class="pc pc-g fi" data-d="3">
+              <div class="pc-g-badge">★ Terpopuler</div>
+              <div class="pc-head" data-char="铂金">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Platinum</div>
+                <div class="pc-tag">Intensif &amp; kolaboratif</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 2–5 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=small-group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Small Group</a>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- GOLD -->
-        <div class="pc pc-g fi">
-          <div class="pc-g-badge">★ Terpopuler</div>
-          <div class="pc-head" data-char="金">
-            <div class="pc-tier">Paket</div>
-            <div class="pc-name">Gold</div>
-            <div class="pc-tag">Kelompok kecil, kemajuan lebih cepat</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 2–5 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-            <a href="pilih-jadwal.html?tipe=small-group&paket=gold" class="pc-btn pc-blue">Pilih Gold Small Group</a>
-          </div>
-        </div>
-        <!-- PLATINUM -->
-        <div class="pc pc-p fi">
-          <div class="pc-head" data-char="铂金">
-            <div class="pc-tier">Paket</div>
-            <div class="pc-name">Platinum</div>
-            <div class="pc-tag">Intensif & kolaboratif</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 2–5 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-            <a href="pilih-jadwal.html?tipe=small-group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Small Group</a>
-          </div>
-        </div>
+        <!-- Banner Intensif -->
+<div style="margin-top:40px;display:flex;justify-content:center;">
+  <div style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fff0f0,#ffe0e0);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🔥</div>
+      <div>
+        <p style="margin:0;font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;">Ingin belajar lebih cepat dan fokus?</p>
+        <p style="margin:2px 0 0;font-size:11px;font-weight:300;color:var(--ink-3);white-space:nowrap;">Coba program Kelas Intensif kami</p>
       </div>
     </div>
+    <a href="#intensif" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));window.scrollTo({top:0,behavior:'smooth'})"
+       style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:0.02em;">
+      Lihat Kelas Intensif
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
   </div>
 </div>
+      </div>
+    </div>
 
-<!-- Group -->
-<div id="prog-group" class="prog-tab-content">
-  <div id="group" class="prog-type-section">
-  <div class="prog-type-header">
-    <h2 class="heading-lg">Kelas Group</h2>
-    <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 6–10 siswa dengan harga paling ekonomis. Cocok untuk yang ingin membangun komunitas belajar sambil tetap dipandu pengajar.</p>
-  </div>
-  <div class="prog-grid-wrap"><div class="prog-grid">
-    <div class="pc pc-s fi">
-      <div class="pc-head" data-char="银">
-        <div class="pc-tier">Paket</div>
-        <div class="pc-name">Silver</div>
-        <div class="pc-tag">Cara paling ekonomis memulai Mandarin</div>
-      </div>
-      <div class="pc-stats">
-        <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
-        <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-      </div>
-      <div class="pc-body">
-        <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 6-10 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-        <a href="pilih-jadwal.html?tipe=group&paket=silver" class="pc-btn pc-ol">Pilih Silver Group</a>
+    <!-- ===== TAB: GROUP ===== -->
+    <div id="prog-group" class="prog-tab-content">
+      <div id="group" class="prog-type-section">
+        <div class="prog-type-header">
+          <h2 class="heading-lg">Kelas Group</h2>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 6–10 siswa dengan harga paling ekonomis. Cocok untuk yang ingin membangun komunitas belajar sambil tetap dipandu pengajar.</p>
+        </div>
+        <div class="prog-grid-wrap">
+          <div class="prog-grid">
+            <!-- Silver -->
+            <div class="pc pc-s fi">
+              <div class="pc-head" data-char="银">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Silver</div>
+                <div class="pc-tag">Cara paling ekonomis memulai Mandarin</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 6–10 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=group&paket=silver" class="pc-btn pc-ol">Pilih Silver Group</a>
+              </div>
+            </div>
+            <!-- Gold -->
+            <div class="pc pc-s fi" data-d="2">
+              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Gold</div>
+                <div class="pc-tag">Rutin belajar, harga paling terjangkau</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 6–10 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=group&paket=gold" class="pc-btn pc-ol">Pilih Gold Group</a>
+              </div>
+            </div>
+            <!-- Platinum -->
+            <div class="pc pc-g fi" data-d="3">
+              <div class="pc-g-badge">★ Terpopuler</div>
+              <div class="pc-head" data-char="铂金">
+                <div class="pc-tier">Paket</div>
+                <div class="pc-name">Platinum</div>
+                <div class="pc-tag">Intensif &amp; komunitas belajar aktif</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 6–10 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Group</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Banner Intensif -->
+<div style="margin-top:40px;display:flex;justify-content:center;">
+  <div style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fff0f0,#ffe0e0);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🔥</div>
+      <div>
+        <p style="margin:0;font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;">Ingin belajar lebih cepat dan fokus?</p>
+        <p style="margin:2px 0 0;font-size:11px;font-weight:300;color:var(--ink-3);white-space:nowrap;">Coba program Kelas Intensif kami</p>
       </div>
     </div>
-    <div class="pc pc-g fi">
-      <div class="pc-g-badge">★ Terpopuler</div>
-      <div class="pc-head" data-char="金">
-        <div class="pc-tier">Paket</div>
-        <div class="pc-name">Gold</div>
-        <div class="pc-tag">Rutin belajar, harga paling terjangkau</div>
-      </div>
-      <div class="pc-stats">
-        <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
-        <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-      </div>
-      <div class="pc-body">
-        <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 6-10 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-        <a href="pilih-jadwal.html?tipe=group&paket=gold" class="pc-btn pc-blue">Pilih Gold Group</a>
-      </div>
-    </div>
-    <div class="pc pc-p fi">
-      <div class="pc-head" data-char="铂金">
-        <div class="pc-tier">Paket</div>
-        <div class="pc-name">Platinum</div>
-        <div class="pc-tag">Intensif & komunitas belajar yang aktif</div>
-      </div>
-      <div class="pc-stats">
-        <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
-        <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
-      </div>
-      <div class="pc-body">
-        <ul class="pc-list">
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 6-10 siswa</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
-  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-</ul>
-        <a href="pilih-jadwal.html?tipe=group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Group</a>
-      </div>
-    </div>
-  </div></div>
+    <a href="#intensif" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));window.scrollTo({top:0,behavior:'smooth'})"
+       style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:0.02em;">
+      Lihat Kelas Intensif
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
   </div>
 </div>
-<div style="margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 28px;background:linear-gradient(135deg,#fff7ed,#fff0f0);border:1.5px solid #FFBDBD;border-radius:16px;flex-wrap:wrap;">
-  <div style="display:flex;align-items:center;gap:6px">
-    <span style="font-size:20px">🔥</span>
-    <div>
-      <p style="font-size:14px;font-weight:600;color:var(--ink);margin:0">Ingin belajar lebih cepat dan fokus?</p>
-      <p style="font-size:12px;font-weight:300;color:var(--ink-3);margin:2px 0 0">Coba program Kelas Intensif kami</p>
+      </div>
     </div>
-  </div>
-  <a href="program.html#intensif" onclick="switchProgTab('intensif', document.querySelector('[data-tab=intensif]'))"
-     style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0">
-    Lihat Kelas Intensif →
-  </a>
-</div>
 
-<!-- Kelas Intensif -->
-<div id="prog-intensif" class="prog-tab-content">
-  <div id="intensif" class="prog-type-section">
-    <div class="prog-type-header">
-      <h2 class="heading-lg">Kelas <span>Intensif</span></h2>
-      <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">
-        Program belajar yang lebih padat dan terstruktur. Cocok untuk kamu yang punya target waktu atau persiapan ujian HSK.
-      </p>
-    </div>
-    <div class="prog-grid-wrap">
-      <div class="prog-grid">
-        <!-- Silver Intensif -->
-        <div class="pc pc-s fi">
-          <div class="pc-head" data-char="银">
-            <div class="pc-tier">Intensif</div>
-            <div class="pc-name">Silver</div>
-            <div class="pc-tag">Mulai intensif, tetap terjangkau</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu, 90 menit tiap sesi</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook & modul digital</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-            </ul>
-            <a href="pilih-jadwal.html?tipe=intensif&paket=silver" class="pc-btn pc-ol">Pilih Silver Intensif</a>
-          </div>
+    <!-- ===== TAB: INTENSIF ===== -->
+    <div id="prog-intensif" class="prog-tab-content">
+      <div id="intensif" class="prog-type-section">
+        <div class="prog-type-header">
+          <h2 class="heading-lg">Kelas <span>Intensif</span></h2>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Program belajar lebih padat dan terstruktur. Cocok untuk kamu yang punya target waktu singkat atau persiapan ujian HSK.</p>
         </div>
-        <!-- Gold Intensif -->
-        <div class="pc pc-g fi" data-d="2">
-          <div class="pc-g-badge">★ Terpopuler</div>
-          <div class="pc-head" data-char="金">
-            <div class="pc-tier">Intensif</div>
-            <div class="pc-name">Gold</div>
-            <div class="pc-tag">Progres cepat, hasil nyata</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu, 90 menit tiap sesi</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook & modul digital</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-            </ul>
-            <a href="pilih-jadwal.html?tipe=intensif&paket=gold" class="pc-btn pc-blue">Pilih Gold Intensif</a>
-          </div>
-        </div>
-        <!-- Platinum Intensif -->
-        <div class="pc pc-p fi" data-d="3">
-          <div class="pc-head" data-char="铂金">
-            <div class="pc-tier">Intensif</div>
-            <div class="pc-name">Platinum</div>
-            <div class="pc-tag">Maksimal & siap ujian HSK</div>
-          </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-stat-n">16×</div><div class="pc-stat-l">Pertemuan</div></div>
-            <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
-          </div>
-          <div class="pc-body">
-            <ul class="pc-list">
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>4 sesi per minggu, 90 menit tiap sesi</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook & modul digital</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat + persiapan HSK</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
-              <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
-            </ul>
-            <a href="pilih-jadwal.html?tipe=intensif&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Intensif</a>
+        <div class="prog-grid-wrap">
+          <div class="prog-grid-4">
+
+            <!-- Bronze Intensif -->
+            <div class="pc pc-s fi">
+              <div class="pc-head" data-char="初">
+                <div class="pc-tier">Intensif</div>
+                <div class="pc-name">Bronze</div>
+                <div class="pc-tag">Awal yang lebih cepat</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">580.000</span></div>
+                <div class="pc-price-note">per bulan · 4 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi bulanan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=intensif&paket=bronze" class="pc-btn pc-ol">Pilih Bronze Intensif</a>
+              </div>
+            </div>
+
+            <!-- Silver Intensif -->
+            <div class="pc pc-s fi" data-d="1">
+              <div class="pc-head" data-char="银">
+                <div class="pc-tier">Intensif</div>
+                <div class="pc-name">Silver</div>
+                <div class="pc-tag">Mulai intensif, tetap terjangkau</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">980.000</span></div>
+                <div class="pc-price-note">per bulan · 8 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=intensif&paket=silver" class="pc-btn pc-ol">Pilih Silver Intensif</a>
+              </div>
+            </div>
+
+            <!-- Gold Intensif -->
+            <div class="pc pc-s fi" data-d="2">
+              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+                <div class="pc-tier">Intensif</div>
+                <div class="pc-name">Gold</div>
+                <div class="pc-tag">Progres cepat, hasil nyata</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.380.000</span></div>
+                <div class="pc-price-note">per bulan · 12 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=intensif&paket=gold" class="pc-btn pc-ol">Pilih Gold Intensif</a>
+              </div>
+            </div>
+
+            <!-- Platinum Intensif -->
+            <div class="pc pc-g fi" data-d="3">
+              <div class="pc-g-badge">★ Terpopuler</div>
+              <div class="pc-head" data-char="铂金">
+                <div class="pc-tier">Intensif</div>
+                <div class="pc-name">Platinum</div>
+                <div class="pc-tag">Maksimal &amp; siap ujian HSK</div>
+              </div>
+              <div class="pc-stats">
+                <div class="pc-stat"><div class="pc-stat-n">16×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+              </div>
+              <div class="pc-price-wrap">
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.750.000</span></div>
+                <div class="pc-price-note">per bulan · 16 pertemuan</div>
+              </div>
+              <div class="pc-body">
+                <ul class="pc-list">
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>4 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat + persiapan HSK</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                </ul>
+                <a href="pilih-jadwal.html?tipe=intensif&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Intensif</a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
+
   </div>
-</div>
-</div>
 </section>
 
+<!-- COMPARISON TABLE -->
 <section class="sec sec-soft">
   <div class="container">
     <div class="tc-text fi" style="margin-bottom:36px"><div class="tag tag-center">Perbandingan</div><h2 class="heading-lg" style="margin-top:12px">Tabel <span>Perbandingan</span> Paket</h2></div>
     <div class="fi" style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm)">
-        <thead><tr style="background:var(--ink)"><th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th><th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Silver</th><th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">Gold</th><th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Platinum</th></tr></thead>
+        <thead><tr style="background:var(--ink)">
+          <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
+          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Silver</th>
+          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">Gold</th>
+          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Platinum</th>
+        </tr></thead>
         <tbody>
           <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td><td style="padding:14px 22px;text-align:center;font-weight:600">1×</td><td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">2×</td><td style="padding:14px 22px;text-align:center;font-weight:600">3×</td></tr>
           <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sertifikat</td><td style="padding:14px 22px;text-align:center;font-size:13px">Gratis E-Certificate</td><td style="padding:14px 22px;text-align:center;font-size:13px;background:var(--blue-soft);font-weight:600;color:var(--blue)">Gratis E-Certificate</td><td style="padding:14px 22px;text-align:center;font-size:13px;font-weight:600">Gratis E-Certificate</td></tr>
@@ -463,6 +655,7 @@
   </div>
 </section>
 
+<!-- CTA -->
 <section class="cta-sec">
   <div class="container">
     <div class="cta-inner fi">
@@ -477,6 +670,7 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -502,6 +696,7 @@
           <a href="program.html" class="f-link">Paket Silver</a>
           <a href="program.html" class="f-link">Paket Gold</a>
           <a href="program.html" class="f-link">Paket Platinum</a>
+          <a href="program.html#intensif" class="f-link">Kelas Intensif</a>
         </div>
       </div>
       <div>
