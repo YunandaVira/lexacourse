@@ -379,7 +379,7 @@ button{cursor:pointer;font-family:var(--font)}
 .hero-kicker-bar { width: 20px; height: 2px; background: var(--blue); border-radius: 1px; }
 
 .hero-h1 {
-  font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+  font-size: clamp(1.4rem, 3.5vw, 2.5rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -391,7 +391,7 @@ button{cursor:pointer;font-family:var(--font)}
 .hero-price {
   display: block;
   color: #820000; /* kuning soft, biar ga norak */
-  font-size: clamp(2rem, 3.5vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.7vw, 1.5rem);
   font-weight: 800;
   margin-top: 8px;
   
@@ -1301,7 +1301,7 @@ button{cursor:pointer;font-family:var(--font)}
 @media (max-width:768px) {
   .hero-wrap { height:clamp(320px,52vw,480px) }
   .hero-up { margin-top:-60px }
-  .hero-h1 { font-size:2.2rem }
+  .hero-h1 { font-size:2rem }
   .hero-stats { flex-direction:column; border-top:none; padding-top:16px }
   .hs-item { width:100%; padding:10px 0 !important; border-bottom:1px solid var(--line) !important }
   .hs-item:last-child { border-bottom:none !important }
