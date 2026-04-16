@@ -675,11 +675,11 @@ button{cursor:pointer;font-family:var(--font)}
 }
 
 /* Default (Silver & Platinum): subtle border */
-.pc-s, .pc-p {
+.pc-s, .pc-p, .pc-b {
   border: 1px solid var(--line);
   box-shadow: var(--sh-sm);
 }
-.pc-s:hover, .pc-p:hover {
+.pc-s:hover, .pc-p:hover, .pc-b:hover {
   transform: translateY(-8px);
   box-shadow: var(--sh-lg);
   border-color: var(--blue-mid);
@@ -697,7 +697,6 @@ button{cursor:pointer;font-family:var(--font)}
   box-shadow: 0 28px 80px rgba(130,0,0,0.28), 0 10px 32px rgba(130,0,0,0.18);
 }
 
-/* "Terpopuler" badge on Gold */
 /* "Terpopuler" badge on Gold */
 .pc-g::before {
   display: none;
