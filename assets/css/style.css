@@ -391,7 +391,7 @@ button{cursor:pointer;font-family:var(--font)}
 .hero-price {
   display: block;
   color: #820000; /* kuning soft, biar ga norak */
-  font-size: clamp(1.5rem, 2.9vw, 1.7rem);
+  font-size: clamp(1.5rem, 2.4vw, 1.5rem);
   font-weight: 800;
   margin-top: 12px;
   margin-bottom: 12px;
