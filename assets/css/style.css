@@ -1587,7 +1587,15 @@ button{cursor:pointer;font-family:var(--font)}
 .prog-tab-content { display: none; }
 .prog-tab-content.on { display: block; animation: fy 0.35s var(--ease); }
 
+@media (max-width: 768px) {
+  #price {
+    font-size: 24px; /* sesuaikan, coba 22px–28px */
+  }
 
+  .hero-price {
+    font-size: 24px;
+  }
+}
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    PRICE DISPLAY IN CARDS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
