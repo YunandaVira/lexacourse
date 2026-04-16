@@ -1238,7 +1238,7 @@ button{cursor:pointer;font-family:var(--font)}
 .f-cn { font-family:var(--font-cn); font-size:12px; color:rgba(255,255,255,0.14) }
 
 /* ── WHATSAPP FLOAT ── */
-.wa-float { position:fixed; bottom:18px; right:18px; z-index:600 }
+.wa-float { position:fixed; bottom:12px; right:18px; z-index:600 }
 .wa-btn {
   width:54px; height:54px; background:#25D366; border-radius:50%;
   display:flex; align-items:center; justify-content:center; text-decoration:none;
@@ -1331,7 +1331,7 @@ button{cursor:pointer;font-family:var(--font)}
   .booking-panel { padding:28px 20px }
   .pkg-grid { grid-template-columns:1fr }
   .schedule-row { grid-template-columns:1fr }
-  .wa-float { bottom:20px; right:20px }
+  .wa-float { bottom:0px; right:20px }
   .back-top { bottom:84px; right:20px }
   .nav-links { display:none }
   .hamburger { display:flex }
@@ -2151,3 +2151,4 @@ body     { overflow-x: hidden; }
   display: block;
   margin-bottom: 0px;
 }
+
