@@ -1589,7 +1589,7 @@ button{cursor:pointer;font-family:var(--font)}
 
 @media (max-width: 768px) {
   #price {
-    font-size: 24px; /* sesuaikan, coba 22px–28px */
+    font-size: 90px; /* sesuaikan, coba 22px–28px */
   }
 
   .hero-price {
