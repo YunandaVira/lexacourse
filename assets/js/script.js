@@ -581,7 +581,7 @@ window.switchProgTab = function(id, btn) {
 // Auto-activate tab from URL hash
 (function(){
   const hash = location.hash.replace('#','');
-  const map  = { 'private': 'private', 'small-group': 'small-group', 'group': 'group' };
+  const map  = { 'private': 'private', 'small-group': 'small-group', 'group': 'group', 'intensif': 'intensif' };
   const tab  = map[hash] || 'private';
   const btn  = document.querySelector(`.prog-tab[data-tab="${tab}"]`);
   if(btn) btn.click();
@@ -605,7 +605,7 @@ window.switchProgTab = function(id, btn){
 (function(){
   if(!document.querySelector('.prog-tabs')) return;
   const hash = location.hash.replace('#','');
-  const valid = ['private','small-group','group'];
+  const valid = ['private','small-group','group','intensif'];
   const tab   = valid.includes(hash) ? hash : 'private';
   const btn   = document.querySelector(`.prog-tab[data-tab="${tab}"]`);
   if(btn){ btn.classList.add('on'); }

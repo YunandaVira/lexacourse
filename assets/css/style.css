@@ -52,7 +52,7 @@ button{cursor:pointer;font-family:var(--font)}
 
 /* ── LAYOUT ── */
 .container{max-width:1160px;margin:0 auto;padding:0 24px}
-.sec{padding:88px 0}
+.sec{padding:90px 0}
 .sec-soft{background:var(--surface)}
 
 /* ── TYPOGRAPHY SCALE ──
@@ -354,9 +354,9 @@ button{cursor:pointer;font-family:var(--font)}
 }
 
 /* ── HERO CONTENT ── */
-.hero-sec { background: var(--white); padding: 0 0 88px; }
+.hero-sec { background: var(--white); padding: 0 0 90px; }
 .hero-up { margin-top: -100px; position: relative; z-index: 2; }
-.hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: start; }
+.hero-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: 20px; align-items: start; }
 
 @keyframes fy { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none} }
 @keyframes fi { from{opacity:0}to{opacity:1} }
@@ -379,7 +379,7 @@ button{cursor:pointer;font-family:var(--font)}
 .hero-kicker-bar { width: 20px; height: 2px; background: var(--blue); border-radius: 1px; }
 
 .hero-h1 {
-  font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.8rem, 3.9vw, 2.9rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -391,26 +391,35 @@ button{cursor:pointer;font-family:var(--font)}
 .hero-price {
   display: block;
   color: #820000; /* kuning soft, biar ga norak */
-  font-size: clamp(1.3rem, 2.7vw, 1.5rem);
+  font-size: clamp(1.5rem, 2.9vw, 1.7rem);
   font-weight: 800;
-  margin-top: 8px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   
 }
 
+.price-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .hero-line {
-  width: 120px; height: 3px;
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* jarak dari teks */
+  width: 100%;
+  height: 3px;
   background: linear-gradient(90deg, var(--blue-dark), var(--white));
   border-radius: 2px;
-  margin-top: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 9px;
 }
 
 .hero-p {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
   line-height: 1.85;
   color: var(--ink-2);
-  max-width: 460px;
+  max-width: 500px;
   margin-bottom: 34px;
 }
 
@@ -437,7 +446,7 @@ button{cursor:pointer;font-family:var(--font)}
 }
 
 /* ── 3D CARD SLIDER ── */
-.sl-wrap  { width:100%; display:flex; justify-content:center; padding-top:8px ; margin-top:140px ; }
+.sl-wrap  { width:100%; display:flex; justify-content:center; padding-top:8px ; margin-top:40px ; }
 .sl-root  { width:100%; max-width:440px; padding:20px 0 28px }
 .sl-stage { height:320px; display:flex; align-items:center; justify-content:center; perspective:1000px; overflow:visible; position:relative }
 .sl-track { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center }
@@ -724,6 +733,11 @@ button{cursor:pointer;font-family:var(--font)}
 }
 
 /* Silver header */
+.pc-b .pc-head {
+  background: linear-gradient(145deg, #341c15 0%, #4f2a1f 50%, #7f4c3d 100%);
+}
+.pc-b .pc-head::before { color: rgba(255,255,255,0.08); }
+
 .pc-s .pc-head {
   background: linear-gradient(145deg, #475569 0%, #64748b 50%, #94a3b8 100%);
 }
@@ -731,13 +745,13 @@ button{cursor:pointer;font-family:var(--font)}
 
 /* Gold header */
 .pc-g .pc-head {
-  background: linear-gradient(145deg, #92400e 0%, #b45309 40%, #d97706 80%, #f59e0b 100%);
+  background: linear-gradient(145deg, #171616 0%, #1a1715 40%, #585149 80%, #b4b0aa 100%);
 }
 .pc-g .pc-head::before { color: rgba(255,255,255,0.09); }
 
 /* Platinum header */
 .pc-p .pc-head {
-  background: linear-gradient(145deg, #3d0000 0%, #820000 50%, #c04040 100%);
+  background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%);
 }
 .pc-p .pc-head::before { color: rgba(255,255,255,0.08); }
 
@@ -799,7 +813,7 @@ button{cursor:pointer;font-family:var(--font)}
 .pc-stat-n {
   font-size: 1.7rem;
   font-weight: 700;
-  color: var(--blue);
+  color: var(--ink);
   line-height: 1;
   letter-spacing: -0.02em;
   margin-bottom: 3px;
@@ -845,9 +859,9 @@ button{cursor:pointer;font-family:var(--font)}
 
 /* Featured Gold check — blue bg */
 .pc-g .pc-ck {
-  background: var(--blue);
+  background: var(--blue-soft);
 }
-.pc-g .pc-ck svg { stroke: var(--white); }
+.pc-g .pc-ck svg { stroke: var(--blue-deep); }
 
 .pc-btn {
   display: block;
@@ -893,7 +907,7 @@ button{cursor:pointer;font-family:var(--font)}
 .pc-g .pc-body {
   background: linear-gradient(180deg, #fff0f0 0%, var(--white) 60%);
 }
-.pc-g .pc-stat-n { color: var(--blue); }
+.pc-g .pc-stat-n { color: var(--ink); }
 .pc-g .pc-li { color: var(--ink); }
 
 /* prog-grid wrapper: extra padding-top to accommodate Gold's upward shift + badge */
@@ -1024,7 +1038,7 @@ button{cursor:pointer;font-family:var(--font)}
 /* ── CTA SECTION ── */
 .cta-sec {
   background: var(--blue);
-  padding: 88px 0; text-align: center;
+  padding: 20px 0; text-align: center;
   position: relative; overflow: hidden;
 }
 .cta-sec::before {
@@ -1224,7 +1238,7 @@ button{cursor:pointer;font-family:var(--font)}
 .f-cn { font-family:var(--font-cn); font-size:12px; color:rgba(255,255,255,0.14) }
 
 /* ── WHATSAPP FLOAT ── */
-.wa-float { position:fixed; bottom:28px; right:28px; z-index:600 }
+.wa-float { position:fixed; bottom:18px; right:18px; z-index:600 }
 .wa-btn {
   width:54px; height:54px; background:#25D366; border-radius:50%;
   display:flex; align-items:center; justify-content:center; text-decoration:none;
@@ -1544,7 +1558,7 @@ button{cursor:pointer;font-family:var(--font)}
   padding: 6px;
   border-radius: 100px;
   width: fit-content;
-  margin: 0 auto 56px;
+  margin: 0 auto 0px;
   border: 1px solid var(--line);
 }
 .prog-tab {
@@ -1591,16 +1605,16 @@ button{cursor:pointer;font-family:var(--font)}
 .pc-price-curr {
   font-size: 14px;
   font-weight: 600;
-  color: var(--ink-3);
+  color: var(--gold);
 }
 .pc-price-num {
   font-size: 1.9rem;
   font-weight: 800;
-  color: var(--ink);
+  color: var(--ink-2);
   letter-spacing: -0.03em;
   line-height: 1;
 }
-.pc-g .pc-price-num { color: var(--blue); }
+.pc-g .pc-price-num { color: var(--ink-2); }
 .pc-price-per {
   font-size: 12px;
   font-weight: 400;
@@ -1737,7 +1751,7 @@ button{cursor:pointer;font-family:var(--font)}
 
 /* ── PROGRAM TYPE SECTION ── */
 .prog-type-section { margin-bottom: 0; }
-.prog-type-header  { margin-bottom: 40px; }
+.prog-type-header  { margin-bottom: 0px; }
 
 /* Gold "Terpopuler" ribbon — reposition since we removed ::before */
 .pc { position: relative; }
@@ -1769,12 +1783,12 @@ button{cursor:pointer;font-family:var(--font)}
 .pc-price {
   display: flex; align-items: baseline; gap: 3px; margin-bottom: 3px;
 }
-.pc-price-curr { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.pc-price-curr { font-size: 14px; font-weight: 600; color: #475a747e; }
 .pc-price-num  {
-  font-size: 2rem; font-weight: 800; color: var(--ink);
+  font-size: 2rem; font-weight: 800; color: #475a747e;
   letter-spacing: -0.03em; line-height: 1;
 }
-.pc-g .pc-price-num { color: var(--blue); }
+.pc-g .pc-price-num { color: #475a747e; }
 .pc-price-note { font-size: 11px; font-weight: 400; color: var(--ink-4); line-height: 1.5; }
 
 /* ── PROG TABS ── */

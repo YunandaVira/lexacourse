@@ -107,6 +107,34 @@
       }
       .intensif-banner-btn { width: 100%; justify-content: center; }
     }
+    /* FIX MOBILE OVERFLOW */
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Fix banner intensif di mobile */
+@media (max-width: 640px) {
+  .intensif-pill {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  .intensif-pill p {
+    white-space: normal !important;
+  }
+  .intensif-pill a {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
   </style>
 </head>
 <body>
@@ -130,15 +158,15 @@
           <svg class="drop-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
         </span>
         <div class="dropdown">
-          <a href="program.html#private" class="drop-item">
+          <a href="program.html#private" class="drop-item"onclick="goToProgram(event, 'private')">
             <div class="drop-icon" style="background:#FFF0F0;color:#820000"><img src="assets/images/emot/user.png" width="16"></div>
             <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
           </a>
-          <a href="program.html#small-group" class="drop-item">
+          <a href="program.html#small-group" class="drop-item"onclick="goToProgram(event, 'small-group')">
             <div class="drop-icon" style="background:#FFF7ED;color:#b45309"><img src="assets/images/emot/group.png" width="20"></div>
             <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
           </a>
-          <a href="program.html#group" class="drop-item">
+          <a href="program.html#group" class="drop-item"onclick="goToProgram(event, 'group')">
             <div class="drop-icon" style="background:#F0FFF4;color:#16a34a"><img src="assets/images/emot/group2.png" width="18"></div>
             <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
           </a>
@@ -206,7 +234,7 @@
                 <div class="pc-tag">Langkah awal yang sempurna</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">4</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
@@ -227,13 +255,13 @@
             </div>
             <!-- Gold -->
             <div class="pc pc-s fi" data-d="2">
-              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+              <div class="pc-head" data-char="金" style="background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%)">
                 <div class="pc-tier">Paket</div>
                 <div class="pc-name">Gold</div>
                 <div class="pc-tag">Intensitas optimal, hasil cepat</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">8</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
@@ -261,7 +289,7 @@
                 <div class="pc-tag">Kelas lebih intensif, hasil maksimal</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">12</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
@@ -284,7 +312,7 @@
         </div>
         <!-- Banner Intensif -->
 <div style="margin-top:40px;display:flex;justify-content:center;">
-  <div style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);">
+  <div class="intensif-pill" style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);max-width:100%;box-sizing:border-box;">
     <div style="display:flex;align-items:center;gap:10px;">
       <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fff0f0,#ffe0e0);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🔥</div>
       <div>
@@ -319,7 +347,7 @@
                 <div class="pc-tag">Mulai belajar bersama, hemat biaya</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">4</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -336,13 +364,13 @@
             </div>
             <!-- Gold -->
             <div class="pc pc-s fi" data-d="2">
-              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+              <div class="pc-head" data-char="金" style="background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%)">
                 <div class="pc-tier">Paket</div>
                 <div class="pc-name">Gold</div>
                 <div class="pc-tag">Kelompok kecil, kemajuan lebih cepat</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">8</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -366,7 +394,7 @@
                 <div class="pc-tag">Intensif &amp; kolaboratif</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">12</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -394,7 +422,7 @@
       </div>
     </div>
     <a href="#intensif" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));window.scrollTo({top:0,behavior:'smooth'})"
-       style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:9px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:0.02em;">
+       class="intensif-pill" style="display:inline-flex;align-items:center;gap:20px;padding:14px 24px 14px 18px;background:var(--white);border:1.5px solid #FFBDBD;border-radius:100px;box-shadow:0 4px 20px rgba(130,0,0,0.08);max-width:100%;box-sizing:border-box;">
       Lihat Kelas Intensif
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -420,7 +448,7 @@
                 <div class="pc-tag">Cara paling ekonomis memulai Mandarin</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">4</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -437,13 +465,13 @@
             </div>
             <!-- Gold -->
             <div class="pc pc-s fi" data-d="2">
-              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+              <div class="pc-head" data-char="金" style="background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%)">
                 <div class="pc-tier">Paket</div>
                 <div class="pc-name">Gold</div>
                 <div class="pc-tag">Rutin belajar, harga paling terjangkau</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">8</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -467,7 +495,7 @@
                 <div class="pc-tag">Intensif &amp; komunitas belajar aktif</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">12</div><div class="pc-stat-l">Jam</div></div>
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-body">
@@ -515,15 +543,15 @@
           <div class="prog-grid-4">
 
             <!-- Bronze Intensif -->
-            <div class="pc pc-s fi">
+            <div class="pc pc-b fi">
               <div class="pc-head" data-char="初">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Bronze</div>
                 <div class="pc-tag">Awal yang lebih cepat</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">4×</div><div class="pc-stat-l">Pertemuan</div></div>
-                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">4</div><div class="pc-stat-l">Jam</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">580.000</span></div>
@@ -549,8 +577,8 @@
                 <div class="pc-tag">Mulai intensif, tetap terjangkau</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">8×</div><div class="pc-stat-l">Pertemuan</div></div>
-                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">8</div><div class="pc-stat-l">Jam</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">980.000</span></div>
@@ -570,14 +598,14 @@
 
             <!-- Gold Intensif -->
             <div class="pc pc-s fi" data-d="2">
-              <div class="pc-head" data-char="金" style="background:linear-gradient(145deg,#92400e 0%,#b45309 40%,#d97706 80%,#f59e0b 100%)">
+              <div class="pc-head" data-char="金" style="background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%)">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Gold</div>
                 <div class="pc-tag">Progres cepat, hasil nyata</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">12×</div><div class="pc-stat-l">Pertemuan</div></div>
-                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">12</div><div class="pc-stat-l">Jam</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.380.000</span></div>
@@ -604,8 +632,8 @@
                 <div class="pc-tag">Maksimal &amp; siap ujian HSK</div>
               </div>
               <div class="pc-stats">
-                <div class="pc-stat"><div class="pc-stat-n">16×</div><div class="pc-stat-l">Pertemuan</div></div>
-                <div class="pc-stat"><div class="pc-stat-n">90</div><div class="pc-stat-l">Menit / Sesi</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">16</div><div class="pc-stat-l">Jam</div></div>
+                <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.750.000</span></div>
