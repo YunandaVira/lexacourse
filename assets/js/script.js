@@ -220,106 +220,190 @@ function getGuruImgHtml(nama) {
     "
   />`;
 }
-  /* ── Render daftar guru dari API ── */
-async function renderTeacherOptions(){
-  const wrap = document.getElementById('teacher-options-wrap');
-  if(!wrap) return;
+  /* ── Cache level guru dari sheet Level-Laoshi ── */
+  let levelLaoshiCache = null; // { "Merki": ["HSK 1","HSK 2",...], ... }
 
-  // Kumpulkan semua hari+jam yang dipilih
-  const n     = data.sessions || 1;
-  const slots = [];
-  for(let i = 0; i < n; i++){
-    const h = document.getElementById('hari'+i)?.value;
-    const j = document.getElementById('jam'+i)?.value;
-    if(h && j) slots.push({ hari: HARI_MAP[h] || h, jam: j });
+  async function fetchLevelLaoshi() {
+    if (levelLaoshiCache) return levelLaoshiCache;
+    try {
+      const res  = await fetch(`${API_URL}?action=getlevel`);
+      const json = await res.json();
+      levelLaoshiCache = json.data || {};
+    } catch(e) {
+      levelLaoshiCache = {};
+    }
+    return levelLaoshiCache;
   }
 
-  // Jika API belum dikonfigurasi, tampilkan guru statis
-  if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
-    renderStaticTeachers(wrap);
-    return;
+  // Cocokkan tujuan user dengan level yang dimiliki guru
+  // Tujuan user contoh: "HSK 3", "Speaking", "Basic (Belum Pernah)"
+  // Level di sheet contoh: "HSK 3", "HSKK 1", "YCT 1", "Taiwan", "BCT 1"
+  function guruCocokTujuan(levelGuru, tujuanUser) {
+    if (!levelGuru || levelGuru.length === 0) return true;
+    if (!tujuanUser) return true;
+
+    const t = tujuanUser.toLowerCase().trim();
+
+    // ✅ Tujuan umum: semua guru bisa mengajar, cukup cek jadwal saja
+    const tujuanUmum = ['basic (belum pernah)', 'speaking', 'writing', 'listening'];
+    if (tujuanUmum.includes(t)) return true;
+
+    // Sisanya tetap cek level di sheet
+    const mappingTujuan = {
+      'hsk 1':  ['hsk 1'],
+      'hsk 2':  ['hsk 2'],
+      'hsk 3':  ['hsk 3'],
+      'hsk 4':  ['hsk 4'],
+      'hsk 5':  ['hsk 5'],
+      'hsk 6':  ['hsk 6'],
+      'hskk 1': ['hskk 1'],
+      'hskk 2': ['hskk 2'],
+      'hskk 3': ['hskk 3'],
+      'hskk 4': ['hskk 4'],
+      'yct 1':  ['yct 1'],
+      'yct 2':  ['yct 2'],
+      'yct 3':  ['yct 3'],
+      'yct 4':  ['yct 4'],
+      'yct 5':  ['yct 5'],
+      'yct 6':  ['yct 6'],
+      'bct 1':  ['bct 1'],
+      'bct 2':  ['bct 2'],
+      'bct 3':  ['bct 3'],
+    };
+
+    const targetKolom = mappingTujuan[t] || [t];
+    return levelGuru.some(lvl =>
+      targetKolom.some(target => lvl.toLowerCase().trim() === target)
+    );
   }
 
-  // Pastikan semua sesi sudah diisi
-  if(slots.length < n){
-    wrap.innerHTML = `<div class="teacher-empty">
-      <div style="font-size:2rem;margin-bottom:10px">⚠️</div>
-      <div style="font-size:15px;font-weight:600;color:var(--ink)">Lengkapi semua jadwal</div>
-      <div style="font-size:13px;font-weight:300;color:var(--ink-3)">Pilih hari dan jam untuk semua sesi terlebih dahulu.</div>
-    </div>`;
-    return;
+  // Render badge level untuk card guru (tampilkan maks 4)
+  function renderLevelBadges(levelGuru) {
+    if (!levelGuru || levelGuru.length === 0) return '';
+    const shown = levelGuru.slice(0, 4);
+    const sisa  = levelGuru.length - shown.length;
+    return shown.map(l => `<span class="guru-level-badge">${l}</span>`).join('')
+      + (sisa > 0 ? `<span class="guru-level-badge guru-level-more">+${sisa}</span>` : '');
   }
 
-  wrap.innerHTML = `<div class="teacher-loading">
-    <div class="spinner" style="border-color:rgba(39,117,240,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
-    <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
-  </div>`;
-
-  try {
-    // ✅ FIX: Bangun URL dengan SEMUA slot (hari1, jam1, hari2, jam2, dst)
-    const params = new URLSearchParams({ action: 'check' });
-    slots.forEach((slot, i) => {
-      params.append(`hari${i + 1}`, slot.hari);
-      params.append(`jam${i + 1}`,  slot.jam);
-    });
-
-    const res       = await fetch(`${API_URL}?${params.toString()}`);
-    const json      = await res.json();
- const available = json.tersedia || [];
-
-    // ✅ Tentukan apakah perlu tampilkan card "rekomendasi admin"
-    const showAdminCard = available.length === 0 || available.length === 1;
-
-    if(available.length === 0){
-      wrap.innerHTML = `<div class="teacher-empty">
-        <div style="font-size:2rem;margin-bottom:10px">😕</div>
-        <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">Tidak Ada Pengajar Tersedia</div>
-        <div style="font-size:13px;font-weight:300;color:var(--ink-3)">
-          Tidak ada pengajar yang tersedia untuk semua jadwal yang dipilih.<br>
-          Silakan kembali dan pilih jadwal lain, atau minta rekomendasi admin.
+  /* ── Card rekomendasi admin ── */
+  function adminCard(){
+    return `
+      <div class="teacher-opt guru-card-full" data-teacher="rekomendasi admin" onclick="selectTeacher(this)"
+        style="border-style:dashed; opacity:0.85;">
+        <div class="guru-card-foto-wrap" style="font-size:2.5rem;display:flex;align-items:center;justify-content:center">🙋</div>
+        <div class="guru-card-info">
+          <div class="guru-card-nama" style="color:var(--ink-3)">Ingin Laoshi lain?</div>
+          <div class="guru-card-bio">Tidak menemukan yang cocok? Tim kami siap membantu mencarikan pengajar terbaik.</div>
+          <div class="guru-card-status" style="color:var(--ink-4)">✉️ Minta rekomendasi admin</div>
         </div>
-      </div>
-      <div class="teacher-opts">
-        ${adminCard()}
+      </div>`;
+  }
+
+  /* ── Render daftar guru dari API + filter level dari sheet ── */
+  async function renderTeacherOptions(){
+    const wrap = document.getElementById('teacher-options-wrap');
+    if(!wrap) return;
+
+    // Kumpulkan semua hari+jam yang dipilih
+    const n     = data.sessions || 1;
+    const slots = [];
+    for(let i = 0; i < n; i++){
+      const h = document.getElementById('hari'+i)?.value;
+      const j = document.getElementById('jam'+i)?.value;
+      if(h && j) slots.push({ hari: HARI_MAP[h] || h, jam: j });
+    }
+
+    // Jika API belum dikonfigurasi, tampilkan guru statis
+    if(API_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL'){
+      renderStaticTeachers(wrap);
+      return;
+    }
+
+    // Pastikan semua sesi sudah diisi
+    if(slots.length < n){
+      wrap.innerHTML = `<div class="teacher-empty">
+        <div style="font-size:2rem;margin-bottom:10px">⚠️</div>
+        <div style="font-size:15px;font-weight:600;color:var(--ink)">Lengkapi semua jadwal</div>
+        <div style="font-size:13px;font-weight:300;color:var(--ink-3)">Pilih hari dan jam untuk semua sesi terlebih dahulu.</div>
       </div>`;
       return;
     }
 
-    // Render guru yang tersedia + admin card jika perlu
-    wrap.innerHTML = `
-      <div style="font-size:13px;font-weight:500;color:var(--ink-3);margin-bottom:16px">
-        ✅ <strong style="color:var(--blue)">${available.length} pengajar tersedia</strong> untuk semua jadwal yang Anda pilih:
-      </div>
-      <div class="teacher-opts">
-        ${available.map(nama => `
-          <div class="teacher-opt" data-teacher="${nama}" onclick="selectTeacher(this)">
-            <div class="teacher-av">
-${getGuruImgHtml(nama)}
-            </div>
-            <div class="teacher-nm">Laoshi ${nama}</div>
-            <div class="teacher-sp" style="color:var(--blue);font-weight:500;font-size:11px">✓ Tersedia semua sesi</div>
+    wrap.innerHTML = `<div class="teacher-loading">
+      <div class="spinner" style="border-color:rgba(130,0,0,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
+      <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
+    </div>`;
+
+    try {
+      // STEP 1: Fetch ketersediaan jadwal + data level secara paralel
+      const params = new URLSearchParams({ action: 'check' });
+      slots.forEach((slot, i) => {
+        params.append(`hari${i + 1}`, slot.hari);
+        params.append(`jam${i + 1}`,  slot.jam);
+      });
+
+      const [resJadwal, levelData] = await Promise.all([
+        fetch(`${API_URL}?${params.toString()}`).then(r => r.json()),
+        fetchLevelLaoshi()
+      ]);
+
+      const tersediaJadwal = resJadwal.tersedia || [];
+
+      // STEP 2: Filter berdasarkan level/tujuan yang dipilih user
+      const tujuan = data.tujuan || '';
+      const tersediaFinal = tersediaJadwal.filter(nama => {
+        // Cari level guru di data sheet — coba match nama dengan/tanpa suffix " - Taiwan" dll
+        const levelGuru = levelData[nama]
+          || levelData[Object.keys(levelData).find(k => k.toLowerCase().startsWith(nama.toLowerCase()))]
+          || [];
+        return guruCocokTujuan(levelGuru, tujuan);
+      });
+
+      const showAdminCard = tersediaFinal.length === 0 || tersediaFinal.length === 1;
+
+      if(tersediaFinal.length === 0){
+        wrap.innerHTML = `<div class="teacher-empty">
+          <div style="font-size:2rem;margin-bottom:10px">😕</div>
+          <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px">Tidak Ada Pengajar Tersedia</div>
+          <div style="font-size:13px;font-weight:300;color:var(--ink-3)">
+            Tidak ada pengajar yang tersedia untuk jadwal dan tujuan belajar yang dipilih.<br>
+            Coba ubah jadwal atau tujuan belajar, atau minta rekomendasi admin.
           </div>
-        `).join('')}
-
-        ${showAdminCard ? adminCard() : ''}
-      </div>`;
-
-  } catch(err) {
-    renderStaticTeachers(wrap);
-  }
-  // ✅ Card rekomendasi admin — muncul jika guru tersedia 0 atau 1
-  function adminCard(){
-    return `
-      <div class="teacher-opt" data-teacher="rekomendasi admin" onclick="selectTeacher(this)"
-        style="border-style:dashed; opacity:0.85;">
-        <div class="teacher-av" style="font-size:2rem;line-height:1;padding:8px 0">🙋</div>
-        <div class="teacher-nm" style="color:var(--ink-3)">Ingin Laoshi lain?</div>
-        <div class="teacher-sp" style="color:var(--ink-4);font-size:11px;font-weight:400;white-space:normal;text-align:center;line-height:1.4">
-          Klik disini untuk meminta<br>rekomendasi admin
         </div>
-      </div>`;
+        <div class="teacher-opts">${adminCard()}</div>`;
+        return;
+      }
+
+      const infoTujuan = tujuan ? ` · Tujuan: <strong>${tujuan}</strong>` : '';
+      wrap.innerHTML = `
+        <div style="font-size:13px;font-weight:500;color:var(--ink-3);margin-bottom:16px">
+          ✅ <strong style="color:var(--blue)">${tersediaFinal.length} pengajar tersedia</strong>${infoTujuan}
+        </div>
+        <div class="teacher-opts">
+          ${tersediaFinal.map(nama => {
+            const levelGuru = levelData[nama]
+              || levelData[Object.keys(levelData).find(k => k.toLowerCase().startsWith(nama.toLowerCase()))]
+              || [];
+            return `
+              <div class="teacher-opt guru-card-full" data-teacher="${nama}" onclick="selectTeacher(this)">
+                <div class="guru-card-foto-wrap">
+                  ${getGuruImgHtml(nama)}
+                </div>
+                <div class="guru-card-info">
+                  <div class="guru-card-nama">Laoshi ${nama}</div>
+                  <div class="guru-card-levels">${renderLevelBadges(levelGuru)}</div>
+                  <div class="guru-card-status">✓ Tersedia &amp; sesuai level</div>
+                </div>
+              </div>`;
+          }).join('')}
+          ${showAdminCard ? adminCard() : ''}
+        </div>`;
+
+    } catch(err) {
+      renderStaticTeachers(wrap);
+    }
   }
-}
 
   function renderStaticTeachers(wrap){
     wrap.innerHTML = `
@@ -697,3 +781,72 @@ document.addEventListener('click', () => {
 
   els.forEach(el => io.observe(el));
 })();
+
+
+  function toggleTjCert(id) {
+    var row = document.getElementById(id);
+    var isOpen = row.classList.contains('open');
+    document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
+    if (!isOpen) row.classList.add('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tj-cert-row')) {
+      document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
+    }
+  });
+  window.selectTujuan = function(el) {
+    document.querySelectorAll('.tj-skill-card, .tj-lvl').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+    var val = el.dataset.tujuan;
+    if (window.data) window.data.tujuan = val;
+    // update label di button
+    var map = {'HSK 1':'tj-hsk','HSK 2':'tj-hsk','HSK 3':'tj-hsk','HSK 4':'tj-hsk','HSK 5':'tj-hsk','HSK 6':'tj-hsk',
+               'HSKK Dasar':'tj-hskk','HSKK Menengah':'tj-hskk','HSKK Mahir':'tj-hskk',
+               'BCT Listening & Reading':'tj-bct','BCT Speaking & Writing':'tj-bct',
+               'YCT 1':'tj-yct','YCT 2':'tj-yct','YCT 3':'tj-yct','YCT 4':'tj-yct'};
+    if (map[val]) {
+      var selEl = document.getElementById('sel-' + map[val]);
+      if (selEl) { selEl.textContent = val; selEl.classList.add('tj-cert-selected-active'); }
+    }
+    document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
+    var wrap = document.getElementById('tujuan-lainnya-wrap');
+    if (wrap) wrap.style.display = (val === 'Lainnya') ? 'block' : 'none';
+  };
+
+window.selectBkType = function(btn){
+  document.querySelectorAll('.bk-type-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+
+  const type = btn.dataset.type;
+
+  // 🔥 langsung simpan ke data global JS
+  if(window.data) window.data.tipe = type;
+
+  // tampilkan paket sesuai tipe
+  ['private','small-group','group'].forEach(t=>{
+    const el = document.getElementById('pkgs-'+t);
+    if(el) el.style.display='none';
+  });
+
+  const pkgEl = document.getElementById('pkgs-'+type);
+  if(pkgEl) pkgEl.style.display='grid';
+
+  document.getElementById('pkg-hint').style.display='none';
+
+  // reset paket
+  document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));
+  if(window.data) window.data.paket = '';
+
+  // 🔥 generate jadwal otomatis
+  if(typeof genSchedule === 'function') genSchedule();
+};
+
+window.selectPkg = function(el){
+  document.querySelectorAll('.pkg-opt').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+
+  if(window.data) window.data.paket = el.dataset.pkg;
+
+  // 🔥 generate ulang jadwal sesuai paket
+  if(typeof genSchedule === 'function') genSchedule();
+};

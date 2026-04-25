@@ -419,7 +419,7 @@ button{cursor:pointer;font-family:var(--font)}
   font-weight: 300;
   line-height: 1.85;
   color: var(--ink-2);
-  max-width: 500px;
+  max-width: 350px;
   margin-bottom: 34px;
 }
 
@@ -826,7 +826,7 @@ button{cursor:pointer;font-family:var(--font)}
 }
 
 /* ── Card body ── */
-.pc-body { padding: 24px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+.pc-body { padding: 20px 20px 24px; flex: 1; display: flex; flex-direction: column; }
 
 .pc-list {
   display: flex;
@@ -838,23 +838,24 @@ button{cursor:pointer;font-family:var(--font)}
 
 .pc-li {
   display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  font-size: 14px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
   color: var(--ink-2);
+  white-space: nowrap;
 }
 
 .pc-ck {
-  width: 20px; height: 20px;
+  width: 18px; height: 18px;
   background: var(--blue-soft);
   border-radius: 50%;
   flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   margin-top: 0px;
 }
-.pc-ck svg { width: 9px; height: 9px; }
+.pc-ck svg { width: 8px; height: 8px; }
 
 /* Featured Gold check — blue bg */
 .pc-g .pc-ck {
@@ -2160,3 +2161,527 @@ body     { overflow-x: hidden; }
   margin-bottom: 0px;
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   YT VIDEO CARDS — Profesional Grid
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.yt-section {
+  margin-top: 48px;
+  margin-bottom: 16px;
+}
+
+.yt-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.yt-card {
+  flex: 0 0 calc(33.333% - 16px);
+  max-width: calc(33.333% - 16px);
+  min-width: 280px;
+  background: var(--white);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+  transition: transform var(--t2) var(--ease), box-shadow var(--t2) var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.yt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-md);
+}
+
+/* Aspect ratio 16:9 untuk iframe */
+.yt-thumb-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  background: #0F172A;
+  overflow: hidden;
+}
+
+.yt-thumb-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* Garis aksen merah di atas card */
+.yt-card::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), #c04040);
+  flex-shrink: 0;
+}
+
+.yt-card-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.yt-card-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.yt-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+
+.yt-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  flex: 1;
+  margin: 0;
+}
+
+.yt-watch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  padding: 9px 16px;
+  border: 1.5px solid var(--blue-mid);
+  border-radius: var(--r-sm);
+  background: var(--blue-soft);
+  transition: all var(--t2) var(--ease);
+  align-self: flex-start;
+  margin-top: auto;
+  white-space: nowrap;
+}
+
+.yt-watch-btn:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(130,0,0,0.28);
+}
+
+/* Tablet */
+/* Tablet: 2 per baris, tetap centered */
+@media (max-width: 900px) {
+  .yt-card {
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+    min-width: 260px;
+  }
+}
+
+/* Mobile: 1 per baris, full width, centered */
+@media (max-width: 580px) {
+  .yt-grid {
+    gap: 16px;
+  }
+  .yt-card {
+    flex: 0 0 100%;
+    max-width: 480px;
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+/* ─ legacy yt-frame (jika masih dipakai halaman lain) ─ */
+.yt-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.yt-frame iframe {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 3 — Tujuan Belajar
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Section label */
+.tj-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 12px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tj-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ── Skill Cards (4 pilihan dasar) ── */
+.tj-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.tj-skill-card {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px 12px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--t2) var(--ease);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+}
+.tj-skill-card:hover {
+  border-color: var(--blue-mid);
+  box-shadow: var(--sh-sm);
+  transform: translateY(-2px);
+}
+.tj-skill-card.on {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  box-shadow: 0 4px 16px rgba(130,0,0,0.12);
+}
+.tj-skill-card.on::after {
+  content: '✓';
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tj-skill-icon { font-size: 1.75rem; line-height: 1; }
+.tj-skill-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.tj-skill-card.on .tj-skill-name { color: var(--blue); }
+.tj-skill-desc { font-size: 11px; color: var(--ink-4); line-height: 1.4; }
+
+/* ── Cert list: accordion vertikal ── */
+.tj-cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.tj-cert-row {
+  border-bottom: 1px solid var(--line);
+}
+.tj-cert-row:last-child { border-bottom: none; }
+
+.tj-cert-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--white);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background var(--t1);
+  gap: 12px;
+}
+.tj-cert-btn:hover { background: var(--surface); }
+.tj-cert-row.open > .tj-cert-btn { background: var(--blue-soft); }
+
+.tj-cert-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  min-width: 0;
+}
+
+/* Badges */
+.tj-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 5px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tj-badge-hsk  { background: #EFF6FF; color: #1d4ed8; }
+.tj-badge-hskk { background: #F5F3FF; color: #6d28d9; }
+.tj-badge-bct  { background: #FFF7ED; color: #b45309; }
+.tj-badge-yct  { background: #F0FDF4; color: #15803d; }
+
+.tj-cert-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.tj-cert-row.open .tj-cert-name { color: var(--blue); }
+.tj-cert-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-4);
+}
+.tj-cert-selected {
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-top: 2px;
+}
+.tj-cert-selected-active {
+  color: var(--blue) !important;
+  font-weight: 600;
+}
+
+.tj-arr {
+  width: 16px; height: 16px;
+  color: var(--ink-4);
+  flex-shrink: 0;
+  transition: transform var(--t2) var(--ease), color var(--t1);
+}
+.tj-cert-row.open .tj-arr { transform: rotate(180deg); color: var(--blue); }
+
+/* Panel level — expand in-place, tidak floating */
+.tj-cert-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--ease), padding 0.3s;
+  padding: 0 18px;
+  background: var(--surface);
+  border-top: 0px solid var(--line);
+}
+.tj-cert-row.open .tj-cert-panel {
+  max-height: 400px;
+  padding: 14px 18px 16px;
+  border-top: 1px solid var(--line);
+}
+
+/* Level grid */
+.tj-level-grid {
+  display: grid;
+  gap: 8px;
+}
+.tj-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.tj-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.tj-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.tj-lvl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--white);
+  cursor: pointer;
+  transition: all var(--t2) var(--ease);
+  font-family: var(--font);
+}
+.tj-lvl:hover {
+  border-color: var(--blue-mid);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.tj-lvl.on {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+.tj-lvl-main {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.tj-lvl.on .tj-lvl-main { color: #fff; }
+.tj-lvl-sub {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ink-4);
+  margin-left: auto;
+  white-space: nowrap;
+}
+.tj-lvl.on .tj-lvl-sub { color: rgba(255,255,255,0.7); }
+
+/* Dots warna level */
+.tj-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tj-dot-green { background: #22c55e; }
+.tj-dot-blue  { background: #3b82f6; }
+.tj-dot-red   { background: var(--blue); }
+.tj-lvl.on .tj-dot { opacity: 0.7; }
+
+/* Lainnya */
+.tj-other-wrap { margin-top: 16px; display: flex; }
+.tj-other-card { width: 140px; }
+
+/* Responsive */
+@media (max-width: 680px) {
+  .tj-skill-grid { grid-template-columns: repeat(2, 1fr); }
+  .tj-grid-3, .tj-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .tj-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  .tj-grid-3, .tj-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GURU CARD FULL — card pengajar dengan foto + level
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Grid wrapper */
+.teacher-opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* Card utama */
+.teacher-opt.guru-card-full {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  width: auto;
+  flex: unset;
+  padding: 14px;
+  border-radius: var(--r-lg);
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  cursor: pointer;
+  transition: all var(--t2);
+  box-sizing: border-box;
+}
+.teacher-opt.guru-card-full:hover {
+  border-color: var(--blue);
+  box-shadow: var(--sh-md);
+  transform: translateY(-2px);
+}
+.teacher-opt.guru-card-full.on {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  box-shadow: 0 4px 16px rgba(130,0,0,0.12);
+}
+
+/* Foto dalam card */
+.guru-card-foto-wrap {
+  width: 72px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+}
+.guru-card-foto-wrap .teacher-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 0;
+  border: none;
+  margin: 0;
+}
+.teacher-opt.guru-card-full.on .guru-card-foto-wrap {
+  border-color: var(--blue);
+}
+
+/* Info teks */
+.guru-card-info { flex: 1; min-width: 0; }
+
+.guru-card-nama {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.teacher-opt.guru-card-full.on .guru-card-nama { color: var(--blue); }
+
+/* Badge level */
+.guru-card-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 7px;
+}
+.guru-level-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  border: 1px solid var(--blue-mid);
+  white-space: nowrap;
+  line-height: 1.5;
+}
+.guru-level-more {
+  background: var(--surface);
+  color: var(--ink-3);
+  border-color: var(--line);
+}
+.teacher-opt.guru-card-full.on .guru-level-badge {
+  background: rgba(130,0,0,0.1);
+  border-color: rgba(130,0,0,0.2);
+}
+
+.guru-card-bio {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.guru-card-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+/* Mobile: 1 kolom */
+@media (max-width: 480px) {
+  .teacher-opts {
+    grid-template-columns: 1fr;
+  }
+  .guru-card-foto-wrap {
+    width: 60px;
+    height: 75px;
+  }
+}

@@ -42,6 +42,49 @@
       flex: 1;
     }
 
+    /* Fix: setiap item list 1 baris saja di semua ukuran layar */
+    .prog-grid .pc-li,
+    .prog-grid-4 .pc-li {
+      font-size: 13px;
+      gap: 8px;
+      align-items: center;
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+    .prog-grid .pc-ck,
+    .prog-grid-4 .pc-ck {
+      width: 18px; height: 18px; flex-shrink: 0;
+    }
+    .prog-grid .pc-body,
+    .prog-grid-4 .pc-body {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    /* Tablet (<=1024px): grid 1 kolom, kartu lebar → boleh font lebih besar */
+    @media (max-width: 1024px) {
+      .prog-grid .pc-li,
+      .prog-grid-4 .pc-li {
+        font-size: 14px;
+        gap: 10px;
+        white-space: normal;
+      }
+      .prog-grid .pc-ck,
+      .prog-grid-4 .pc-ck {
+        width: 20px; height: 20px;
+      }
+    }
+
+    /* Mobile (<=480px) */
+    @media (max-width: 480px) {
+      .prog-grid .pc-li,
+      .prog-grid-4 .pc-li {
+        font-size: 13px;
+        gap: 8px;
+        white-space: normal;
+      }
+    }
+
     /* Banner intensif */
     .intensif-banner {
       margin-top: 36px;
@@ -135,6 +178,77 @@ body {
     box-sizing: border-box;
   }
 }
+
+/* ===== TABEL PERBANDINGAN – RESPONSIVE ===== */
+.cmp-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  margin-top: 0;
+}
+.cmp-tbl {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  background: var(--white);
+  font-family: inherit;
+}
+.cmp-tbl-4 { min-width: 640px; }
+
+/* Header row */
+.cmp-tbl thead tr { background: var(--ink); }
+.cmp-tbl thead th {
+  padding: 16px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  white-space: nowrap;
+}
+.cmp-tbl thead th:first-child {
+  text-align: left;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+}
+.cmp-tbl thead th:not(:first-child) { text-align: center; }
+.cmp-tbl thead th.col-featured { background: var(--blue); color: #fff; }
+
+/* Body rows */
+.cmp-tbl tbody td {
+  padding: 13px 20px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.cmp-tbl tbody td:first-child { color: var(--ink-2); font-size: 13px; }
+.cmp-tbl tbody td:not(:first-child) { text-align: center; font-weight: 600; }
+.cmp-tbl tbody tr:last-child td { border-bottom: none; }
+.cmp-tbl tbody tr:nth-child(odd) { background: #fafafa; }
+.cmp-tbl tbody tr:nth-child(even) { background: var(--white); }
+.cmp-tbl tbody td.col-featured { background: var(--blue-soft); color: var(--blue); }
+.cmp-tbl .ck { color: #16a34a; font-size: 17px; }
+.cmp-tbl .cx { color: #d1d5db; font-size: 17px; font-weight: 400; }
+
+/* Sticky first column on mobile scroll */
+@media (max-width: 767px) {
+  .cmp-tbl thead th:first-child,
+  .cmp-tbl tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+  .cmp-tbl thead th:first-child { background: var(--ink); z-index: 3; }
+  .cmp-tbl tbody tr:nth-child(odd) td:first-child  { background: #fafafa; }
+  .cmp-tbl tbody tr:nth-child(even) td:first-child { background: var(--white); }
+}
+/* Smaller padding & font on mobile */
+@media (max-width: 480px) {
+  .cmp-tbl thead th,
+  .cmp-tbl tbody td { padding: 11px 12px; font-size: 12px; }
+  .cmp-tbl { min-width: 380px; }
+  .cmp-tbl-4 { min-width: 520px; }
+}
+
   </style>
 </head>
 <body>
@@ -160,15 +274,15 @@ body {
         <div class="dropdown">
           <a href="program.html#private" class="drop-item"onclick="goToProgram(event, 'private')">
             <div class="drop-icon" style="background:#FFF0F0;color:#820000"><img src="assets/images/emot/user.png" width="16"></div>
-            <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 siswa · Perhatian penuh</div></div>
+            <div><div class="drop-label">Kelas Private</div><div class="drop-sub">1 Murid · Perhatian penuh</div></div>
           </a>
           <a href="program.html#small-group" class="drop-item"onclick="goToProgram(event, 'small-group')">
             <div class="drop-icon" style="background:#FFF7ED;color:#b45309"><img src="assets/images/emot/group.png" width="20"></div>
-            <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 siswa · Interaktif</div></div>
+            <div><div class="drop-label">Small Group</div><div class="drop-sub">2–5 Murid · Interaktif</div></div>
           </a>
           <a href="program.html#group" class="drop-item"onclick="goToProgram(event, 'group')">
             <div class="drop-icon" style="background:#F0FFF4;color:#16a34a"><img src="assets/images/emot/group2.png" width="18"></div>
-            <div><div class="drop-label">Group</div><div class="drop-sub">6–10 siswa · Ekonomis</div></div>
+            <div><div class="drop-label">Group</div><div class="drop-sub">6–10 Murid · Ekonomis</div></div>
           </a>
           <div style="height:1px;background:var(--line);margin:4px 8px"></div>
           <a href="program.html#intensif" class="drop-item" onclick="event.preventDefault();switchProgTab('intensif',document.querySelector('[data-tab=intensif]'));document.getElementById('prog-intensif').scrollIntoView({behavior:'smooth'})">
@@ -243,12 +357,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi kelas per minggu</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?paket=silver" class="pc-btn pc-ol">Pilih Paket Silver</a>
               </div>
@@ -270,12 +385,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi kelas per minggu</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?paket=gold" class="pc-btn pc-ol">Pilih Paket Gold</a>
               </div>
@@ -293,17 +409,18 @@ body {
                 <div class="pc-stat"><div class="pc-stat-n">60</div><div class="pc-stat-l">Menit / Sesi</div></div>
               </div>
               <div class="pc-price-wrap">
-                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.050.000</span></div>
+                <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.145.000</span></div>
                 <div class="pc-price-note">per bulan · 12 pertemuan</div>
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi kelas per minggu</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?paket=platinum" class="pc-btn pc-ol">Pilih Paket Platinum</a>
               </div>
@@ -327,6 +444,81 @@ body {
     </a>
   </div>
 </div>
+
+        <div style="margin-top:48px">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="tag tag-center">Perbandingan</div>
+            <h3 class="heading-lg" style="margin-top:10px">Tabel <span>Perbandingan</span> Paket Private</h3>
+          </div>
+          <div class="cmp-wrap">
+            <table class="cmp-tbl" style="width:100%;border-collapse:collapse;background:var(--white)">
+              <thead>
+                <tr style="background:var(--ink)">
+                  <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥈 Silver</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥇 Gold</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">💎 Platinum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Harga</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">Rp 435.000</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">Rp 805.000</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">Rp 1.145.000</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">1×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">2×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">3×</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Total Jam / Bulan</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">4 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">8 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">12 Jam</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Durasi / Sesi</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">60 Menit</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Masa Berlaku</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">30 Hari</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis eBook &amp; Modul</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis Sertifikat</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Tutor Profesional</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jadwal Fleksibel</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -335,7 +527,7 @@ body {
       <div id="small-group" class="prog-type-section">
         <div class="prog-type-header">
           <h2 class="heading-lg">Kelas <span>Small Group</span></h2>
-          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 2–5 siswa lain dalam suasana interaktif. Harga lebih terjangkau dengan kualitas bimbingan yang tetap optimal.</p>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 2–5 Murid lain dalam suasana interaktif. Harga lebih terjangkau dengan kualitas bimbingan yang tetap optimal.</p>
         </div>
         <div class="prog-grid-wrap">
           <div class="prog-grid">
@@ -352,12 +544,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 2–5 siswa</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 2–5 Murid</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=small-group&paket=silver" class="pc-btn pc-ol">Pilih Silver Small Group</a>
               </div>
@@ -375,12 +568,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 2–5 siswa</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 2–5 Murid</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=small-group&paket=gold" class="pc-btn pc-ol">Pilih Gold Small Group</a>
               </div>
@@ -399,12 +593,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 2–5 siswa</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok kecil</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 2–5 Murid</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=small-group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Small Group</a>
               </div>
@@ -428,6 +623,81 @@ body {
     </a>
   </div>
 </div>
+
+        <div style="margin-top:48px">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="tag tag-center">Perbandingan</div>
+            <h3 class="heading-lg" style="margin-top:10px">Tabel <span>Perbandingan</span> Paket Small Group</h3>
+          </div>
+          <div class="cmp-wrap">
+            <table class="cmp-tbl" style="width:100%;border-collapse:collapse;background:var(--white)">
+              <thead>
+                <tr style="background:var(--ink)">
+                  <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥈 Silver</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥇 Gold</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">💎 Platinum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">1×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">2×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">3×</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Total Jam / Bulan</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">4 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">8 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">12 Jam</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Durasi / Sesi</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">60 Menit</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Masa Berlaku</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">30 Hari</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jumlah Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">2–5 Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">2–5 Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">2–5 Murid</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis eBook &amp; Modul</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis Sertifikat</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Tutor Profesional</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jadwal Fleksibel</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -436,7 +706,7 @@ body {
       <div id="group" class="prog-type-section">
         <div class="prog-type-header">
           <h2 class="heading-lg">Kelas <span>Group</span></h2>
-          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 6–10 siswa dengan harga paling ekonomis. Cocok untuk yang ingin membangun komunitas belajar sambil tetap dipandu pengajar.</p>
+          <p style="font-size:15px;font-weight:300;color:var(--ink-3);margin-top:8px;max-width:560px">Belajar bersama 6–10 Murid dengan harga paling ekonomis. Cocok untuk yang ingin membangun komunitas belajar sambil tetap dipandu pengajar.</p>
         </div>
         <div class="prog-grid-wrap">
           <div class="prog-grid">
@@ -453,7 +723,7 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 6–10 siswa</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu bersama 6–10 Murid</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
@@ -476,12 +746,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 6–10 siswa</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu bersama 6–10 Murid</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=group&paket=gold" class="pc-btn pc-ol">Pilih Gold Group</a>
               </div>
@@ -500,12 +771,13 @@ body {
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 6–10 siswa</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis Sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Belajar interaktif dalam kelompok</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Akses modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi dan laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu bersama 6–10 Murid</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook (modul digital)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional &amp; berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=group&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Group</a>
               </div>
@@ -529,6 +801,81 @@ body {
     </a>
   </div>
 </div>
+
+        <div style="margin-top:48px">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="tag tag-center">Perbandingan</div>
+            <h3 class="heading-lg" style="margin-top:10px">Tabel <span>Perbandingan</span> Paket Group</h3>
+          </div>
+          <div class="cmp-wrap">
+            <table class="cmp-tbl" style="width:100%;border-collapse:collapse;background:var(--white)">
+              <thead>
+                <tr style="background:var(--ink)">
+                  <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥈 Silver</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥇 Gold</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">💎 Platinum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">1×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">2×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">3×</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Total Jam / Bulan</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">4 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">8 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">12 Jam</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Durasi / Sesi</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">60 Menit</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Masa Berlaku</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">30 Hari</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jumlah Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">6–10 Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">6–10 Murid</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">6–10 Murid</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis eBook &amp; Modul</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis Sertifikat</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Tutor Profesional</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jadwal Fleksibel</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -547,7 +894,6 @@ body {
               <div class="pc-head" data-char="初">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Bronze</div>
-                <div class="pc-tag">Awal yang lebih cepat</div>
               </div>
               <div class="pc-stats">
                 <div class="pc-stat"><div class="pc-stat-n">15</div><div class="pc-stat-l">Jam</div></div>
@@ -555,15 +901,16 @@ body {
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.365.000</span></div>
-                <div class="pc-price-note">per bulan · 4 pertemuan</div>
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>1 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>4 sesi per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi bulanan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=intensif&paket=bronze" class="pc-btn pc-ol">Pilih Bronze Intensif</a>
               </div>
@@ -574,7 +921,6 @@ body {
               <div class="pc-head" data-char="银">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Silver</div>
-                <div class="pc-tag">Mulai intensif, tetap terjangkau</div>
               </div>
               <div class="pc-stats">
                 <div class="pc-stat"><div class="pc-stat-n">20</div><div class="pc-stat-l">Jam</div></div>
@@ -582,15 +928,16 @@ body {
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">1.735.000</span></div>
-                <div class="pc-price-note">per bulan · 8 pertemuan</div>
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>2 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>5 sesi per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 30 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=intensif&paket=silver" class="pc-btn pc-ol">Pilih Silver Intensif</a>
               </div>
@@ -601,7 +948,6 @@ body {
               <div class="pc-head" data-char="金" style="background: linear-gradient(145deg, #8a6d0d 0%, #b18e02 40%, #f2c309 80%, #d6be5d 100%)">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Gold</div>
-                <div class="pc-tag">Progres cepat, hasil nyata</div>
               </div>
               <div class="pc-stats">
                 <div class="pc-stat"><div class="pc-stat-n">36</div><div class="pc-stat-l">Jam</div></div>
@@ -609,15 +955,16 @@ body {
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">2.980.000</span></div>
-                <div class="pc-price-note">per bulan · 12 pertemuan</div>
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>3 sesi per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 90 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=intensif&paket=gold" class="pc-btn pc-ol">Pilih Gold Intensif</a>
               </div>
@@ -629,7 +976,6 @@ body {
               <div class="pc-head" data-char="铂金">
                 <div class="pc-tier">Intensif</div>
                 <div class="pc-name">Platinum</div>
-                <div class="pc-tag">Maksimal &amp; siap ujian HSK</div>
               </div>
               <div class="pc-stats">
                 <div class="pc-stat"><div class="pc-stat-n">50</div><div class="pc-stat-l">Jam</div></div>
@@ -637,15 +983,16 @@ body {
               </div>
               <div class="pc-price-wrap">
                 <div class="pc-price"><span class="pc-price-curr">Rp</span><span class="pc-price-num">3.950.000</span></div>
-                <div class="pc-price-note">per bulan · 16 pertemuan</div>
               </div>
               <div class="pc-body">
                 <ul class="pc-list">
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>4 sesi per minggu, 90 menit/sesi</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>4 sesi per minggu</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tanpa biaya pendaftaran</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis eBook &amp; modul digital</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat + persiapan HSK</li>
-                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Evaluasi mingguan + laporan kemajuan</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gratis sertifikat</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tutor profesional & berpengalaman</li>
                   <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kelas online (Zoom / Voov / Google Meet)</li>
+                  <li class="pc-li"><span class="pc-ck"><svg fill="none" stroke="#820000" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Expired 90 Hari</li>
                 </ul>
                 <a href="pilih-jadwal.html?tipe=intensif&paket=platinum" class="pc-btn pc-ol">Pilih Platinum Intensif</a>
               </div>
@@ -653,33 +1000,94 @@ body {
 
           </div>
         </div>
+
+        <div style="margin-top:48px">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="tag tag-center">Perbandingan</div>
+            <h3 class="heading-lg" style="margin-top:10px">Tabel <span>Perbandingan</span> Paket Intensif</h3>
+          </div>
+          <div class="cmp-wrap">
+            <table class="cmp-tbl cmp-tbl-4" style="width:100%;border-collapse:collapse;background:var(--white)">
+              <thead>
+                <tr style="background:var(--ink)">
+                  <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.55)">🥉 Bronze</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥈 Silver</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">🥇 Gold</th>
+                  <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">💎 Platinum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Harga</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">Rp 1.365.000</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">Rp 1.735.000</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">Rp 2.980.000</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">Rp 3.950.000</td>
+                </tr>
+                 <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">4×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">5×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">3×</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">4×</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Total Jam / Bulan</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">15 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">20 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">36 Jam</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">50 Jam</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Durasi / Sesi</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">60 Menit</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">60 Menit</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Masa Berlaku</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">30 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:600">90 Hari</td>
+                  <td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">90 Hari</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis eBook &amp; Modul</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Gratis Sertifikat</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Tutor Profesional</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                 <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jadwal Fleksibel</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td>
+                  <td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- COMPARISON TABLE -->
-<section class="sec sec-soft">
-  <div class="container">
-    <div class="tc-text fi" style="margin-bottom:36px"><div class="tag tag-center">Perbandingan</div><h2 class="heading-lg" style="margin-top:12px">Tabel <span>Perbandingan</span> Paket</h2></div>
-    <div class="fi" style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm)">
-        <thead><tr style="background:var(--ink)">
-          <th style="padding:18px 22px;text-align:left;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6)">Fitur</th>
-          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Silver</th>
-          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:700;background:var(--blue);color:var(--white)">Gold</th>
-          <th style="padding:18px 22px;text-align:center;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65)">Platinum</th>
-        </tr></thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sesi per minggu</td><td style="padding:14px 22px;text-align:center;font-weight:600">1×</td><td style="padding:14px 22px;text-align:center;font-weight:700;background:var(--blue-soft);color:var(--blue)">2×</td><td style="padding:14px 22px;text-align:center;font-weight:600">3×</td></tr>
-          <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Sertifikat</td><td style="padding:14px 22px;text-align:center;font-size:13px">Gratis E-Certificate</td><td style="padding:14px 22px;text-align:center;font-size:13px;background:var(--blue-soft);font-weight:600;color:var(--blue)">Gratis E-Certificate</td><td style="padding:14px 22px;text-align:center;font-size:13px;font-weight:600">Gratis E-Certificate</td></tr>
-          <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Modul digital</td><td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td><td style="padding:14px 22px;text-align:center;background:var(--blue-soft);color:var(--blue);font-weight:600">✓</td><td style="padding:14px 22px;text-align:center;color:var(--blue);font-weight:600">✓</td></tr>
-          <tr style="border-bottom:1px solid var(--line)"><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Laporan kemajuan</td><td style="padding:14px 22px;text-align:center;font-size:13px">Bulanan</td><td style="padding:14px 22px;text-align:center;font-size:13px;background:var(--blue-soft);font-weight:600;color:var(--blue)">Bulanan + Evaluasi</td><td style="padding:14px 22px;text-align:center;font-size:13px;font-weight:600">Mingguan</td></tr>
-          <tr><td style="padding:14px 22px;font-size:14px;color:var(--ink-2)">Jadwal Fleksibel</td><td style="padding:14px 22px;text-align:center;font-size:13px">✓</td><td style="padding:14px 22px;text-align:center;font-size:13px;background:var(--blue-soft);font-weight:700;color:var(--blue)">✓</td><td style="padding:14px 22px;text-align:center;font-size:13px;font-weight:600">✓</td></tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </section>
 
