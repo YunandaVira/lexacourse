@@ -228,6 +228,7 @@ button{cursor:pointer;font-family:var(--font)}
 }
 .nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
 .nav-name {
+  
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--white);
@@ -1136,8 +1137,20 @@ button{cursor:pointer;font-family:var(--font)}
 .tab-content.on { display:block; animation:fy 0.4s var(--ease) }
 
 /* ── BOOKING (jadwal) ── */
-.booking-wrap { max-width:720px; margin:0 auto }
-.steps-bar { display:flex; align-items:center; margin-bottom:40px; overflow-x:auto; padding-bottom:4px }
+.booking-wrap { max-width:1100px; margin:0 auto }
+.steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  /* Hide scrollbar visually but keep scrollable */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.steps-bar::-webkit-scrollbar { display: none; }
+
 .step-item { display:flex; align-items:center; flex-shrink:0 }
 .step-dot {
   width:40px; height:40px; border-radius:50%;
@@ -1152,6 +1165,60 @@ button{cursor:pointer;font-family:var(--font)}
 .step-item.cur .step-lbl { color:var(--blue); font-weight:600 }
 .step-conn { width:32px; height:1px; background:var(--line); flex-shrink:0; transition:background var(--t2) }
 .step-conn.done { background:var(--blue) }
+
+/* ── STEPS BAR MOBILE ── */
+@media (max-width: 768px) {
+  .steps-bar {
+    justify-content: flex-start;
+    gap: 0;
+    padding: 12px 16px 16px;
+    margin-bottom: 28px;
+    /* Smooth scroll snap */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    /* Subtle fade edges to indicate scrollability */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .step-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    scroll-snap-align: center;
+    padding: 0 4px;
+  }
+
+  /* Dot lebih kecil di mobile */
+  .step-dot {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  /* Label vertikal di bawah dot */
+  .step-lbl {
+    font-size: 10px;
+    margin: 0;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* Connector lebih tipis, pendek */
+  .step-conn {
+    width: 20px;
+    height: 1.5px;
+    align-self: flex-start;
+    margin-top: 17px; /* sejajar tengah dot */
+  }
+
+  /* Step aktif: sedikit lebih besar */
+  .step-item.cur .step-dot {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+}
 
 .booking-panel {
   background:var(--white); border:1px solid var(--line);
@@ -1212,7 +1279,17 @@ button{cursor:pointer;font-family:var(--font)}
 /* ── FOOTER ── */
 .footer { background:var(--blue-deep); padding:72px 0 0 }
 .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:56px; margin-bottom:56px }
-.footer-logo { display:flex; align-items:center; gap:10px; margin-bottom:16px }
+.footer-logo { display: flex; align-items: center; gap: 12px; }
+.footer-logo img {
+  height: 62px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+/* Saat scroll (navbar putih), logo kembali ke warna aslinya */
+.navbar.solid .footer-logo img {
+  filter: none;
+}
 .f-logo-cn { font-family:var(--font-cn); font-size:1.6rem; color:rgba(255,255,255,0.4) }
 .f-logo-name { font-size:1.05rem; font-weight:700; color:var(--white) }
 .f-desc { font-size:14px; font-weight:300; line-height:1.75; color:rgba(255,255,255,0.4); max-width:250px; margin-bottom:22px }
@@ -2180,7 +2257,7 @@ body     { overflow-x: hidden; }
 .yt-card {
   flex: 0 0 calc(33.333% - 16px);
   max-width: calc(33.333% - 16px);
-  min-width: 280px;
+  min-width: 500px;
   background: var(--white);
   border-radius: var(--r-lg);
   border: 1px solid var(--line);
@@ -2566,27 +2643,54 @@ body     { overflow-x: hidden; }
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 /* Grid wrapper */
+/* ══════════════════════════════════════════════════
+   GRID GURU
+   • Mobile  (< 640px)   → 1 kolom
+   • Laptop  (640–1099px) → 2 kolom  
+   • PC besar (≥ 1100px)  → 3 kolom
+   Card lebar FIXED 300px — tidak pernah gepeng,
+   kalau tidak muat geser ke baris berikutnya.
+══════════════════════════════════════════════════ */
 .teacher-opts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(3, 300px);
+  gap: 20px;
+  justify-content: start;
 }
 
-/* Card utama */
+@media (max-width: 1099px) {
+  .teacher-opts {
+    grid-template-columns: repeat(2, 300px);
+  }
+}
+
+@media (max-width: 639px) {
+  .teacher-opts {
+    grid-template-columns: 300px;
+    justify-content: center;
+  }
+}
+
+/* Card utama — lebar FIXED 300px, tidak pernah gepeng */
 .teacher-opt.guru-card-full {
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  width: auto;
-  flex: unset;
-  padding: 14px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  box-sizing: border-box;
+
+  padding: 18px;
   border-radius: var(--r-lg);
   border: 1.5px solid var(--line);
   background: var(--white);
   cursor: pointer;
   transition: all var(--t2);
-  box-sizing: border-box;
 }
+
 .teacher-opt.guru-card-full:hover {
   border-color: var(--blue);
   box-shadow: var(--sh-md);
@@ -2598,16 +2702,26 @@ body     { overflow-x: hidden; }
   box-shadow: 0 4px 16px rgba(130,0,0,0.12);
 }
 
-/* Foto dalam card */
+/* Foto dalam card: tinggi FIXED, tidak pernah gepeng */
 .guru-card-foto-wrap {
-  width: 72px;
-  height: 90px;
-  flex-shrink: 0;
+  width: 100%;
+  height: 420px;
+  flex-shrink: 0;        /* ← KUNCI: tidak pernah ikut menyempit */
+  margin-bottom: 12px;
+
   border-radius: var(--r);
   overflow: hidden;
   background: var(--surface);
   border: 1.5px solid var(--line);
 }
+
+.guru-card-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ⬅️ ini bikin dia penuh */
+}
+
 .guru-card-foto-wrap .teacher-img {
   width: 100%;
   height: 100%;
@@ -2626,20 +2740,30 @@ body     { overflow-x: hidden; }
 .guru-card-info { flex: 1; min-width: 0; }
 
 .guru-card-nama {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.guru-card-status {
+  margin-top: 6px;
 }
 .teacher-opt.guru-card-full.on .guru-card-nama { color: var(--blue); }
 
 /* Badge level */
 .guru-card-levels {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  flex-direction: column; /* ⬅️ penting */
+  gap: 6px;
   margin-bottom: 7px;
 }
+.guru-level-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center; /* ⬅️ biar center */
+}
+
 .guru-level-badge {
   font-size: 10px;
   font-weight: 600;
@@ -2651,11 +2775,7 @@ body     { overflow-x: hidden; }
   white-space: nowrap;
   line-height: 1.5;
 }
-.guru-level-more {
-  background: var(--surface);
-  color: var(--ink-3);
-  border-color: var(--line);
-}
+
 .teacher-opt.guru-card-full.on .guru-level-badge {
   background: rgba(130,0,0,0.1);
   border-color: rgba(130,0,0,0.2);
@@ -2673,15 +2793,208 @@ body     { overflow-x: hidden; }
   font-size: 11px;
   font-weight: 600;
   color: var(--blue);
+  margin-top: auto;
 }
 
-/* Mobile: 1 kolom */
-@media (max-width: 480px) {
-  .teacher-opts {
-    grid-template-columns: 1fr;
-  }
-  .guru-card-foto-wrap {
-    width: 60px;
-    height: 75px;
-  }
+/* media query guru-card mobile dihapus — grid auto-fill handle otomatis */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TUJUAN BELAJAR — Desain Profesional
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tj-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+/* ── Tujuan Umum ── */
+.tj-general-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.tj-general-btn {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--t2);
+  background: var(--white);
+}
+.tj-general-btn:hover {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  transform: translateY(-2px);
+}
+.tj-general-btn.on {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  box-shadow: 0 0 0 3px rgba(130,0,0,0.08);
+}
+.tj-gen-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.tj-general-btn.on .tj-gen-title { color: var(--blue); }
+.tj-gen-sub {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--ink-4);
+  line-height: 1.4;
+}
+
+/* ── Sertifikasi Grid (dropdown card) ── */
+.tj-cert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  overflow: visible;
+}
+.tj-cert-card {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  transition: border-color var(--t2);
+  background: var(--white);
+  position: relative;
+}
+.tj-cert-card.open { border-color: var(--blue); }
+.tj-cert-card.selected { border-color: var(--blue); background: var(--blue-soft); }
+
+.tj-cert-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background var(--t1);
+}
+.tj-cert-card-header:hover { background: var(--surface); }
+.tj-cert-card.open .tj-cert-card-header { background: var(--blue-soft); }
+
+.tj-cert-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.tj-cert-card.open .tj-cert-card-title,
+.tj-cert-card.selected .tj-cert-card-title { color: var(--blue); }
+.tj-cert-card-sub {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--ink-4);
+  margin-top: 2px;
+}
+.tj-cert-card-selected {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-4);
+  white-space: nowrap;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: all var(--t1);
+}
+.tj-cert-card.selected .tj-cert-card-selected {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+.tj-cert-card-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--ink-4);
+  transition: transform var(--t2);
+}
+.tj-cert-card.open .tj-cert-card-arrow { transform: rotate(180deg); color: var(--blue); }
+
+.tj-cert-card {
+  position: relative; /* sudah ada, aman */
+  overflow: visible;  /* ⬅️ TAMBAH INI */
+}
+
+.tj-cert-card-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+
+  padding: 12px 14px;
+
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+
+  transition: all 0.25s ease;
+  z-index: 20;
+}
+
+.tj-cert-card.open .tj-cert-card-panel {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tj-level-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tj-lvl-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all var(--t1);
+}
+.tj-lvl-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+.tj-lvl-btn.on {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+
+/* ── Lainnya ── */
+.tj-other-row {
+  margin-top: 10px;
+}
+.tj-other-btn {
+  max-width: 200px;
+  text-align: left;
+  padding: 12px 16px;
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .tj-general-row { grid-template-columns: repeat(2, 1fr); }
+  .tj-cert-grid   { grid-template-columns: 1fr; }
+  .tj-other-btn   { max-width: 100%; }
+}
+@media (max-width: 380px) {
+  .tj-general-row { grid-template-columns: 1fr 1fr; }
 }

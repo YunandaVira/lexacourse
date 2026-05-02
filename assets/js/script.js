@@ -126,7 +126,7 @@ window.faqToggle = function(btn){
   if(!document.querySelector('.booking-wrap')) return;
 
   /* ── CONFIG ── ganti setelah deploy Apps Script */
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzr0WBZQC0ykz4Kv9VU5AsZtCwqGuXRR9Rjr422bMU86oEfmw-yIZdxF-_3kd0rPea3/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwyM_274KXPuxHiNzsTu-0KpRRtDMWfgE1BWJL06Edtlajt6SBt2jPW249gOrxZWBtJ/exec';
   const WA_NUM  = '6285280051105';
 
   /* Map hari Indonesia → English (sesuai sheet) */
@@ -238,53 +238,122 @@ function getGuruImgHtml(nama) {
   // Cocokkan tujuan user dengan level yang dimiliki guru
   // Tujuan user contoh: "HSK 3", "Speaking", "Basic (Belum Pernah)"
   // Level di sheet contoh: "HSK 3", "HSKK 1", "YCT 1", "Taiwan", "BCT 1"
-  function guruCocokTujuan(levelGuru, tujuanUser) {
-    if (!levelGuru || levelGuru.length === 0) return true;
-    if (!tujuanUser) return true;
+function guruCocokTujuan(levelGuru, tujuanUser) {
+  // Tidak ada tujuan → tampilkan semua
+  if (!tujuanUser || !tujuanUser.trim()) return true;
 
-    const t = tujuanUser.toLowerCase().trim();
+  const t = tujuanUser.trim().toLowerCase();
 
-    // ✅ Tujuan umum: semua guru bisa mengajar, cukup cek jadwal saja
-    const tujuanUmum = ['basic (belum pernah)', 'speaking', 'writing', 'listening'];
-    if (tujuanUmum.includes(t)) return true;
+  // ── Tujuan umum → semua guru lolos, tidak perlu filter level ──
+  const TUJUAN_UMUM = ['basic (belum pernah)', 'speaking', 'listening', 'writing'];
+  if (TUJUAN_UMUM.includes(t)) return true;
 
-    // Sisanya tetap cek level di sheet
-    const mappingTujuan = {
-      'hsk 1':  ['hsk 1'],
-      'hsk 2':  ['hsk 2'],
-      'hsk 3':  ['hsk 3'],
-      'hsk 4':  ['hsk 4'],
-      'hsk 5':  ['hsk 5'],
-      'hsk 6':  ['hsk 6'],
-      'hskk 1': ['hskk 1'],
-      'hskk 2': ['hskk 2'],
-      'hskk 3': ['hskk 3'],
-      'hskk 4': ['hskk 4'],
-      'yct 1':  ['yct 1'],
-      'yct 2':  ['yct 2'],
-      'yct 3':  ['yct 3'],
-      'yct 4':  ['yct 4'],
-      'yct 5':  ['yct 5'],
-      'yct 6':  ['yct 6'],
-      'bct 1':  ['bct 1'],
-      'bct 2':  ['bct 2'],
-      'bct 3':  ['bct 3'],
-    };
+  // ── Input bebas "Lainnya" (tidak dikenal sebagai sertifikasi) → semua guru lolos ──
+  const isSertifikasi = ['hsk','hskk','yct','bct','taiwan'].some(k => t.startsWith(k));
+  if (!isSertifikasi) return true;
 
-    const targetKolom = mappingTujuan[t] || [t];
-    return levelGuru.some(lvl =>
-      targetKolom.some(target => lvl.toLowerCase().trim() === target)
-    );
+  // ── Jika data level guru kosong di sheet → tampilkan (jangan sembunyikan) ──
+  if (!levelGuru || levelGuru.length === 0) return true;
+
+  // Urutan level tiap kategori untuk cek >=
+  const HSK_ORDER  = ['hsk 1','hsk 2','hsk 3','hsk 4','hsk 5','hsk 6'];
+  const HSKK_ORDER = ['hskk 1','hskk 2','hskk 3','hskk 4'];
+  const YCT_ORDER  = ['yct 1','yct 2','yct 3','yct 4','yct 5','yct 6'];
+  const BCT_ORDER  = ['bct 1','bct 2','bct 3'];
+
+  // ── HSK: guru harus punya level >= yang dipilih user ──
+  const idxUserHsk = HSK_ORDER.indexOf(t);
+  if (idxUserHsk !== -1) {
+    return levelGuru.some(lvl => {
+      const idx = HSK_ORDER.indexOf(lvl.toLowerCase().trim());
+      return idx !== -1 && idx >= idxUserHsk;
+    });
   }
+
+  // ── HSKK: guru harus punya level >= yang dipilih ──
+  const idxUserHskk = HSKK_ORDER.indexOf(t);
+  if (idxUserHskk !== -1) {
+    return levelGuru.some(lvl => {
+      const idx = HSKK_ORDER.indexOf(lvl.toLowerCase().trim());
+      return idx !== -1 && idx >= idxUserHskk;
+    });
+  }
+
+  // ── YCT: guru harus punya level >= yang dipilih ──
+  const idxUserYct = YCT_ORDER.indexOf(t);
+  if (idxUserYct !== -1) {
+    return levelGuru.some(lvl => {
+      const idx = YCT_ORDER.indexOf(lvl.toLowerCase().trim());
+      return idx !== -1 && idx >= idxUserYct;
+    });
+  }
+
+  // ── BCT: guru harus punya level >= yang dipilih ──
+  const idxUserBct = BCT_ORDER.indexOf(t);
+  if (idxUserBct !== -1) {
+    return levelGuru.some(lvl => {
+      const idx = BCT_ORDER.indexOf(lvl.toLowerCase().trim());
+      return idx !== -1 && idx >= idxUserBct;
+    });
+  }
+
+  // ── Taiwan / Mandarin Tradisional ──
+  if (t.includes('taiwan')) {
+    return levelGuru.some(lvl => lvl.toLowerCase().trim() === 'taiwan');
+  }
+
+  // Fallback: exact match
+  return levelGuru.some(lvl => lvl.toLowerCase().trim() === t);
+}
 
   // Render badge level untuk card guru (tampilkan maks 4)
   function renderLevelBadges(levelGuru) {
-    if (!levelGuru || levelGuru.length === 0) return '';
-    const shown = levelGuru.slice(0, 4);
-    const sisa  = levelGuru.length - shown.length;
-    return shown.map(l => `<span class="guru-level-badge">${l}</span>`).join('')
-      + (sisa > 0 ? `<span class="guru-level-badge guru-level-more">+${sisa}</span>` : '');
-  }
+  if (!levelGuru || levelGuru.length === 0) return '';
+
+  // 🔹 grouping
+  const groups = {
+    hsk: [],
+    hskk: [],
+    yct: [],
+    bct: [],
+    other: []
+  };
+
+  levelGuru.forEach(lvl => {
+    const l = lvl.toLowerCase().trim();
+
+    if (l.startsWith('hskk')) groups.hskk.push(lvl);
+    else if (l.startsWith('hsk')) groups.hsk.push(lvl);
+    else if (l.startsWith('yct')) groups.yct.push(lvl);
+    else if (l.startsWith('bct')) groups.bct.push(lvl);
+    else groups.other.push(lvl);
+  });
+
+  // 🔹 sorting angka (biar HSK 1 → 6 urut)
+  const sortLevel = arr => arr.sort((a,b)=>{
+    const na = parseInt(a.match(/\d+/)) || 0;
+    const nb = parseInt(b.match(/\d+/)) || 0;
+    return na - nb;
+  });
+
+  Object.keys(groups).forEach(k => groups[k] = sortLevel(groups[k]));
+
+  // 🔹 render per baris
+  const renderRow = arr => {
+    if (arr.length === 0) return '';
+    return `<div class="guru-level-row">
+      ${arr.map(l => `<span class="guru-level-badge">${l}</span>`).join('')}
+    </div>`;
+  };
+
+  return `
+    ${renderRow(groups.hsk)}
+    ${renderRow(groups.hskk)}
+    ${renderRow(groups.yct)}
+    ${renderRow(groups.bct)}
+    ${renderRow(groups.other)}
+  `;
+}
 
   /* ── Card rekomendasi admin ── */
   function adminCard(){
@@ -330,10 +399,42 @@ function getGuruImgHtml(nama) {
       return;
     }
 
-    wrap.innerHTML = `<div class="teacher-loading">
-      <div class="spinner" style="border-color:rgba(130,0,0,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 12px"></div>
-      <div style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center">Mengecek ketersediaan pengajar...</div>
+    // ── Pesan loading bertahap, berhenti di pesan terakhir ──
+    const pesanLoading = [
+      { teks: '🔍 Mengecek ketersediaan pengajar...', durasi: 3000 },
+      { teks: '📅 Mencocokkan jadwal dengan laoshi...', durasi: 3000 },
+      { teks: '⏳ Mohon tunggu sebentar ya...', durasi: 3000 },
+      { teks: '📋 Sedang memeriksa jadwal tiap laoshi...', durasi: 5000 },
+      { teks: '🧑‍🏫 Mencari laoshi yang paling cocok...', durasi: 5000 },
+      { teks: '✅ Hampir selesai, sebentar lagi...', durasi: null }, // berhenti di sini
+    ];
+    let pesanIdx = 0;
+    let loadingTimeout;
+
+    wrap.innerHTML = `<div class="teacher-loading" id="loading-box">
+      <div class="spinner" style="border-color:rgba(130,0,0,0.2);border-top-color:var(--blue);width:24px;height:24px;margin:0 auto 16px"></div>
+      <div id="loading-text" style="font-size:14px;font-weight:400;color:var(--ink-3);text-align:center;transition:opacity 0.3s">
+        ${pesanLoading[0].teks}
+      </div>
     </div>`;
+
+    function jadwalkanPesanBerikutnya() {
+      if (pesanIdx >= pesanLoading.length - 1) return; // sudah di pesan terakhir, stop
+      const durasi = pesanLoading[pesanIdx].durasi;
+      if (!durasi) return;
+      loadingTimeout = setTimeout(() => {
+        const el = document.getElementById('loading-text');
+        if (!el) return;
+        el.style.opacity = '0';
+        setTimeout(() => {
+          pesanIdx++;
+          el.textContent = pesanLoading[pesanIdx].teks;
+          el.style.opacity = '1';
+          jadwalkanPesanBerikutnya();
+        }, 300);
+      }, durasi);
+    }
+    jadwalkanPesanBerikutnya();
 
     try {
       // STEP 1: Fetch ketersediaan jadwal + data level secara paralel
@@ -348,12 +449,12 @@ function getGuruImgHtml(nama) {
         fetchLevelLaoshi()
       ]);
 
+      clearTimeout(loadingTimeout); // hentikan loop pesan loading
       const tersediaJadwal = resJadwal.tersedia || [];
 
       // STEP 2: Filter berdasarkan level/tujuan yang dipilih user
       const tujuan = data.tujuan || '';
       const tersediaFinal = tersediaJadwal.filter(nama => {
-        // Cari level guru di data sheet — coba match nama dengan/tanpa suffix " - Taiwan" dll
         const levelGuru = levelData[nama]
           || levelData[Object.keys(levelData).find(k => k.toLowerCase().startsWith(nama.toLowerCase()))]
           || [];
@@ -393,7 +494,6 @@ function getGuruImgHtml(nama) {
                 <div class="guru-card-info">
                   <div class="guru-card-nama">Laoshi ${nama}</div>
                   <div class="guru-card-levels">${renderLevelBadges(levelGuru)}</div>
-                  <div class="guru-card-status">✓ Tersedia &amp; sesuai level</div>
                 </div>
               </div>`;
           }).join('')}
@@ -401,6 +501,7 @@ function getGuruImgHtml(nama) {
         </div>`;
 
     } catch(err) {
+      clearTimeout(loadingTimeout);
       renderStaticTeachers(wrap);
     }
   }
@@ -436,23 +537,53 @@ function getGuruImgHtml(nama) {
   };
 
   /* ── Pilih Tujuan Belajar ── */
-  window.selectTujuan = function(el){
-    document.querySelectorAll('.tujuan-opt').forEach(e => e.classList.remove('on'));
-    el.classList.add('on');
-    const tujuan = el.dataset.tujuan;
-    const lainnyaWrap = document.getElementById('tujuan-lainnya-wrap');
-    if(tujuan === 'Lainnya'){
-      lainnyaWrap.style.display = 'block';
-      data.tujuan = document.getElementById('tujuan-lainnya-input')?.value.trim() || '';
-    } else {
-      lainnyaWrap.style.display = 'none';
-      data.tujuan = tujuan;
-    }
-  };
+ window.selectTujuan = function(el){
+  // hapus semua
+  document.querySelectorAll('.tj-general-btn, .tj-lvl-btn').forEach(e => {
+    e.classList.remove('on'); // ⬅️ bukan active
+  });
+
+  // aktifkan
+  el.classList.add('on');
+
+  const tujuan = el.dataset.tujuan;
+
+  document.getElementById('tujuan-selected-info').style.display = 'block';
+  document.getElementById('tujuan-selected-label').innerText = tujuan;
+
+  // lainnya
+  if(tujuan === 'Lainnya'){
+    document.getElementById('tujuan-lainnya-wrap').style.display = 'block';
+  } else {
+    document.getElementById('tujuan-lainnya-wrap').style.display = 'none';
+  }
+
+  if(window.data) data.tujuan = tujuan;
+};
 
   window.onTujuanLainnyaInput = function(inp){
     data.tujuan = inp.value.trim();
   };
+
+  window.selectCertLevel = function(el){
+  document.querySelectorAll('.tj-general-btn, .tj-lvl-btn').forEach(e => {
+    e.classList.remove('on'); // ⬅️ konsisten
+  });
+
+  el.classList.add('on');
+
+  const tujuan = el.dataset.tujuan;
+  const selId = el.dataset.sel;
+
+  document.getElementById(selId).innerText = tujuan;
+
+  document.getElementById('tujuan-selected-info').style.display = 'block';
+  document.getElementById('tujuan-selected-label').innerText = tujuan;
+
+  document.getElementById('tujuan-lainnya-wrap').style.display = 'none';
+
+  if(window.data) data.tujuan = tujuan;
+};
 
   /* ── Validasi setiap step ── */
   function validate(s){
@@ -471,14 +602,23 @@ function getGuruImgHtml(nama) {
       }
     }
     if(s === 3){
-      const tujuanEl = document.querySelector('.tujuan-opt.on');
-      if(!tujuanEl){ showErr('Pilih tujuan belajar terlebih dahulu.'); return false; }
-      if(tujuanEl.dataset.tujuan === 'Lainnya'){
-        const custom = document.getElementById('tujuan-lainnya-input')?.value.trim();
-        if(!custom){ showErr('Tuliskan tujuan belajar Anda.'); return false; }
-        data.tujuan = custom;
-      }
-    }
+  const tujuanEl = document.querySelector('.tj-general-btn.on, .tj-lvl-btn.on');
+  const custom   = document.getElementById('tujuan-lainnya-input')?.value.trim();
+
+  // kalau tidak pilih tombol DAN tidak isi lainnya → error
+  if(!tujuanEl && !custom){
+    showErr('Pilih tujuan belajar atau isi tujuan lainnya.'); 
+    return false;
+  }
+
+  // kalau isi lainnya → pakai itu (prioritas tertinggi)
+  if(custom){
+    data.tujuan = custom;
+  } else if(tujuanEl) {
+    // ✅ FIX UTAMA: ambil tujuan dari tombol yang dipilih
+    data.tujuan = tujuanEl.dataset.tujuan || '';
+  }
+}
     if(s === 4 && !data.guru){
       showErr('Pilih salah satu pengajar.'); return false;
     }
@@ -783,35 +923,6 @@ document.addEventListener('click', () => {
 })();
 
 
-  function toggleTjCert(id) {
-    var row = document.getElementById(id);
-    var isOpen = row.classList.contains('open');
-    document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
-    if (!isOpen) row.classList.add('open');
-  }
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.tj-cert-row')) {
-      document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
-    }
-  });
-  window.selectTujuan = function(el) {
-    document.querySelectorAll('.tj-skill-card, .tj-lvl').forEach(e => e.classList.remove('on'));
-    el.classList.add('on');
-    var val = el.dataset.tujuan;
-    if (window.data) window.data.tujuan = val;
-    // update label di button
-    var map = {'HSK 1':'tj-hsk','HSK 2':'tj-hsk','HSK 3':'tj-hsk','HSK 4':'tj-hsk','HSK 5':'tj-hsk','HSK 6':'tj-hsk',
-               'HSKK Dasar':'tj-hskk','HSKK Menengah':'tj-hskk','HSKK Mahir':'tj-hskk',
-               'BCT Listening & Reading':'tj-bct','BCT Speaking & Writing':'tj-bct',
-               'YCT 1':'tj-yct','YCT 2':'tj-yct','YCT 3':'tj-yct','YCT 4':'tj-yct'};
-    if (map[val]) {
-      var selEl = document.getElementById('sel-' + map[val]);
-      if (selEl) { selEl.textContent = val; selEl.classList.add('tj-cert-selected-active'); }
-    }
-    document.querySelectorAll('.tj-cert-row').forEach(r => r.classList.remove('open'));
-    var wrap = document.getElementById('tujuan-lainnya-wrap');
-    if (wrap) wrap.style.display = (val === 'Lainnya') ? 'block' : 'none';
-  };
 
 window.selectBkType = function(btn){
   document.querySelectorAll('.bk-type-btn').forEach(b=>b.classList.remove('on'));
@@ -849,4 +960,21 @@ window.selectPkg = function(el){
 
   // 🔥 generate ulang jadwal sesuai paket
   if(typeof genSchedule === 'function') genSchedule();
+};
+
+window.toggleCertCard = function(id){
+  const card = document.getElementById(id);
+  if(!card) return;
+
+  const isOpen = card.classList.contains('open');
+
+  // tutup semua dulu
+  document.querySelectorAll('.tj-cert-card').forEach(c => {
+    c.classList.remove('open');
+  });
+
+  // buka yang diklik
+  if(!isOpen){
+    card.classList.add('open');
+  }
 };
